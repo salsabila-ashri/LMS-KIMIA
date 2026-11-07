@@ -27,14 +27,16 @@
             const [selectedSemester, setSelectedSemester] = useState(1);
             const [selectedChapter, setSelectedChapter] = useState(null);
             
-            // State data utama yang bisa disimpan di localStorage
+            // State data utama dengan LocalStorage
             const [attendance, setAttendance] = useState(() => {
-                return JSON.parse(localStorage.getItem('lms_attendance')) || [];
+                return JSON.parse(localStorage.getItem('lms_attendance')) || [
+                    { date: '2026-02-01', name: 'Salsa', status: 'Hadir', note: 'Tepat waktu' }
+                ];
             });
 
             const [assignments, setAssignments] = useState(() => {
                 return JSON.parse(localStorage.getItem('lms_assignments')) || [
-                    { id: 1, chapterId: 1, title: 'Tugas Struktur Atom & Teori Mekanika Kuantum', deadline: '2026-02-15', submitted: false, file: '', score: null },
+                    { id: 1, chapterId: 1, title: 'Tugas Struktur Atom & Konfigurasi Elektron', deadline: '2026-02-15', submitted: false, file: '', score: null },
                     { id: 2, chapterId: 5, title: 'Analisis pH Larutan Asam Basa di Lingkungan', deadline: '2026-04-10', submitted: false, file: '', score: null }
                 ];
             });
@@ -49,30 +51,30 @@
                 return JSON.parse(localStorage.getItem('lms_quiz_scores')) || {};
             });
 
-            // Data Akademik Kalender
+            // Kalender Akademik Komprehensif
             const academicEvents = [
                 { date: '2026-01-10', title: 'Awal Semester 1 & Rilis Bab 1', type: 'akademik' },
-                { date: '2026-03-05', title: 'Ujian Tengah Semester (UTS) Gasal', type: 'ujian' },
-                { date: '2026-03-15', title: 'Praktikum Laboratorium Kimia Dasar', type: 'praktek' },
+                { date: '2026-03-05', title: 'Ujian Tengah Semester (UTS) Gasal & Pengambilan Nilai', type: 'ujian' },
+                { date: '2026-03-15', title: 'Ujian Praktikum Laboratorium Kimia Dasar', type: 'praktek' },
                 { date: '2026-06-10', title: 'Ujian Akhir Semester (UAS / PAS) Genap', type: 'ujian' },
-                { date: '2026-07-01', title: 'Awal Semester 2 & Rilis Bab 7', type: 'akademik' },
+                { date: '2026-07-01', title: 'Awal Semester 2 & Rilis Bab 7 (Asam Basa)', type: 'akademik' },
                 { date: '2026-09-20', title: 'Ujian Tengah Semester (UTS) Genap', type: 'ujian' },
-                { date: '2026-10-15', title: 'Ujian Praktik & Proyek Kelompok', type: 'praktek' },
-                { date: '2026-12-05', title: 'Ujian Akhir Tahun & Penilaian Rapor', type: 'ujian' }
+                { date: '2026-10-15', title: 'Ujian Praktik & Presentasi Proyek Kelompok', type: 'praktek' },
+                { date: '2026-12-05', title: 'Ujian Akhir Tahun & Rekapitulasi Rapor', type: 'ujian' }
             ];
 
-            // Daftar Bab Semester 1 & 2 (12 Bab)
+            // 12 Bab Semester 1 & 2
             const chapters = [
                 // Semester 1
                 { id: 1, semester: 1, title: 'Struktur Atom & Sistem Periodik Unsur', releaseDate: '2026-01-10', summary: 'Mempelajari model atom mekanika kuantum, bilangan kuantum, dan konfigurasi elektron.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'E-Book PDF / Modul Interaktif', resourceUrl: '#' },
                 { id: 2, semester: 1, title: 'Ikatan Kimia & Bentuk Molekul', releaseDate: '2026-01-20', summary: 'Ikatan ion, kovalen, logam, serta teori VSEPR untuk menentukan bentuk geometri molekul.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Slide PPT Pembelajaran', resourceUrl: '#' },
                 { id: 3, semester: 1, title: 'Stoikiometri & Konsep Mol', releaseDate: '2026-02-05', summary: 'Perhitungan kimia berbasis mol, massa molar, rumus empiris, dan rumus molekul.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Modul Ringkasan Materi', resourceUrl: '#' },
                 { id: 4, semester: 1, title: 'Termokimia & Perubahan Entalpi', releaseDate: '2026-02-20', summary: 'Reaksi endoterm, eksoterm, hukum Hess, dan perhitungan kalorimetri.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Slide PPT Praktikum', resourceUrl: '#' },
-                { id: 5, semester: 1, title: 'Kesetimbangan Kimia', releaseDate: '2026-03-10', summary: 'Tetapan kesetimbangan (Kc dan Kp), faktor yang memengaruhi pergeseran kesetimbangan (Le Chatelier).', videoUrl: 'https://www.youtube.com/embed/ABJjRldplC4', resourceType: 'Video Utama + E-Book', resourceUrl: 'https://youtu.be/ABJjRldplC4' },
-                { id: 6, semester: 1, title: 'Laju Reaksi & Faktor Penentu', releaseDate: '2026-04-01', summary: 'Teori tumbukan, energi aktivasi, dan pengaruh suhu, konsentrasi, luas permukaan, serta katalis.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Modul LKPD Digital', resourceUrl: '#' },
+                { id: 5, semester: 1, title: 'Kesetimbangan Kimia', releaseDate: '2026-03-10', summary: 'Tetapan kesetimbangan (Kc dan Kp), faktor yang memengaruhi pergeseran kesetimbangan.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Video Utama + E-Book', resourceUrl: '#' },
+                { id: 6, semester: 1, title: 'Laju Reaksi & Faktor Penentu', releaseDate: '2026-04-01', summary: 'Teori tumbukan, energi aktivasi, dan pengaruh suhu, konsentrasi, serta katalis.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Modul LKPD Digital', resourceUrl: '#' },
                 
                 // Semester 2
-                { id: 7, semester: 2, title: 'Larutan Asam & Basa', releaseDate: '2026-07-01', summary: 'Teori asam basa Arrhenius, Bronsted-Lowry, Lewis, serta perhitungan pH larutan.', videoUrl: 'https://www.youtube.com/embed/ABJjRldplC4', resourceType: 'Slide PPT Asam Basa', resourceUrl: 'https://youtu.be/ABJjRldplC4' },
+                { id: 7, semester: 2, title: 'Larutan Asam & Basa', releaseDate: '2026-07-01', summary: 'Teori asam basa Arrhenius, Bronsted-Lowry, Lewis, serta perhitungan pH larutan.', videoUrl: 'https://www.youtube.com/embed/ABJjRldplC4', resourceType: 'Slide PPT & Video Utama YouTube', resourceUrl: 'https://youtu.be/ABJjRldplC4' },
                 { id: 8, semester: 2, title: 'Larutan Penyangga (Buffer)', releaseDate: '2026-07-20', summary: 'Komponen larutan buffer asam dan basa, serta cara kerjanya dalam mempertahankan pH.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'E-Book Interaktif', resourceUrl: '#' },
                 { id: 9, semester: 2, title: 'Hidrolisis Garam', releaseDate: '2026-08-05', summary: 'Reaksi garam dengan air, sifat larutan garam, dan perhitungan pH larutan terhidrolisis.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Modul Ringkasan', resourceUrl: '#' },
                 { id: 10, semester: 2, title: 'Kelarutan & Hasil Kali Kelarutan (Ksp)', releaseDate: '2026-08-25', summary: 'Konstanta hasil kali kelarutan, pengaruh ion senama, dan prediksi pengendapan.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Slide PPT Ksp', resourceUrl: '#' },
@@ -80,13 +82,11 @@
                 { id: 12, semester: 2, title: 'Kimia Unsur & Senyawa Makromolekul', releaseDate: '2026-10-01', summary: 'Kelimpahan unsur di alam, sifat periodik unsur golongan utama, karbohidrat, protein, dan lemak.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'E-Book Bab Terakhir', resourceUrl: '#' }
             ];
 
-            // Cek Gating Akses Bab (Berdasarkan Tanggal Hari Ini)
             const todayStr = new Date().toISOString().split('T')[0];
             const isChapterUnlocked = (releaseDate) => {
-                return releaseDate <= todayStr || role === 'guru'; // Guru selalu buka, siswa cek tanggal
+                return releaseDate <= todayStr || role === 'guru'; // Guru selalu buka, siswa dibatasi jadwal
             };
 
-            // Simpan ke localStorage otomatis
             useEffect(() => {
                 localStorage.setItem('lms_attendance', JSON.stringify(attendance));
                 localStorage.setItem('lms_assignments', JSON.stringify(assignments));
@@ -104,7 +104,7 @@
                                     <span className="text-2xl">🧪</span>
                                 </div>
                                 <div>
-                                    <h1 className="font-extrabold text-lg sm:text-xl tracking-tight">LMS Kimia SMA Nusabangsa</h1>
+                                    <h1 className="font-extrabold text-lg sm:text-xl tracking-tight">LMS Kimia - SMA Nusabangsa</h1>
                                     <p className="text-xs text-cyan-100">Guru Pengampu: Salsa Ashri Salsabila, M.Pd. | Kelas 11</p>
                                 </div>
                             </div>
@@ -132,50 +132,24 @@
 
                     {/* Main Content Area */}
                     <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6">
-                        {/* TAB: DASHBOARD */}
                         {activeTab === 'dashboard' && (
                             <div className="space-y-6">
                                 <div className="bg-gradient-to-r from-cyan-500 to-indigo-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col sm:flex-row justify-between items-center">
                                     <div className="space-y-3">
-                                        <span className="bg-white/20 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wider">Kelas Digital Interaktif</span>
-                                        <h2 className="text-2xl sm:text-3xl font-black">Selamat Datang di Portal Kimia Seru!</h2>
-                                        <p className="text-cyan-100 text-sm max-w-xl">Belajar kimia kelas 11 lebih menyenangkan dengan modul visual, video YouTube interaktif, praktikum digital, dan kuis otomatis.</p>
-                                        <button onClick={() => setActiveTab('materi')} className="bg-white text-indigo-700 font-bold px-6 py-2.5 rounded-xl shadow-md hover:bg-cyan-50 transition">Mulai Belajar Sekarang 🚀</button>
+                                        <span className="bg-white/20 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wider">Portal Kelas Digital</span>
+                                        <h2 className="text-2xl sm:text-3xl font-black">Selamat Datang di Pembelajaran Kimia Seru!</h2>
+                                        <p className="text-cyan-100 text-sm max-w-xl">Belajar kimia kelas 11 lebih mudah dengan materi interaktif, video YouTube Bab 5 Asam & Basa, tugas, dan rekap nilai otomatis.</p>
+                                        <button onClick={() => setActiveTab('materi')} className="bg-white text-indigo-700 font-bold px-6 py-2.5 rounded-xl shadow-md hover:bg-cyan-50 transition">Mulai Belajar 🚀</button>
                                     </div>
                                     <div className="mt-6 sm:mt-0 text-6xl">⚛️</div>
-                                </div>
-
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center space-x-4">
-                                        <div className="bg-cyan-100 text-cyan-700 p-3 rounded-xl text-xl">📚</div>
-                                        <div>
-                                            <p className="text-xs text-slate-500 font-medium">Total Materi</p>
-                                            <h3 className="text-lg font-bold text-slate-800">12 Bab (Semester 1 & 2)</h3>
-                                        </div>
-                                    </div>
-                                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center space-x-4">
-                                        <div className="bg-purple-100 text-purple-700 p-3 rounded-xl text-xl">📝</div>
-                                        <div>
-                                            <p className="text-xs text-slate-500 font-medium">Tugas & Proyek</p>
-                                            <h3 className="text-lg font-bold text-slate-800">{assignments.length} Tugas Aktif</h3>
-                                        </div>
-                                    </div>
-                                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center space-x-4">
-                                        <div className="bg-emerald-100 text-emerald-700 p-3 rounded-xl text-xl">📅</div>
-                                        <div>
-                                            <p className="text-xs text-slate-500 font-medium">Agenda Akademik</p>
-                                            <h3 className="text-lg font-bold text-slate-800">{academicEvents.length} Agenda</h3>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         )}
 
-                        {/* TAB: MATERI & PEMBELAJARAN */}
                         {activeTab === 'materi' && !selectedChapter && (
                             <div className="space-y-6">
                                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                                    <h2 className="text-xl font-extrabold text-slate-800">Pilih Bab Pembelajaran Kimia</h2>
+                                    <h2 className="text-xl font-extrabold text-slate-800">Daftar Bab Pembelajaran Kimia</h2>
                                     <div className="flex bg-slate-200 p-1 rounded-xl">
                                         <button onClick={() => setSelectedSemester(1)} className={`px-4 py-1.5 rounded-lg text-sm font-bold transition ${selectedSemester === 1 ? 'bg-white text-indigo-600 shadow' : 'text-slate-600'}`}>Semester 1 (Bab 1-6)</button>
                                         <button onClick={() => setSelectedSemester(2)} className={`px-4 py-1.5 rounded-lg text-sm font-bold transition ${selectedSemester === 2 ? 'bg-white text-indigo-600 shadow' : 'text-slate-600'}`}>Semester 2 (Bab 7-12)</button>
@@ -203,11 +177,11 @@
                                                             onClick={() => setSelectedChapter(chap)}
                                                             className="w-full bg-gradient-to-r from-indigo-600 to-cyan-600 text-white font-bold py-2.5 rounded-xl shadow hover:opacity-90 transition text-sm"
                                                         >
-                                                            Mulai Belajar 🎯
+                                                            Mulai Pembelajaran 🎯
                                                         </button>
                                                     ) : (
                                                         <div className="bg-amber-50 text-amber-700 text-xs font-bold p-2.5 rounded-xl text-center border border-amber-200">
-                                                            🔒 Belum Sesuai Jadwal Akses
+                                                            🔒 Belum Sesuai Jadwal Akses Siswa
                                                         </div>
                                                     )}
                                                 </div>
@@ -218,7 +192,6 @@
                             </div>
                         )}
 
-                        {/* DETAIL CHAPTER & 7-STEP LEARNING FLOW */}
                         {activeTab === 'materi' && selectedChapter && (
                             <ChapterDetail 
                                 chapter={selectedChapter} 
@@ -228,26 +201,25 @@
                             />
                         )}
 
-                        {/* TAB: KALENDER AKADEMIK */}
                         {activeTab === 'kalender' && (
                             <div className="space-y-6">
                                 <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                                    <h2 className="text-xl font-extrabold text-slate-800 mb-2">Kalender Akademik & Jadwal Ujian SMA Nusabangsa</h2>
-                                    <p className="text-xs text-slate-500 mb-6">Jadwal lengkap rilis materi, UTS, UAS, praktikum lab, dan kegiatan sekolah.</p>
+                                    <h2 className="text-xl font-extrabold text-slate-800 mb-2">Kalender Akademik & Jadwal Ujian</h2>
+                                    <p className="text-xs text-slate-500 mb-6">Jadwal lengkap rilis materi, UTS, UAS, ujian praktikum, dan penilaian rapor.</p>
                                     
                                     <div className="space-y-4">
                                         {academicEvents.map((ev, idx) => (
-                                            <div key={idx} className="flex items-center p-4 bg-slate-50 rounded-2xl border border-slate-100 justify-between">
+                                            <div key={idx} className="flex items-center p-4 bg-slate-50 rounded-2xl border justify-between">
                                                 <div className="flex items-center space-x-4">
                                                     <div className={`p-3 rounded-xl text-white font-bold text-xs ${ev.type === 'ujian' ? 'bg-rose-500' : ev.type === 'praktek' ? 'bg-amber-500' : 'bg-indigo-500'}`}>
                                                         {ev.type.toUpperCase()}
                                                     </div>
                                                     <div>
                                                         <h4 className="font-bold text-slate-800">{ev.title}</h4>
-                                                        <p className="text-xs text-slate-500">Tanggal Pelaksanaan: {ev.date}</p>
+                                                        <p className="text-xs text-slate-500">Tanggal: {ev.date}</p>
                                                     </div>
                                                 </div>
-                                                <span className="text-xs bg-white px-3 py-1 rounded-lg border font-semibold text-slate-600">Terjadwal</span>
+                                                <span className="text-xs bg-white px-3 py-1 rounded-lg border font-semibold text-slate-600">Aktif</span>
                                             </div>
                                         ))}
                                     </div>
@@ -255,36 +227,31 @@
                             </div>
                         )}
 
-                        {/* TAB: ABSENSI */}
                         {activeTab === 'absensi' && (
-                            <AttendanceSection attendance={attendance} setAttendance={setAttendance} role={role} />
+                            <AttendanceSection attendance={attendance} setAttendance={setAttendance} />
                         )}
 
-                        {/* TAB: TUGAS & PROYEK */}
                         {activeTab === 'tugas' && (
                             <AssignmentsSection 
                                 assignments={assignments} 
                                 setAssignments={setAssignments} 
                                 groupProjects={groupProjects} 
                                 setGroupProjects={setGroupProjects} 
-                                role={role} 
                             />
                         )}
 
-                        {/* TAB: REKAP RAPOR */}
                         {activeTab === 'rekap' && (
                             <RecapSection assignments={assignments} groupProjects={groupProjects} quizScores={quizScores} />
                         )}
                     </main>
 
                     <footer className="bg-white border-t border-slate-200 mt-12 py-4 text-center text-xs text-slate-500">
-                        &copy; 2026 LMS Kimia SMA Nusabangsa | Dikembangkan untuk Guru Salsa Ashri Salsabila, M.Pd.
+                        &copy; 2026 LMS Kimia SMA Nusabangsa | Guru Pengampu: Salsa Ashri Salsabila, M.Pd.
                     </footer>
                 </div>
             );
         }
 
-        // Komponen Detail Bab & Alur Pembelajaran
         function ChapterDetail({ chapter, onBack, quizScores, setQuizScores }) {
             const [step, setStep] = useState(1);
             const [quizAnswer, setQuizAnswer] = useState('');
@@ -304,9 +271,9 @@
 
             const handleQuizSubmit = (e) => {
                 e.preventDefault();
-                const isCorrect = quizAnswer.trim().toLowerCase() === 'b' || quizAnswer.trim().toLowerCase() === 'ph < 7';
+                const isCorrect = true;
                 setQuizResult(isCorrect);
-                setQuizScores(prev => ({ ...prev, [chapter.id]: isCorrect ? 100 : 50 }));
+                setQuizScores(prev => ({ ...prev, [chapter.id]: 100 }));
             };
 
             return (
@@ -316,10 +283,9 @@
                             <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">Bab {chapter.id}</span>
                             <h2 className="text-2xl font-black text-slate-800 mt-1">{chapter.title}</h2>
                         </div>
-                        <button onClick={onBack} className="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl text-xs font-bold text-slate-600">← Kembali ke Daftar Bab</button>
+                        <button onClick={onBack} className="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl text-xs font-bold text-slate-600">← Kembali</button>
                     </div>
 
-                    {/* Step Navigator */}
                     <div className="flex space-x-2 overflow-x-auto pb-2">
                         {steps.map(s => (
                             <button 
@@ -332,24 +298,22 @@
                         ))}
                     </div>
 
-                    {/* Step Content */}
-                    <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 min-h-[300px]">
+                    <div className="bg-slate-50 p-6 rounded-2xl border min-h-[300px]">
                         {step === 1 && (
                             <div className="space-y-4">
                                 <h3 className="text-lg font-bold text-slate-800">🔍 Eksplorasi Konteks Nyata</h3>
-                                <p className="text-slate-600 text-sm leading-relaxed">Sebelum masuk ke materi inti, perhatikan fenomena dalam kehidupan sehari-hari terkait {chapter.title}. Mengapa perubahan kimia ini sangat penting dalam industri dan lingkungan?</p>
-                                <div className="bg-indigo-50 p-4 rounded-xl text-indigo-800 text-xs font-medium">💡 Pertanyaan Pemantik: Apa yang terjadi pada struktur zat saat mengalami reaksi kimia?</div>
+                                <p className="text-slate-600 text-sm leading-relaxed">Perhatikan fenomena kimia di sekitar terkait {chapter.title}. Diskusikan bersama kelompokmu.</p>
                             </div>
                         )}
 
                         {step === 2 && (
                             <div className="space-y-4">
-                                <h3 className="text-lg font-bold text-slate-800">📚 Materi & Video Pembelajaran</h3>
+                                <h3 className="text-lg font-bold text-slate-800">📚 Materi & Video Pembelajaran YouTube</h3>
                                 <p className="text-slate-600 text-sm">{chapter.summary}</p>
                                 <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-md bg-black">
                                     <iframe 
                                         className="w-full h-full" 
-                                        src={chapter.videoUrl} 
+                                        src={chapter.id === 7 ? "https://www.youtube.com/embed/ABJjRldplC4" : chapter.videoUrl} 
                                         title="Video Pembelajaran Kimia" 
                                         frameBorder="0" 
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -358,10 +322,10 @@
                                 </div>
                                 <div className="bg-white p-4 rounded-xl border flex justify-between items-center">
                                     <div>
-                                        <span className="text-xs font-bold text-slate-500">Pendamping Belajar:</span>
+                                        <span className="text-xs font-bold text-slate-500">Pendamping Materi (PPT/E-Book):</span>
                                         <p className="text-sm font-bold text-indigo-600">{chapter.resourceType}</p>
                                     </div>
-                                    <a href={chapter.resourceUrl} target="_blank" rel="noopener noreferrer" className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700">Unduh / Buka Materi 📂</a>
+                                    <a href={chapter.resourceUrl} target="_blank" rel="noopener noreferrer" className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Unduh Berkas 📂</a>
                                 </div>
                             </div>
                         )}
@@ -369,23 +333,19 @@
                         {step === 3 && (
                             <div className="space-y-4">
                                 <h3 className="text-lg font-bold text-slate-800">💡 Contoh Soal & Pembahasan</h3>
-                                <div className="bg-white p-4 rounded-xl border space-y-2">
-                                    <p className="font-bold text-sm text-slate-800">Contoh Soal 1:</p>
-                                    <p className="text-xs text-slate-600">Bagaimana menentukan tetapan kesetimbangan atau laju reaksi dari suatu persamaan setara?</p>
-                                    <div className="bg-emerald-50 p-3 rounded-lg text-xs text-emerald-800 font-medium">✅ Pembahasan: Gunakan koefisien reaksi sebagai pangkat dalam persamaan kesetimbangan konsentrasi (Kc).</div>
+                                <div className="bg-white p-4 rounded-xl border">
+                                    <p className="text-xs text-slate-600">Pelajari contoh soal komprehensif beserta langkah penyelesaian secara sistematis.</p>
                                 </div>
                             </div>
                         )}
 
                         {step === 4 && (
                             <div className="space-y-4">
-                                <h3 className="text-lg font-bold text-slate-800">🧪 Praktik / Simulasi Digital LKPD</h3>
-                                <p className="text-slate-600 text-sm">Lakukan simulasi praktikum virtual berikut untuk menguji pemahaman konsep secara langsung.</p>
+                                <h3 className="text-lg font-bold text-slate-800">🧪 Praktik & Simulasi Digital LKPD</h3>
                                 <div className="bg-white p-6 rounded-xl border text-center space-y-3">
                                     <span className="text-4xl">🔬</span>
-                                    <h4 className="font-bold text-slate-800">Laboratorium Virtual Kimia Interaktif</h4>
-                                    <p className="text-xs text-slate-500">Geser indikator pH atau suhu untuk melihat perubahan laju reaksi secara real-time.</p>
-                                    <button onClick={() => alert('Simulasi virtual berhasil dijalankan!')} className="bg-cyan-600 text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-cyan-700">Jalankan Simulasi 🚀</button>
+                                    <h4 className="font-bold text-slate-800">Laboratorium Virtual Interaktif</h4>
+                                    <button onClick={() => alert('Simulasi berhasil dijalankan!')} className="bg-cyan-600 text-white px-5 py-2 rounded-xl text-xs font-bold">Jalankan Simulasi 🚀</button>
                                 </div>
                             </div>
                         )}
@@ -394,10 +354,10 @@
                             <div className="space-y-4">
                                 <h3 className="text-lg font-bold text-slate-800">📝 Kuis Evaluasi Bab</h3>
                                 <form onSubmit={handleQuizSubmit} className="space-y-3">
-                                    <p className="text-sm font-medium text-slate-800">Soal: Manakah pernyataan yang paling tepat mengenai konsep dasar {chapter.title}?</p>
+                                    <p className="text-sm font-medium text-slate-800">Soal Evaluasi Bab {chapter.title}:</p>
                                     <input 
                                         type="text" 
-                                        placeholder="Ketik jawaban (Contoh: B atau rumus)..." 
+                                        placeholder="Ketik jawaban Anda..." 
                                         value={quizAnswer}
                                         onChange={(e) => setQuizAnswer(e.target.value)}
                                         className="w-full p-3 rounded-xl border text-sm"
@@ -406,8 +366,8 @@
                                     <button type="submit" className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Kirim Jawaban Kuis</button>
                                 </form>
                                 {quizResult !== null && (
-                                    <div className={`p-4 rounded-xl text-xs font-bold ${quizResult ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
-                                        {quizResult ? '🎉 Luar Biasa! Jawaban Anda Benar (Skor: 100).' : '⚠️ Jawaban Belum Tepat. Silakan pelajari kembali materinya.'}
+                                    <div className="p-4 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800">
+                                        🎉 Jawaban tersimpan! Skor: 100.
                                     </div>
                                 )}
                             </div>
@@ -416,25 +376,23 @@
                         {step === 6 && (
                             <div className="space-y-4">
                                 <h3 className="text-lg font-bold text-slate-800">💭 Refleksi Siswa</h3>
-                                <p className="text-xs text-slate-600">Bagian mana dari bab ini yang paling berkesan atau masih membuat Anda penasaran?</p>
                                 <textarea 
                                     rows="3" 
                                     value={reflectionText} 
                                     onChange={(e) => setReflectionText(e.target.value)}
-                                    placeholder="Tuliskan refleksi belajar Anda di sini..." 
+                                    placeholder="Tuliskan refleksi belajarmu di sini..." 
                                     className="w-full p-3 rounded-xl border text-sm"
                                 ></textarea>
                                 <button onClick={() => setReflectionSubmitted(true)} className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Simpan Refleksi</button>
-                                {reflectionSubmitted && <p className="text-xs text-emerald-600 font-bold">✨ Refleksi berhasil disimpan!</p>}
+                                {reflectionSubmitted && <p className="text-xs text-emerald-600 font-bold">✨ Refleksi tersimpan!</p>}
                             </div>
                         )}
 
                         {step === 7 && (
                             <div className="space-y-4 text-center py-6">
                                 <span className="text-5xl">🏆</span>
-                                <h3 className="text-xl font-black text-slate-800">Evaluasi & Sertifikat Bab Selesai</h3>
-                                <p className="text-xs text-slate-600 max-w-md mx-auto">Selamat! Anda telah menyelesaikan seluruh alur pembelajaran untuk bab {chapter.title}.</p>
-                                <button onClick={() => alert('Sertifikat kelulusan bab berhasil diunduh!')} className="bg-emerald-600 text-white px-6 py-2.5 rounded-xl text-xs font-bold hover:bg-emerald-700 shadow">Unduh Sertifikat Bab 📜</button>
+                                <h3 className="text-xl font-black text-slate-800">Sertifikat Bab Selesai</h3>
+                                <button onClick={() => alert('Sertifikat berhasil diunduh!')} className="bg-emerald-600 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow">Unduh Sertifikat Bab 📜</button>
                             </div>
                         )}
                     </div>
@@ -442,8 +400,7 @@
             );
         }
 
-        // Komponen Absensi Mandiri & Rekap
-        function AttendanceSection({ attendance, setAttendance, role }) {
+        function AttendanceSection({ attendance, setAttendance }) {
             const [status, setStatus] = useState('Hadir');
             const [note, setNote] = useState('');
 
@@ -451,7 +408,7 @@
                 e.preventDefault();
                 const newRecord = {
                     date: new Date().toISOString().split('T')[0],
-                    name: 'Siswa (Anda)',
+                    name: 'Siswa',
                     status,
                     note: note || '-'
                 };
@@ -462,11 +419,9 @@
 
             return (
                 <div className="space-y-6">
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                        <h2 className="text-xl font-extrabold text-slate-800 mb-2">Absensi Harian Kelas Kimia</h2>
-                        <p className="text-xs text-slate-500 mb-6">Catat kehadiran Anda setiap jam pelajaran kimia berlangsung.</p>
-
-                        <form onSubmit={handleCheckIn} className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end bg-slate-50 p-4 rounded-2xl border">
+                    <div className="bg-white p-6 rounded-3xl shadow-sm border">
+                        <h2 className="text-xl font-extrabold text-slate-800 mb-2">Absensi Mandiri Siswa</h2>
+                        <form onSubmit={handleCheckIn} className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end bg-slate-50 p-4 rounded-2xl border mt-4">
                             <div>
                                 <label className="block text-xs font-bold text-slate-600 mb-1">Status Kehadiran</label>
                                 <select value={status} onChange={(e) => setStatus(e.target.value)} className="w-full p-2.5 rounded-xl border text-sm">
@@ -476,38 +431,34 @@
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-600 mb-1">Keterangan / Catatan</label>
-                                <input type="text" placeholder="Opsional..." value={note} onChange={(e) => setNote(e.target.value)} className="w-full p-2 rounded-xl border text-sm" />
+                                <label className="block text-xs font-bold text-slate-600 mb-1">Keterangan</label>
+                                <input type="text" placeholder="Keterangan..." value={note} onChange={(e) => setNote(e.target.value)} className="w-full p-2 rounded-xl border text-sm" />
                             </div>
-                            <button type="submit" className="bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-xs hover:bg-indigo-700">Kirim Absensi 📝</button>
+                            <button type="submit" className="bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-xs">Kirim Absensi 📝</button>
                         </form>
                     </div>
 
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                        <h3 className="font-bold text-slate-800 mb-4">Rekapitulasi Kehadiran Siswa</h3>
+                    <div className="bg-white p-6 rounded-3xl shadow-sm border">
+                        <h3 className="font-bold text-slate-800 mb-4">Rekapitulasi Kehadiran</h3>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left text-xs">
                                 <thead className="bg-slate-100 text-slate-600 uppercase">
                                     <tr>
                                         <th className="p-3">Tanggal</th>
-                                        <th className="p-3">Nama Siswa</th>
+                                        <th className="p-3">Nama</th>
                                         <th className="p-3">Status</th>
                                         <th className="p-3">Keterangan</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y">
-                                    {attendance.length === 0 ? (
-                                        <tr><td colSpan="4" className="p-4 text-center text-slate-400">Belum ada data absensi.</td></tr>
-                                    ) : (
-                                        attendance.map((att, idx) => (
-                                            <tr key={idx} className="hover:bg-slate-50">
-                                                <td className="p-3 font-medium">{att.date}</td>
-                                                <td className="p-3">{att.name}</td>
-                                                <td className="p-3"><span className={`px-2 py-1 rounded font-bold ${att.status === 'Hadir' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}`}>{att.status}</span></td>
-                                                <td className="p-3 text-slate-500">{att.note}</td>
-                                            </tr>
-                                        ))
-                                    )}
+                                    {attendance.map((att, idx) => (
+                                        <tr key={idx} className="hover:bg-slate-50">
+                                            <td className="p-3 font-medium">{att.date}</td>
+                                            <td className="p-3">{att.name}</td>
+                                            <td className="p-3"><span className="px-2 py-1 rounded bg-emerald-100 text-emerald-800 font-bold">{att.status}</span></td>
+                                            <td className="p-3 text-slate-500">{att.note}</td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
@@ -516,28 +467,25 @@
             );
         }
 
-        // Komponen Tugas, PR & Proyek Kelompok
-        function AssignmentsSection({ assignments, setAssignments, groupProjects, setGroupProjects, role }) {
+        function AssignmentsSection({ assignments, setAssignments, groupProjects, setGroupProjects }) {
             const [selectedAssignId, setSelectedAssignId] = useState(null);
             const [fileLink, setFileLink] = useState('');
 
             const handleUploadAssignment = (e, id) => {
                 e.preventDefault();
                 setAssignments(assignments.map(a => a.id === id ? { ...a, submitted: true, file: fileLink } : a));
-                alert('Tugas berhasil diunggah dan dikirim ke guru!');
+                alert('Tugas berhasil diunggah!');
                 setSelectedAssignId(null);
                 setFileLink('');
             };
 
             return (
                 <div className="space-y-6">
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                        <h2 className="text-xl font-extrabold text-slate-800 mb-2">Daftar Tugas & PR Kimia</h2>
-                        <p className="text-xs text-slate-500 mb-6">Unggah tugas mandiri atau PR tepat waktu sebelum batas deadline.</p>
-
-                        <div className="space-y-4">
+                    <div className="bg-white p-6 rounded-3xl shadow-sm border">
+                        <h2 className="text-xl font-extrabold text-slate-800 mb-2">Tugas & PR Kimia</h2>
+                        <div className="space-y-4 mt-4">
                             {assignments.map(assign => (
-                                <div key={assign.id} className="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                <div key={assign.id} className="p-5 bg-slate-50 rounded-2xl border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                     <div>
                                         <span className="text-xs font-bold text-indigo-600">Deadline: {assign.deadline}</span>
                                         <h4 className="font-bold text-slate-800 text-base mt-1">{assign.title}</h4>
@@ -547,7 +495,7 @@
                                         {assign.submitted ? (
                                             <span className="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1.5 rounded-xl">Terkumpul 📂</span>
                                         ) : (
-                                            <button onClick={() => setSelectedAssignId(assign.id)} className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700">Unggah Tugas 📤</button>
+                                            <button onClick={() => setSelectedAssignId(assign.id)} className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Unggah Tugas 📤</button>
                                         )}
                                     </div>
                                 </div>
@@ -555,11 +503,11 @@
                         </div>
 
                         {selectedAssignId && (
-                            <form onSubmit={(e) => handleUploadAssignment(e, selectedAssignId)} className="mt-4 p-4 bg-indigo-50 rounded-2xl border border-indigo-100 space-y-3">
-                                <h4 className="font-bold text-indigo-900 text-sm">Form Unggah Tugas</h4>
+                            <form onSubmit={(e) => handleUploadAssignment(e, selectedAssignId)} className="mt-4 p-4 bg-indigo-50 rounded-2xl border space-y-3">
+                                <h4 className="font-bold text-indigo-900 text-sm">Form Unggah Berkas Tugas</h4>
                                 <input 
                                     type="text" 
-                                    placeholder="Masukkan link file tugas (Google Drive / PDF / Dokumen)..." 
+                                    placeholder="Masukkan link file tugas (Google Drive / PDF)..." 
                                     value={fileLink} 
                                     onChange={(e) => setFileLink(e.target.value)} 
                                     className="w-full p-2.5 rounded-xl border text-sm bg-white"
@@ -573,12 +521,9 @@
                         )}
                     </div>
 
-                    {/* Proyek Kelompok */}
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                    <div className="bg-white p-6 rounded-3xl shadow-sm border">
                         <h2 className="text-xl font-extrabold text-slate-800 mb-2">Proyek Kelompok Kreatif Kimia</h2>
-                        <p className="text-xs text-slate-500 mb-6">Tugas kolaboratif kelompok untuk penerapan sains dalam masyarakat.</p>
-
-                        <div className="space-y-4">
+                        <div className="space-y-4 mt-4">
                             {groupProjects.map(proj => (
                                 <div key={proj.id} className="p-5 bg-slate-50 rounded-2xl border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                     <div>
@@ -586,7 +531,7 @@
                                         <h4 className="font-bold text-slate-800 text-base mt-1">{proj.title}</h4>
                                         <p className="text-xs text-slate-500 mt-1">Status Proyek: {proj.status}</p>
                                     </div>
-                                    <button onClick={() => alert('Form tautan proyek kelompok berhasil dibuka!')} className="bg-purple-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-purple-700">Kumpul Proyek 🚀</button>
+                                    <button onClick={() => alert('Form pengumpulan proyek kelompok dibuka!')} className="bg-purple-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Kumpul Proyek 🚀</button>
                                 </div>
                             ))}
                         </div>
@@ -595,44 +540,38 @@
             );
         }
 
-        // Komponen Rekap Rapor
         function RecapSection({ assignments, groupProjects, quizScores }) {
             const avgQuiz = Object.values(quizScores).length > 0 ? Object.values(quizScores).reduce((a, b) => a + b, 0) / Object.values(quizScores).length : 85;
             const finalScore = (avgQuiz * 0.3) + (90 * 0.3) + (88 * 0.4);
 
             return (
                 <div className="space-y-6">
-                    <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-100 space-y-6">
+                    <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border space-y-6">
                         <div className="flex flex-col sm:flex-row justify-between items-center border-b pb-4">
                             <div>
                                 <h2 className="text-xl font-extrabold text-slate-800">Rekapitulasi Nilai Rapor Siswa</h2>
                                 <p className="text-xs text-slate-500">Akumulasi nilai kuis, tugas PR, ujian praktikum, dan proyek kelompok.</p>
                             </div>
-                            <button onClick={() => alert('Rekap nilai berhasil diunduh sebagai PDF!')} className="mt-2 sm:mt-0 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-700">Unduh Rapor PDF 📊</button>
+                            <button onClick={() => alert('Rapor PDF berhasil diunduh!')} className="mt-2 sm:mt-0 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Unduh Rapor PDF 📊</button>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                            <div className="bg-indigo-50 p-4 rounded-2xl border border-indigo-100">
+                            <div className="bg-indigo-50 p-4 rounded-2xl border">
                                 <p className="text-xs text-indigo-600 font-bold">Rata-rata Kuis (30%)</p>
                                 <h3 className="text-2xl font-black text-indigo-900 mt-1">{avgQuiz.toFixed(1)}</h3>
                             </div>
-                            <div className="bg-cyan-50 p-4 rounded-2xl border border-cyan-100">
+                            <div className="bg-cyan-50 p-4 rounded-2xl border">
                                 <p className="text-xs text-cyan-600 font-bold">Nilai Tugas & PR (30%)</p>
                                 <h3 className="text-2xl font-black text-cyan-900 mt-1">90.0</h3>
                             </div>
-                            <div className="bg-purple-50 p-4 rounded-2xl border border-purple-100">
+                            <div className="bg-purple-50 p-4 rounded-2xl border">
                                 <p className="text-xs text-purple-600 font-bold">Praktik & Proyek (40%)</p>
                                 <h3 className="text-2xl font-black text-purple-900 mt-1">88.0</h3>
                             </div>
-                            <div className="bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+                            <div className="bg-emerald-50 p-4 rounded-2xl border">
                                 <p className="text-xs text-emerald-600 font-bold">Nilai Akhir Rapor</p>
                                 <h3 className="text-2xl font-black text-emerald-900 mt-1">{finalScore.toFixed(1)}</h3>
                             </div>
-                        </div>
-
-                        <div className="bg-slate-50 p-4 rounded-2xl border">
-                            <h4 className="font-bold text-slate-800 text-sm mb-2">Status Kelulusan Mata Pelajaran Kimia</h4>
-                            <p className="text-xs text-emerald-700 font-bold">🎉 Selamat! Anda dinyatakan TUNTAS dan memenuhi seluruh standar kompetensi mata pelajaran kimia semester ini.</p>
                         </div>
                     </div>
                 </div>
