@@ -1,1 +1,1777 @@
-Hello
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LMS Kimia SMA Nusabangsa - Kelas 11</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts: Poppins & Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti for Celebration Effects -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              teal: '#0D9488',
+              lightTeal: '#CCFBF1',
+              purple: '#8B5CF6',
+              lightPurple: '#EDE9FE',
+              pink: '#EC4899',
+              yellow: '#F59E0B',
+              softYellow: '#FEF3C7',
+              dark: '#1F2937',
+              bgSoft: '#F8FAFC'
+            }
+          },
+          fontFamily: {
+            poppins: ['Poppins', 'sans-serif'],
+            montserrat: ['Montserrat', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #F1F5F9;
+    }
+    .gradient-header {
+      background: linear-gradient(135deg, #0D9488 0%, #4F46E5 50%, #8B5CF6 100%);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- TOP NAVBAR -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        
+        <!-- Logo & Branding -->
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+          <div class="w-10 h-10 rounded-xl gradient-header flex items-center justify-center text-white text-xl font-bold shadow-md transform transition hover:scale-105">
+            <i class="fa-solid font-bold fa-flask"></i>
+          </div>
+          <div>
+            <h1 class="font-montserrat font-extrabold text-lg leading-tight text-slate-800">
+              Kimia XI <span class="text-teal-600">Nusabangsa</span>
+            </h1>
+            <p class="text-xs text-slate-500 font-medium">Oleh: Guru Salsa Ashri Salsabila, M.Pd.</p>
+          </div>
+        </div>
+
+        <!-- Navigation Desktop -->
+        <nav class="hidden md:flex space-x-1 lg:space-x-2 text-sm font-semibold">
+          <button onclick="navigateTo('home')" id="nav-home" class="px-3 py-2 rounded-lg transition hover:bg-slate-100 text-teal-700 bg-teal-50">
+            <i class="fa-solid fa-house mr-1.5"></i> Beranda
+          </button>
+          <button onclick="navigateTo('chapters')" id="nav-chapters" class="px-3 py-2 rounded-lg transition hover:bg-slate-100 text-slate-600">
+            <i class="fa-solid fa-book-open mr-1.5"></i> Modul Bab
+          </button>
+          <button onclick="navigateTo('attendance')" id="nav-attendance" class="px-3 py-2 rounded-lg transition hover:bg-slate-100 text-slate-600">
+            <i class="fa-solid fa-user-check mr-1.5 text-emerald-600"></i> Absensi
+          </button>
+          <button onclick="navigateTo('assignments')" id="nav-assignments" class="px-3 py-2 rounded-lg transition hover:bg-slate-100 text-slate-600">
+            <i class="fa-solid fa-list-check mr-1.5 text-blue-600"></i> Tugas & PR
+          </button>
+          <button onclick="navigateTo('projects')" id="nav-projects" class="px-3 py-2 rounded-lg transition hover:bg-slate-100 text-slate-600">
+            <i class="fa-solid fa-people-group mr-1.5 text-indigo-600"></i> Proyek Kelompok
+          </button>
+          <button onclick="navigateTo('rekap-nilai')" id="nav-rekap-nilai" class="px-3 py-2 rounded-lg transition hover:bg-slate-100 text-slate-600">
+            <i class="fa-solid fa-chart-line mr-1.5 text-purple-600"></i> Rekap Nilai Rapor
+          </button>
+          <button onclick="navigateTo('calendar')" id="nav-calendar" class="px-3 py-2 rounded-lg transition hover:bg-slate-100 text-slate-600 relative">
+            <i class="fa-solid fa-calendar-days mr-1.5 text-amber-500"></i> Kalender
+          </button>
+          <button onclick="navigateTo('virtual-lab')" id="nav-virtual-lab" class="px-3 py-2 rounded-lg transition hover:bg-slate-100 text-slate-600">
+            <i class="fa-solid fa-vial-circle-check mr-1.5 text-purple-600"></i> Lab Virtual
+          </button>
+          <button onclick="navigateTo('certificate')" id="nav-certificate" class="px-3 py-2 rounded-lg transition hover:bg-slate-100 text-slate-600">
+            <i class="fa-solid fa-award mr-1.5 text-amber-500"></i> Sertifikat
+          </button>
+        </nav>
+
+        <!-- Role Switcher & Controls -->
+        <div class="flex items-center space-x-3">
+          <!-- Role Toggle -->
+          <div class="bg-slate-100 p-1 rounded-xl border border-slate-200 flex text-xs font-semibold">
+            <button id="role-siswa-btn" onclick="setRole('siswa')" class="px-3 py-1.5 rounded-lg bg-white shadow-xs text-teal-700 transition">
+              <i class="fa-solid fa-user-graduate mr-1"></i> Siswa
+            </button>
+            <button id="role-guru-btn" onclick="setRole('guru')" class="px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 transition">
+              <i class="fa-solid fa-chalkboard-user mr-1"></i> Guru
+            </button>
+          </div>
+
+          <!-- Student Profile / Avatar -->
+          <div class="hidden sm:flex items-center space-x-2 pl-2 border-l border-slate-200">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=NusabangsaStudent" alt="Avatar" class="w-8 h-8 rounded-full bg-teal-100 border border-teal-300">
+            <span id="user-display-name" class="text-xs font-bold text-slate-700">Ahmad Budi</span>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <button onclick="toggleMobileMenu()" class="md:hidden text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+            <i class="fa-solid fa-bars text-xl"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2 text-sm font-medium">
+      <button onclick="navigateTo('home'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-house w-6 text-teal-600"></i> Beranda
+      </button>
+      <button onclick="navigateTo('chapters'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-book-open w-6 text-blue-600"></i> Modul Bab
+      </button>
+      <button onclick="navigateTo('attendance'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-user-check w-6 text-emerald-600"></i> Absensi Mandiri
+      </button>
+      <button onclick="navigateTo('assignments'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-list-check w-6 text-indigo-600"></i> Tugas & PR
+      </button>
+      <button onclick="navigateTo('projects'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-people-group w-6 text-indigo-600"></i> Proyek Kelompok
+      </button>
+      <button onclick="navigateTo('rekap-nilai'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-chart-line w-6 text-purple-600"></i> Rekap Nilai Rapor
+      </button>
+      <button onclick="navigateTo('calendar'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-calendar-days w-6 text-amber-500"></i> Kalender Akademik
+      </button>
+      <button onclick="navigateTo('virtual-lab'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-vial-circle-check w-6 text-purple-600"></i> Lab Virtual Kimia
+      </button>
+      <button onclick="navigateTo('certificate'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-award w-6 text-amber-600"></i> Sertifikat Saya
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow">
+
+    <!-- TEACHER CONTROL BANNER (ONLY SHOWN TO TEACHERS) -->
+    <div id="teacher-control-bar" class="hidden mb-6 p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 shadow-sm">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+          <div class="p-3 bg-amber-500 text-white rounded-xl text-xl">
+            <i class="fa-solid fa-user-gear"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-amber-900 text-sm">Mode Kontrol Guru: Salsa Ashri Salsabila, M.Pd.</h3>
+            <p class="text-xs text-amber-700">Anda dapat mengubah tanggal rilis bab & membuka kunci semua materi untuk uji coba.</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-3 w-full md:w-auto justify-end">
+          <label class="inline-flex items-center cursor-pointer bg-white px-3 py-2 rounded-xl border border-amber-300 shadow-xs">
+            <input type="checkbox" id="override-lock-toggle" onchange="toggleLockOverride(this.checked)" class="sr-only peer">
+            <div class="relative w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+            <span class="ms-3 text-xs font-bold text-amber-900">Buka Semua Akses (Mode Demo)</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 1: HOME PAGE -->
+    <section id="view-home" class="space-y-8">
+      
+      <!-- HERO BANNER -->
+      <div class="rounded-3xl gradient-header text-white p-6 sm:p-10 shadow-xl relative overflow-hidden">
+        <!-- Decorative SVG Blobs -->
+        <div class="absolute -right-10 -bottom-10 opacity-20 pointer-events-none">
+          <i class="fa-solid fa-atom text-[220px]"></i>
+        </div>
+        <div class="relative z-10 max-w-2xl">
+          <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-semibold tracking-wide uppercase mb-3 text-teal-100">
+            <i class="fa-solid fa-graduation-cap mr-1"></i> LMS Kimia Kurikulum Merdeka
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-extrabold font-montserrat tracking-tight leading-tight mb-3">
+            E-Learning Interaktif <br><span class="text-amber-300">Kimia SMA Nusabangsa</span>
+          </h2>
+          <p class="text-teal-100 text-sm sm:text-base leading-relaxed mb-6">
+            Selamat datang di portal pembelajaran Kimia Kelas 11 bersama Guru <strong class="text-white">Salsa Ashri Salsabila, M.Pd.</strong> Temukan keseruan belajar reaksi, rumus, dan praktikum virtual dengan alur terstruktur!
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <button onclick="navigateTo('chapters')" class="px-6 py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold rounded-2xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center">
+              <i class="fa-solid fa-play-circle mr-2"></i> Mulai Pembelajaran
+            </button>
+            <button onclick="navigateTo('calendar')" class="px-5 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-semibold rounded-2xl border border-white/20 transition flex items-center">
+              <i class="fa-solid fa-calendar mr-2"></i> Kalender Akademik
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK STATS & PROGRESS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center space-x-4">
+          <div class="p-3 bg-teal-100 text-teal-600 rounded-xl text-xl">
+            <i class="fa-solid fa-book"></i>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 font-medium">Total Modul Bab</p>
+            <p class="text-xl font-bold text-slate-800">12 Bab <span class="text-xs text-slate-400 font-normal">(Sem 1 & 2)</span></p>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center space-x-4">
+          <div class="p-3 bg-purple-100 text-purple-600 rounded-xl text-xl">
+            <i class="fa-solid fa-bars-progress"></i>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 font-medium">Progres Siswa</p>
+            <p id="home-progress-text" class="text-xl font-bold text-slate-800">0 / 12 Bab</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center space-x-4">
+          <div class="p-3 bg-amber-100 text-amber-600 rounded-xl text-xl">
+            <i class="fa-solid fa-flask-vial"></i>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 font-medium">Lab Virtual</p>
+            <p class="text-xl font-bold text-slate-800">Tersedia</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center space-x-4">
+          <div class="p-3 bg-blue-100 text-blue-600 rounded-xl text-xl">
+            <i class="fa-solid fa-calendar-check"></i>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 font-medium">Status Akses Hari Ini</p>
+            <p class="text-sm font-bold text-teal-600">Akses Terbuka Sesuai Jadwal</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEACHER PROFILE & LEARNING METHODOLOGY -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Teacher Profile Card -->
+        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col items-center text-center">
+          <div class="relative mb-4">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=SalsaAshri&eyebrows=default&facialHairAmount=0&hair=longKate&hairColor=black" alt="Guru Salsa" class="w-28 h-28 rounded-full bg-teal-50 border-4 border-teal-500 shadow-inner">
+            <span class="absolute bottom-0 right-0 bg-teal-500 text-white p-1.5 rounded-full text-xs shadow-md" title="Pengampu Resmi">
+              <i class="fa-solid fa-circle-check"></i>
+            </span>
+          </div>
+          <h3 class="font-montserrat font-bold text-lg text-slate-800">Salsa Ashri Salsabila, M.Pd.</h3>
+          <p class="text-xs text-teal-600 font-semibold mb-3">Guru Pengampu Kimia Kelas 11</p>
+          <p class="text-xs text-slate-500 leading-relaxed mb-4">
+            "Selamat belajar para siswa SMA Nusabangsa! Manfaatkan LMS ini untuk eksplorasi konsep kimia dengan cara yang menyenangkan, sistematis, dan terintegrasi teknologi."
+          </p>
+          <div class="w-full pt-4 border-t border-slate-100 flex justify-around text-xs text-slate-600">
+            <span class="flex items-center"><i class="fa-solid fa-envelope mr-1 text-slate-400"></i> salsa@nusabangsa.sch.id</span>
+          </div>
+        </div>
+
+        <!-- Alur Pembelajaran Card -->
+        <div class="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-montserrat font-bold text-slate-800 text-lg flex items-center">
+                <i class="fa-solid fa-route text-teal-600 mr-2"></i> Sistem Pembelajaran
+              </h3>
+              <span class="text-xs bg-teal-100 text-teal-800 px-3 py-1 rounded-full font-medium">Terstruktur & Terjadwal</span>
+            </div>
+            <p class="text-xs text-slate-600 mb-6">
+              Setiap bab dirancang secara komprehensif. Pembelajaran dibuka secara bertahap sesuai <strong>Kalender Akademik</strong> sekolah.
+            </p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-center">
+                <div class="w-8 h-8 mx-auto bg-teal-100 text-teal-700 rounded-full flex items-center justify-center font-bold text-sm mb-2">1</div>
+                <h4 class="text-xs font-bold text-slate-800">Apersepsi</h4>
+                <p class="text-[10px] text-slate-500 mt-0.5">Tujuan & Peta Konsep</p>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-center">
+                <div class="w-8 h-8 mx-auto bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold text-sm mb-2">2</div>
+                <h4 class="text-xs font-bold text-slate-800">YouTube & Slide</h4>
+                <p class="text-[10px] text-slate-500 mt-0.5">Video & PPT / Book</p>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-center">
+                <div class="w-8 h-8 mx-auto bg-purple-100 text-purple-700 rounded-full flex items-center justify-center font-bold text-sm mb-2">3</div>
+                <h4 class="text-xs font-bold text-slate-800">Lab Virtual</h4>
+                <p class="text-[10px] text-slate-500 mt-0.5">Simulasi Praktikum</p>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-center">
+                <div class="w-8 h-8 mx-auto bg-amber-100 text-amber-700 rounded-full flex items-center justify-center font-bold text-sm mb-2">4</div>
+                <h4 class="text-xs font-bold text-slate-800">Kuis & Refleksi</h4>
+                <p class="text-[10px] text-slate-500 mt-0.5">Evaluasi Otomatis</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-500">Mulai belajar bab yang telah siap hari ini!</span>
+            <button onclick="navigateTo('chapters')" class="text-xs font-bold text-teal-600 hover:text-teal-700 flex items-center">
+              Lihat Daftar Bab <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- FEATURED CHAPTERS HIGHLIGHT -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-montserrat font-bold text-slate-800 text-lg">Modul Pembelajaran Aktif</h3>
+          <button onclick="navigateTo('chapters')" class="text-xs font-semibold text-teal-600 hover:underline">Lihat Semua 12 Bab</button>
+        </div>
+        <div id="home-featured-chapters" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Dynamically Injected Feature Cards -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- VIEW 2: CHAPTER LIST PAGE -->
+    <section id="view-chapters" class="hidden space-y-6">
+      
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold font-montserrat text-slate-800">Daftar Bab Pembelajaran</h2>
+          <p class="text-xs text-slate-500 mt-1">
+            Materi Semester 1 & Semester 2. Bab yang belum jadwalnya akan terkunci secara otomatis.
+          </p>
+        </div>
+
+        <!-- Filter Semester Buttons -->
+        <div class="flex items-center space-x-2 bg-slate-100 p-1.5 rounded-2xl self-start md:self-auto text-xs font-semibold">
+          <button onclick="filterSemester('all')" id="filter-all-btn" class="px-4 py-2 rounded-xl bg-white shadow-xs text-teal-700">Semua Bab</button>
+          <button onclick="filterSemester(1)" id="filter-sem1-btn" class="px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900">Semester 1</button>
+          <button onclick="filterSemester(2)" id="filter-sem2-btn" class="px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900">Semester 2</button>
+        </div>
+      </div>
+
+      <!-- CHAPTER CARDS CONTAINER -->
+      <div id="chapters-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered by JS -->
+      </div>
+
+    </section>
+
+    <!-- VIEW: ABSENSI SISWA & REKAP GURU -->
+    <section id="view-attendance" class="hidden space-y-6">
+      <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold font-montserrat text-slate-800 flex items-center">
+              <i class="fa-solid fa-user-check text-emerald-600 mr-2.5"></i> Absensi Mandiri & Rekap Kehadiran
+            </h2>
+            <p class="text-xs text-slate-500 mt-1">
+              Pencatatan kehadiran harian siswa Kimia Kelas 11 SMA Nusabangsa.
+            </p>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-2xl text-xs text-emerald-800 flex items-center space-x-2">
+            <i class="fa-solid fa-clock text-emerald-600 text-base"></i>
+            <span>Hari ini: <strong id="attendance-today-date">--</strong></span>
+          </div>
+        </div>
+
+        <!-- SISWA FORM ABSENSI -->
+        <div id="attendance-siswa-box" class="p-5 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200 space-y-4 mb-8">
+          <h3 class="font-bold text-emerald-900 text-sm flex items-center">
+            <i class="fa-solid fa-pen-to-square mr-2"></i> Form Input Presensi Siswa (Ahmad Budi)
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Status Kehadiran:</label>
+              <select id="attendance-status-input" class="w-full p-2.5 rounded-xl border border-slate-300 text-xs font-semibold bg-white">
+                <option value="Hadir">✅ Hadir (Mengikuti Pembelajaran)</option>
+                <option value="Izin">✉️ Izin (Ada Keperluan)</option>
+                <option value="Sakit">🏥 Sakit (Dengan Surat Dokter/Pemberitahuan)</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Keterangan / Catatan Tambahan:</label>
+              <input type="text" id="attendance-note-input" placeholder="Contoh: Mengikuti sesi KBM tepat waktu" class="w-full p-2.5 rounded-xl border border-slate-300 text-xs bg-white">
+            </div>
+          </div>
+          <button onclick="submitAttendance()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center">
+            <i class="fa-solid fa-paper-plane mr-2"></i> Kirim Absensi Hari Ini
+          </button>
+        </div>
+
+        <!-- REKAPITULASI TABLE (VIEWABLE BY BOTH, MANAGED BY GURU) -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-slate-800 text-sm">Rekapitulasi Kehadiran Kelas (Diperbarui Real-Time)</h3>
+            <span class="text-xs text-slate-400 font-medium">Total Record: <strong id="attendance-total-count" class="text-slate-700">0</strong></span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700 uppercase font-semibold border-b border-slate-200">
+                  <th class="p-3.5 rounded-l-xl">Nama Siswa</th>
+                  <th class="p-3.5">Tanggal & Waktu</th>
+                  <th class="p-3.5">Status</th>
+                  <th class="p-3.5 rounded-r-xl">Keterangan</th>
+                </tr>
+              </thead>
+              <tbody id="attendance-table-body" class="divide-y divide-slate-100">
+                <!-- Rendered JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: TUGAS & PR + REKAP GURU -->
+    <section id="view-assignments" class="hidden space-y-6">
+      <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold font-montserrat text-slate-800 flex items-center">
+              <i class="fa-solid fa-list-check text-blue-600 mr-2.5"></i> Tugas, PR & Penyerahan Berkas Mandiri
+            </h2>
+            <p class="text-xs text-slate-500 mt-1">
+              Siswa dapat mengunggah file berkas langsung atau menautkan link Google Drive/PDF, lalu disinkronkan ke rekapitulasi guru.
+            </p>
+          </div>
+        </div>
+
+        <!-- FORM UNGGAH TUGAS INTERAKTIF SISWA -->
+        <div id="assignment-upload-box" class="p-5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-200 space-y-4 mb-8">
+          <h3 class="font-bold text-blue-900 text-sm flex items-center">
+            <i class="fa-solid fa-upload mr-2"></i> Form Unggah / Penyerahan Tugas (Ahmad Budi)
+          </h3>
+          <form id="assignment-upload-form" onsubmit="handleAssignmentFormSubmit(event)" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Tugas Bab:</label>
+                <select id="task-select-input" class="w-full p-2.5 rounded-xl border border-slate-300 text-xs font-semibold bg-white">
+                  <!-- Injected via JS -->
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Unggah Berkas File (PDF/Docs/Gambar):</label>
+                <input type="file" id="task-file-input" onchange="handleFileChoose(event)" class="w-full p-2 rounded-xl border border-slate-300 text-xs bg-white cursor-pointer">
+                <span id="selected-file-label" class="text-[10px] text-blue-700 font-semibold mt-1 block"></span>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Atau Tautan File (Google Drive Link):</label>
+                <input type="text" id="task-link-input" placeholder="https://drive.google.com/file/..." class="w-full p-2.5 rounded-xl border border-slate-300 text-xs bg-white">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Catatan Tambahan untuk Guru Salsa:</label>
+              <input type="text" id="task-note-input" placeholder="Contoh: Lampiran grafik jawaban soal nomor 3 sudah disertakan" class="w-full p-2.5 rounded-xl border border-slate-300 text-xs bg-white">
+            </div>
+
+            <button type="submit" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center">
+              <i class="fa-solid fa-paper-plane mr-2"></i> Kirim & Serahkan Tugas Sekarang
+            </button>
+          </form>
+        </div>
+
+        <!-- ASSIGNMENTS CARDS GRID -->
+        <div id="assignments-list-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <!-- Rendered JS -->
+        </div>
+
+        <!-- REKAPITULASI PENYERAHAN TUGAS -->
+        <div class="pt-6 border-t border-slate-100 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-slate-800 text-base flex items-center">
+              <i class="fa-solid fa-clipboard-check text-teal-600 mr-2"></i> Rekap Penyerahan & Penilaian Tugas Siswa
+            </h3>
+            <span class="text-xs bg-blue-50 text-blue-700 font-bold px-3 py-1 rounded-full">Dashboard Guru</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700 uppercase font-semibold border-b border-slate-200">
+                  <th class="p-3.5 rounded-l-xl">Nama Siswa</th>
+                  <th class="p-3.5">Judul Tugas / Bab</th>
+                  <th class="p-3.5">Tanggal Pengumpulan</th>
+                  <th class="p-3.5">Berkas / Link Tautan</th>
+                  <th class="p-3.5">Status Pengumpulan</th>
+                  <th class="p-3.5 rounded-r-xl">Nilai & Catatan Guru</th>
+                </tr>
+              </thead>
+              <tbody id="assignments-table-body" class="divide-y divide-slate-100">
+                <!-- Rendered JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW VIEW: PROYEK KELOMPOK KREATIF -->
+    <section id="view-projects" class="hidden space-y-6">
+      <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold font-montserrat text-slate-800 flex items-center">
+              <i class="fa-solid fa-people-group text-indigo-600 mr-2.5"></i> Modul Proyek Kelompok Kreatif Kimia
+            </h2>
+            <p class="text-xs text-slate-500 mt-1">
+              Kolaborasi kelompok siswa untuk tugas proyek nyata (Mini Kampanye Kimia Hijau & Pengolahan Daur Ulang Limbah).
+            </p>
+          </div>
+          <span class="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full border border-indigo-200">
+            Bobot Nilai Rapor: 20%
+          </span>
+        </div>
+
+        <!-- FORM UNGGAH PROYEK KELOMPOK -->
+        <div class="p-5 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl border border-indigo-200 space-y-4 mb-8">
+          <h3 class="font-bold text-indigo-900 text-sm flex items-center">
+            <i class="fa-solid fa-folder-plus mr-2"></i> Pengumpulan Berkas Laporan Proyek Kelompok
+          </h3>
+          <form id="project-upload-form" onsubmit="handleProjectSubmit(event)" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Kelompok:</label>
+                <input type="text" id="project-group-name" placeholder="Contoh: Kelompok 1 (Alkana)" required class="w-full p-2.5 rounded-xl border border-slate-300 text-xs bg-white">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Anggota Kelompok:</label>
+                <input type="text" id="project-group-members" placeholder="Ahmad Budi, Siti Rahma, Doni" required class="w-full p-2.5 rounded-xl border border-slate-300 text-xs bg-white">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Link Laporan / Video Youtube Proyek:</label>
+                <input type="text" id="project-link" placeholder="https://youtube.com/watch?v=..." required class="w-full p-2.5 rounded-xl border border-slate-300 text-xs bg-white">
+              </div>
+            </div>
+            <button type="submit" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center">
+              <i class="fa-solid fa-paper-plane mr-2"></i> Kirim Laporan Proyek Kelompok
+            </button>
+          </form>
+        </div>
+
+        <!-- REKAPITULASI PROYEK KELOMPOK TABLE -->
+        <div class="space-y-4">
+          <h3 class="font-bold text-slate-800 text-sm">Daftar Penyerahan Proyek Kelompok Selesai</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700 uppercase font-semibold border-b border-slate-200">
+                  <th class="p-3.5 rounded-l-xl">Nama Kelompok</th>
+                  <th class="p-3.5">Anggota Tim</th>
+                  <th class="p-3.5">Tanggal Kirim</th>
+                  <th class="p-3.5">Link Laporan Proyek</th>
+                  <th class="p-3.5 rounded-r-xl">Nilai Kelompok</th>
+                </tr>
+              </thead>
+              <tbody id="projects-table-body" class="divide-y divide-slate-100">
+                <!-- Rendered JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW VIEW: REKAP NILAI RAPOR KOMPREHENSIF -->
+    <section id="view-rekap-nilai" class="hidden space-y-6">
+      <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold font-montserrat text-slate-800 flex items-center">
+              <i class="fa-solid fa-chart-line text-purple-600 mr-2.5"></i> Rekapitulasi Nilai & Rapor Siswa Komprehensif
+            </h2>
+            <p class="text-xs text-slate-500 mt-1">
+              Ringkasan nilai Asesmen Kuis (15%), Tugas/PR (15%), Ujian Praktik Lab (20%), Proyek Kelompok (20%), UTS (15%), dan UAS (15%).
+            </p>
+          </div>
+          <button onclick="window.print()" class="px-4 py-2 bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center">
+            <i class="fa-solid fa-print mr-2"></i> Cetak Rekapitulasi Rapor
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-gradient-to-r from-purple-700 to-indigo-700 text-white uppercase font-bold">
+                <th class="p-3.5 rounded-l-xl">Nama Siswa</th>
+                <th class="p-3.5">Rata Kuis (15%)</th>
+                <th class="p-3.5">Rata Tugas (15%)</th>
+                <th class="p-3.5">Praktik Lab (20%)</th>
+                <th class="p-3.5">Proyek (20%)</th>
+                <th class="p-3.5">UTS (15%)</th>
+                <th class="p-3.5">UAS (15%)</th>
+                <th class="p-3.5 text-center rounded-r-xl">Nilai Akhir Rapor</th>
+              </tr>
+            </thead>
+            <tbody id="rekap-nilai-table-body" class="divide-y divide-slate-100">
+              <!-- Rendered JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: KALENDER AKADEMIK PAGE -->
+    <section id="view-calendar" class="hidden space-y-6">
+      <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold font-montserrat text-slate-800 flex items-center">
+              <i class="fa-solid fa-calendar-days text-amber-500 mr-2.5"></i> Kalender Akademik & Agenda Evaluasi Complete
+            </h2>
+            <p class="text-xs text-slate-500 mt-1">
+              Jadwal rilis bab, UTS, UAS (PAS), Ujian Praktik Lab, Remedial, dan Libur Sekolah T.A 2026/2027.
+            </p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <!-- Filter Event Category -->
+            <select id="calendar-category-filter" onchange="renderCalendarTable()" class="p-2 bg-slate-100 border border-slate-200 text-xs font-bold rounded-xl text-slate-700">
+              <option value="all">Semua Jenis Agenda</option>
+              <option value="Pembelajaran">📖 Rilis Bab Pembelajaran</option>
+              <option value="Ujian">📝 UTS / UAS / Evaluasi</option>
+              <option value="Praktikum">🧪 Ujian Praktik Lab</option>
+              <option value="Proyek">👥 Proyek Kelompok Kreatif</option>
+              <option value="Libur">🎉 Hari Libur Sekolah</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Calendar Timeline View -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700 uppercase font-semibold border-b border-slate-200">
+                <th class="p-3.5 rounded-l-xl">Agenda / Topik Akademik</th>
+                <th class="p-3.5">Kategori Event</th>
+                <th class="p-3.5">Semester</th>
+                <th class="p-3.5">Jadwal Tanggal</th>
+                <th class="p-3.5 text-center rounded-r-xl">Status & Akses</th>
+              </tr>
+            </thead>
+            <tbody id="calendar-table-body" class="divide-y divide-slate-100">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: CHAPTER DETAIL (7-STEP LEARNING FLOW) -->
+    <section id="view-chapter-detail" class="hidden space-y-6">
+      
+      <!-- CHAPTER HEADER CARD -->
+      <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 relative overflow-hidden">
+        <div class="flex items-center justify-between mb-2">
+          <button onclick="navigateTo('chapters')" class="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center">
+            <i class="fa-solid fa-arrow-left mr-1.5"></i> Kembali ke Daftar Bab
+          </button>
+          <span id="detail-semester-badge" class="px-3 py-1 bg-teal-100 text-teal-700 text-xs font-bold rounded-full">
+            Semester 1
+          </span>
+        </div>
+        
+        <h2 id="detail-chapter-title" class="text-2xl font-bold font-montserrat text-slate-800">
+          Bab --: Loading Title
+        </h2>
+        <p id="detail-chapter-desc" class="text-xs text-slate-600 mt-2 max-w-3xl leading-relaxed">
+          Deskripsi singkat bab...
+        </p>
+
+        <!-- Stepper Navigation Bar -->
+        <div class="mt-6 pt-4 border-t border-slate-100 overflow-x-auto custom-scrollbar">
+          <div class="flex space-x-2 min-w-max pb-2">
+            <button onclick="switchStep(1)" id="step-tab-1" class="step-tab-btn px-4 py-2 rounded-xl text-xs font-semibold transition bg-teal-600 text-white shadow-sm">
+              1. Identitas & Tujuan
+            </button>
+            <button onclick="switchStep(2)" id="step-tab-2" class="step-tab-btn px-4 py-2 rounded-xl text-xs font-semibold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+              2. Peta Konsep
+            </button>
+            <button onclick="switchStep(3)" id="step-tab-3" class="step-tab-btn px-4 py-2 rounded-xl text-xs font-semibold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+              3. YouTube Video
+            </button>
+            <button onclick="switchStep(4)" id="step-tab-4" class="step-tab-btn px-4 py-2 rounded-xl text-xs font-semibold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+              4. Slide PPT / E-Book
+            </button>
+            <button onclick="switchStep(5)" id="step-tab-5" class="step-tab-btn px-4 py-2 rounded-xl text-xs font-semibold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+              5. Practical Lab
+            </button>
+            <button onclick="switchStep(6)" id="step-tab-6" class="step-tab-btn px-4 py-2 rounded-xl text-xs font-semibold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+              6. Kuis Evaluasi
+            </button>
+            <button onclick="switchStep(7)" id="step-tab-7" class="step-tab-btn px-4 py-2 rounded-xl text-xs font-semibold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+              7. Refleksi Siswa
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP CONTENTS -->
+      <div id="step-content-container" class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200 min-h-[400px]">
+        
+        <!-- STEP 1: IDENTITAS & TUJUAN -->
+        <div id="step-content-1" class="step-content space-y-6">
+          <div class="border-l-4 border-teal-500 pl-4 py-1">
+            <h3 class="font-bold text-lg text-slate-800">Langkah 1: Identitas & Tujuan Pembelajaran</h3>
+            <p class="text-xs text-slate-500">Pahami kompetensi dasar yang akan diraih dalam modul bab ini.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-teal-50/60 p-5 rounded-2xl border border-teal-100">
+              <h4 class="font-bold text-teal-800 text-sm mb-3 flex items-center">
+                <i class="fa-solid fa-bullseye text-teal-600 mr-2"></i> Capaian & Tujuan Pembelajaran
+              </h4>
+              <ul id="detail-tujuan-list" class="space-y-2 text-xs text-slate-700 list-disc list-inside">
+                <!-- Injected JS -->
+              </ul>
+            </div>
+
+            <div class="bg-purple-50/60 p-5 rounded-2xl border border-purple-100">
+              <h4 class="font-bold text-purple-800 text-sm mb-3 flex items-center">
+                <i class="fa-solid fa-key text-purple-600 mr-2"></i> Kata Kunci Kunci Utama
+              </h4>
+              <div id="detail-keywords-container" class="flex flex-wrap gap-2">
+                <!-- Injected JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: PETA KONSEP -->
+        <div id="step-content-2" class="step-content hidden space-y-6">
+          <div class="border-l-4 border-blue-500 pl-4 py-1">
+            <h3 class="font-bold text-lg text-slate-800">Langkah 2: Peta Konsep & Mind Map Materi</h3>
+            <p class="text-xs text-slate-500">Gambaran umum hubungan antar konsep dasar.</p>
+          </div>
+
+          <div id="detail-peta-konsep-box" class="p-6 bg-slate-50 rounded-2xl border border-slate-200 text-center">
+            <!-- Injected Mindmap Visual -->
+          </div>
+        </div>
+
+        <!-- STEP 3: YOUTUBE EMBEDDED VIDEO -->
+        <div id="step-content-3" class="step-content hidden space-y-6">
+          <div class="border-l-4 border-red-500 pl-4 py-1">
+            <h3 class="font-bold text-lg text-slate-800">Langkah 3: Video Pembelajaran YouTube</h3>
+            <p class="text-xs text-slate-500">Simak penjelasan materi langsung dari video terintegrasi.</p>
+          </div>
+
+          <div class="aspect-video w-full max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-black">
+            <iframe id="detail-youtube-iframe" class="w-full h-full" src="" title="YouTube Video Player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <!-- STEP 4: SLIDE PPT / E-BOOK PDF -->
+        <div id="step-content-4" class="step-content hidden space-y-6">
+          <div class="border-l-4 border-amber-500 pl-4 py-1">
+            <h3 class="font-bold text-lg text-slate-800">Langkah 4: Pendamping Materi (PPT & Modul E-Book)</h3>
+            <p class="text-xs text-slate-500">Pelajari bahan tayang presentasi slide atau ringkasan buku teks PDF.</p>
+          </div>
+
+          <div id="detail-resource-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Dynamically populated PPT / PDF reader cards -->
+          </div>
+        </div>
+
+        <!-- STEP 5: PRACTICAL VIRTUAL LAB -->
+        <div id="step-content-5" class="step-content hidden space-y-6">
+          <div class="border-l-4 border-purple-500 pl-4 py-1">
+            <h3 class="font-bold text-lg text-slate-800">Langkah 5: Practical Virtual Lab / Simulasi</h3>
+            <p class="text-xs text-slate-500">Uji coba simulasi kimia sederhana secara mandiri.</p>
+          </div>
+
+          <div class="p-6 bg-purple-50/50 rounded-2xl border border-purple-200 text-center space-y-4">
+            <div class="w-16 h-16 mx-auto bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-3xl">
+              <i class="fa-solid fa-flask"></i>
+            </div>
+            <h4 id="detail-lab-title" class="font-bold text-slate-800 text-base">Lab Virtual Bab Ini</h4>
+            <p id="detail-lab-desc" class="text-xs text-slate-600 max-w-lg mx-auto">
+              Simulasi praktikum khusus bab ini.
+            </p>
+            <button onclick="navigateTo('virtual-lab')" class="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-md transition inline-flex items-center">
+              <i class="fa-solid fa-flask-vial mr-2"></i> Buka Arena Lab Virtual
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 6: KUIS EVALUASI -->
+        <div id="step-content-6" class="step-content hidden space-y-6">
+          <div class="border-l-4 border-emerald-500 pl-4 py-1 flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-lg text-slate-800">Langkah 6: Kuis Evaluasi Pemahaman</h3>
+              <p class="text-xs text-slate-500">Jawab soal kuis interaktif dengan koreksi & nilai otomatis.</p>
+            </div>
+            <div id="quiz-score-badge" class="hidden px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">
+              Nilai: <span id="quiz-score-val">0</span>/100
+            </div>
+          </div>
+
+          <!-- Quiz Form -->
+          <div id="quiz-questions-container" class="space-y-6">
+            <!-- Questions rendered via JS -->
+          </div>
+
+          <div id="quiz-action-bar" class="pt-4 border-t border-slate-100 flex justify-end">
+            <button onclick="submitQuiz()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center">
+              <i class="fa-solid fa-check-circle mr-2"></i> Submit & Hitung Nilai Kuis
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 7: REFLEKSI SISWA -->
+        <div id="step-content-7" class="step-content hidden space-y-6">
+          <div class="border-l-4 border-indigo-500 pl-4 py-1">
+            <h3 class="font-bold text-lg text-slate-800">Langkah 7: Refleksi Pembelajaran Siswa</h3>
+            <p class="text-xs text-slate-500">Tuliskan ringkasan pemahaman dan kendala yang kamu temui.</p>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Bagaimana tingkat pemahamanmu terhadap bab ini?</label>
+              <div class="flex space-x-3">
+                <label class="flex items-center space-x-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200 cursor-pointer text-xs">
+                  <input type="radio" name="reflection-rating" value="Sangat Paham" class="text-teal-600" checked>
+                  <span>😃 Sangat Paham</span>
+                </label>
+                <label class="flex items-center space-x-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200 cursor-pointer text-xs">
+                  <input type="radio" name="reflection-rating" value="Cukup Paham" class="text-teal-600">
+                  <span>🙂 Cukup Paham</span>
+                </label>
+                <label class="flex items-center space-x-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200 cursor-pointer text-xs">
+                  <input type="radio" name="reflection-rating" value="Perlu Belajar Lagi" class="text-teal-600">
+                  <span>🤔 Perlu Belajar Lagi</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Catatan Refleksi & Pertanyaan untuk Guru Salsa:</label>
+              <textarea id="reflection-text" rows="4" class="w-full text-xs p-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="Tuliskan ringkasan singkat atau hal yang ingin ditanyakan..."></textarea>
+            </div>
+
+            <button onclick="saveReflection()" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center">
+              <i class="fa-solid fa-floppy-disk mr-2"></i> Simpan Refleksi & Selesaikan Bab
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM STEP NAVIGATION BUTTONS -->
+      <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200">
+        <button id="prev-step-btn" onclick="changeStepRelative(-1)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition flex items-center">
+          <i class="fa-solid fa-chevron-left mr-1.5"></i> Langkah Sebelumnya
+        </button>
+        <span id="step-indicator-text" class="text-xs font-semibold text-slate-500">Langkah 1 dari 7</span>
+        <button id="next-step-btn" onclick="changeStepRelative(1)" class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs rounded-xl transition flex items-center">
+          Langkah Selanjutnya <i class="fa-solid fa-chevron-right ml-1.5"></i>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- VIEW 5: VIRTUAL LAB -->
+    <section id="view-virtual-lab" class="hidden space-y-6">
+      <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-xl font-bold font-montserrat text-slate-800 flex items-center">
+              <i class="fa-solid fa-vial-circle-check text-purple-600 mr-2"></i> Virtual Lab Kimia: Ph Titrasi Asam-Basa
+            </h2>
+            <p class="text-xs text-slate-500 mt-1">
+              Uji coba pencampuran indikator PP & Asam/Basa secara interaktif!
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Controls -->
+          <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-4 text-xs">
+            <h3 class="font-bold text-slate-800 border-b pb-2">Kontrol Eksperimen</h3>
+            
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Pilih Larutan Utama:</label>
+              <select id="lab-solution-select" onchange="updateLabState()" class="w-full p-2.5 rounded-xl border border-slate-300 font-medium">
+                <option value="acid">Larutan HCl (Asam Kuat, pH 1.0)</option>
+                <option value="neutral">Air Murni H2O (Netral, pH 7.0)</option>
+                <option value="base">Larutan NaOH (Basa Kuat, pH 13.0)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Tambahkan Indikator PP (Fenolftalein):</label>
+              <button onclick="addPPIndicator()" class="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl transition">
+                <i class="fa-solid fa-droplet mr-1"></i> Teteskan PP (3 Tetes)
+              </button>
+            </div>
+
+            <div class="pt-2 border-t">
+              <button onclick="resetLab()" class="w-full py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition">
+                <i class="fa-solid fa-rotate-left mr-1"></i> Reset Gelas Kimia
+              </button>
+            </div>
+          </div>
+
+          <!-- Beaker Visualizer -->
+          <div class="md:col-span-2 p-6 bg-slate-900 rounded-2xl text-white flex flex-col items-center justify-center relative min-h-[300px]">
+            <!-- Beaker Container -->
+            <div class="relative w-40 h-52 border-4 border-slate-300/40 border-t-0 rounded-b-3xl flex flex-col justify-end p-2 overflow-hidden bg-white/5 backdrop-blur-xs">
+              <!-- Liquid Content -->
+              <div id="beaker-liquid" class="w-full h-3/4 rounded-b-2xl transition-all duration-700 bg-cyan-400/30 relative">
+                <!-- Bubbles animation -->
+                <div class="absolute bottom-2 left-4 w-2 h-2 rounded-full bg-white/40 animate-ping"></div>
+                <div class="absolute bottom-6 right-6 w-3 h-3 rounded-full bg-white/30 animate-pulse"></div>
+              </div>
+            </div>
+
+            <div class="mt-4 text-center">
+              <p class="text-xs text-slate-400">Status pH Terdeteksi:</p>
+              <p id="lab-ph-display" class="text-2xl font-bold text-cyan-400 font-montserrat">pH: 1.0 (Asam)</p>
+              <p id="lab-color-desc" class="text-xs text-slate-300 mt-1">Warna: Bening / Tidak Berwarna</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 6: CERTIFICATE -->
+    <section id="view-certificate" class="hidden space-y-6">
+      <div class="bg-white p-6 sm:p-10 rounded-3xl shadow-sm border border-slate-200 text-center max-w-3xl mx-auto">
+        <div class="border-8 border-double border-teal-600 p-8 rounded-2xl bg-gradient-to-b from-teal-50/30 to-white relative">
+          
+          <div class="w-16 h-16 mx-auto bg-amber-400 text-slate-900 rounded-full flex items-center justify-center text-2xl font-bold mb-4 shadow-md">
+            <i class="fa-solid fa-award"></i>
+          </div>
+
+          <h2 class="font-montserrat font-extrabold text-2xl text-slate-800 tracking-wide uppercase">Sertifikat Kelulusan Modul</h2>
+          <p class="text-xs text-teal-700 font-semibold mt-1">SMA Nusabangsa - Pembelajaran Kimia Kelas 11</p>
+
+          <p class="text-xs text-slate-500 my-6">Diberikan secara resmi kepada:</p>
+          <h3 id="cert-student-name" class="font-montserrat font-bold text-2xl text-teal-800 underline decoration-amber-400 decoration-2">
+            Ahmad Budi
+          </h3>
+
+          <p class="text-xs text-slate-600 max-w-md mx-auto my-6 leading-relaxed">
+            Atas ketuntasan dan partisipasi aktif dalam menyelesaikan seluruh modul pembelajaran Kimia Kelas 11 Kurikulum Merdeka di bawah bimbingan Salsa Ashri Salsabila, M.Pd.
+          </p>
+
+          <div class="flex justify-between items-end pt-8 border-t border-slate-200 text-left">
+            <div>
+              <p class="text-[10px] text-slate-400">Tanggal Terbit:</p>
+              <p id="cert-date" class="text-xs font-bold text-slate-700">25 Oktober 2026</p>
+            </div>
+            <div class="text-center">
+              <div class="w-24 h-12 border-b border-slate-400 mx-auto flex items-end justify-center pb-1">
+                <span class="text-xs italic text-teal-700 font-serif font-bold">Salsa Ashri</span>
+              </div>
+              <p class="text-xs font-bold text-slate-800 mt-1">Salsa Ashri Salsabila, M.Pd.</p>
+              <p class="text-[10px] text-slate-400">Guru Pengampu Kimia</p>
+            </div>
+          </div>
+
+        </div>
+
+        <button onclick="window.print()" class="mt-6 px-6 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs rounded-xl shadow-md transition inline-flex items-center">
+          <i class="fa-solid fa-print mr-2"></i> Cetak / Simpan PDF Sertifikat
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- LOCKED MODAL POPUP -->
+  <div id="locked-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl animate-bounce-short">
+      <div class="w-16 h-16 mx-auto bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-3xl">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <h3 class="font-montserrat font-bold text-lg text-slate-800">Akses Modul Belum Dibuka!</h3>
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Maaf, materi bab ini masih dikunci. Jadwal rilis resmi bab ini adalah pada tanggal:
+      </p>
+      <div id="locked-modal-date" class="bg-amber-50 text-amber-800 font-bold text-sm py-2 px-4 rounded-xl border border-amber-200">
+        15 November 2026
+      </div>
+      <p class="text-[11px] text-slate-400">
+        Silakan selesaikan bab sebelumnya atau tunggu hingga tanggal rilis tiba.
+      </p>
+      <div class="pt-2">
+        <button onclick="closeLockedModal()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-xl transition">
+          Mengerti & Kembali
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 py-6 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-2">
+      <p class="font-semibold text-slate-700">LMS Kimia SMA Nusabangsa Kelas 11 &copy; 2026</p>
+      <p>Dikembangkan untuk Guru Salsa Ashri Salsabila, M.Pd.</p>
+    </div>
+  </footer>
+
+  <!-- APPLICATION LOGIC SCRIPT -->
+  <script>
+    // GLOBAL DATA STATE
+    const APP_STATE = {
+      role: 'siswa', // 'siswa' or 'guru'
+      overrideLock: false,
+      currentView: 'home',
+      activeChapterId: 1,
+      activeStep: 1,
+      currentFilterSem: 'all',
+      todayDate: new Date('2026-10-25'), // System simulation date
+      userProgress: JSON.parse(localStorage.getItem('nusabangsa_progress')) || {
+        completedChapters: [],
+        quizScores: {},
+        reflections: {}
+      },
+      attendanceList: JSON.parse(localStorage.getItem('nusabangsa_attendance')) || [
+        { id: 1, name: "Ahmad Budi", date: "2026-10-24 07:30", status: "Hadir", note: "Mengikuti sesi KBM teratur" },
+        { id: 2, name: "Siti Rahma", date: "2026-10-24 07:35", status: "Hadir", note: "Hadir tepat waktu" },
+        { id: 3, name: "Doni Pratama", date: "2026-10-24 08:00", status: "Izin", note: "Lomba Olimpiade Sains" }
+      ],
+      assignmentSubmissions: JSON.parse(localStorage.getItem('nusabangsa_assignments')) || [
+        { id: 1, taskId: 1, taskTitle: "Tugas 1: Tata Nama Hidrokarbon", studentName: "Ahmad Budi", date: "2026-08-15", status: "Sudah Mengumpulkan", score: 95, link: "https://drive.google.com/file/d/sample1", note: "Sangat rapi & tepat" },
+        { id: 2, taskId: 2, taskTitle: "Tugas 2: Persamaan Termokimia", studentName: "Ahmad Budi", date: "2026-09-02", status: "Sudah Mengumpulkan", score: 88, link: "https://drive.google.com/file/d/sample2", note: "Bagus, perbaiki nomor 3" },
+        { id: 3, taskId: 5, taskTitle: "Tugas 5: Diagram pH Asam Basa", studentName: "Ahmad Budi", date: "-", status: "Belum Mengumpulkan", score: "-", link: "-", note: "-" }
+      ],
+      projectSubmissions: JSON.parse(localStorage.getItem('nusabangsa_projects')) || [
+        { id: 1, groupName: "Kelompok 1 (Alkana)", members: "Ahmad Budi, Siti Rahma", date: "2026-10-18", link: "https://youtube.com/watch?v=sample1", score: 94 },
+        { id: 2, groupName: "Kelompok 2 (Termo)", members: "Doni Pratama, Rian", date: "2026-10-20", link: "https://drive.google.com/file/sample2", score: 90 }
+      ],
+      rekapRaporList: JSON.parse(localStorage.getItem('nusabangsa_rapor')) || [
+        { id: 1, name: "Ahmad Budi", rataKuis: 90, rataTugas: 92, praktikLab: 88, proyekKelompok: 95, uts: 86, uas: 89 },
+        { id: 2, name: "Siti Rahma", rataKuis: 94, rataTugas: 95, praktikLab: 90, proyekKelompok: 96, uts: 92, uas: 91 },
+        { id: 3, name: "Doni Pratama", rataKuis: 82, rataTugas: 85, praktikLab: 84, proyekKelompok: 88, uts: 80, uas: 83 }
+      ]
+    };
+
+    // ASSIGNMENTS LIST DATA
+    const ASSIGNMENTS_DATA = [
+      { id: 1, chapterId: 1, title: "Tugas 1: Tata Nama & Isomer Hidrokarbon", deadline: "2026-08-18", desc: "Kerjakan 5 soal struktur alkana dan tentukan isomer dari C5H12 di buku catatan." },
+      { id: 2, chapterId: 2, title: "Tugas 2: Persamaan Termokimia & Hess", deadline: "2026-09-05", desc: "Buat analisis reaksi eksoterm & endoterm dari percobaan reaksi pembakaran spiritus." },
+      { id: 3, chapterId: 3, title: "Tugas 3: Analisis Grafik Laju Reaksi", deadline: "2026-09-25", desc: "Hitung orde reaksi berdasarkan data eksperimen pengaruh suhu dan konsentrasi." },
+      { id: 4, chapterId: 4, title: "Tugas 4: Pergeseran Kesetimbangan Le Chatelier", deadline: "2026-10-15", desc: "Jawablah studi kasus produksi Amonia industri pada bab kesetimbangan." },
+      { id: 5, chapterId: 5, title: "Tugas 5: Diagram Skala pH Asam Basa", deadline: "2026-11-01", desc: "Buatlah ringkasan tabel warna indikator universal dan harga pH larutan sehari-hari." }
+    ];
+
+    // CHAPTERS DATA DEFINITION (12 CHAPTERS)
+    const CHAPTERS_DATA = [
+      // SEMESTER 1
+      {
+        id: 1,
+        semester: 1,
+        title: "Hidrokarbon & Minyak Bumi",
+        badge: "Bab 1",
+        releaseDate: "2026-08-01",
+        desc: "Memahami struktur alkana, alkena, alkuna, serta proses fraksinasi minyak bumi secara mendalam.",
+        tujuan: [
+          "Menganalisis kekhasan atom karbon dalam membentuk rantai panjang.",
+          "Menentukan rumus struktur dan isomer hidrokarbon.",
+          "Menjelaskan proses penyulingan bertingkat minyak bumi."
+        ],
+        keywords: ["Alkana", "Alkena", "Alkuna", "Fraksinasi", "Karbon"],
+        petaKonsep: "Hidrokarbon ➔ Jenuh (Alkana) & Tak Jenuh (Alkena, Alkuna) ➔ Minyak Bumi (Fraksinasi)",
+        youtubeUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        resourceType: "Slide PPT Hydrocarbon.pptx",
+        resourceUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        quiz: [
+          { q: "Manakah rumus molekul yang termasuk deret alkana?", options: ["C3H6", "C4H10", "C2H2", "C5H10"], ans: 1 },
+          { q: "Fraksi minyak bumi titik didih terendah adalah...", options: ["Bensin", "Gas LPG", "Solar", "Kerosin"], ans: 1 }
+        ]
+      },
+      {
+        id: 2,
+        semester: 1,
+        title: "Termokimia & Perubahan Entalpi",
+        badge: "Bab 2",
+        releaseDate: "2026-08-20",
+        desc: "Reaksi Eksoterm, Endoterm, Hukum Hess, dan perhitungan kalorimeter.",
+        tujuan: [
+          "Membedakan sistem dan lingkungan serta reaksi eksoterm/endoterm.",
+          "Menghitung perubahan entalpi dengan Hukum Hess dan energi ikatan."
+        ],
+        keywords: ["Eksoterm", "Endoterm", "Hukum Hess", "Kalorimeter"],
+        petaKonsep: "Termokimia ➔ Reaksi (Eksoterm/Endoterm) ➔ Hukum Hess & Energi Ikatan",
+        youtubeUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        resourceType: "Modul Termokimia.pdf",
+        resourceUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        quiz: [
+          { q: "Ciri khas reaksi eksoterm adalah...", options: ["Melepas kalor, ΔH negatif", "Menyerap kalor, ΔH positif", "Suhu lingkungan turun", "Tidak bereaksi"], ans: 0 }
+        ]
+      },
+      {
+        id: 3,
+        semester: 1,
+        title: "Laju Reaksi & Teori Tumbukan",
+        badge: "Bab 3",
+        releaseDate: "2026-09-10",
+        desc: "Faktor penentu laju reaksi: konsentrasi, suhu, luas permukaan, dan katalis.",
+        tujuan: ["Menjelaskan teori tumbukan dan faktor pendukung kecepatan reaksi."],
+        keywords: ["Katalis", "Suhu", "Teori Tumbukan", "Orde Reaksi"],
+        petaKonsep: "Laju Reaksi ➔ Tumbukan Efektif ➔ Faktor (Konsentrasi, Suhu, Katalis)",
+        youtubeUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        resourceType: "PPT Laju Reaksi.pptx",
+        resourceUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        quiz: [
+          { q: "Fungsi katalis adalah...", options: ["Menurunkan energi aktivasi", "Menambah produk", "Menaikkan suhu", "Memperbesar volume"], ans: 0 }
+        ]
+      },
+      {
+        id: 4,
+        semester: 1,
+        title: "Kesetimbangan Kimia",
+        badge: "Bab 4",
+        releaseDate: "2026-10-01",
+        desc: "Asas Le Chatelier, Tetapan Kesetimbangan Kc dan Kp.",
+        tujuan: ["Menganalisis pergeseran kesetimbangan reaksi dinamis."],
+        keywords: ["Le Chatelier", "Tetapan Kc", "Pergeseran"],
+        petaKonsep: "Kesetimbangan ➔ Asas Le Chatelier ➔ Tetapan Kc & Kp",
+        youtubeUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        resourceType: "Slide Kesetimbangan.pptx",
+        resourceUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        quiz: [
+          { q: "Memperbesar volume akan menggeser kesetimbangan ke...", options: ["Jumlah mol gas lebih besar", "Jumlah mol gas lebih kecil", "Tidak bergeser", "Reaksi eksoterm"], ans: 0 }
+        ]
+      },
+      {
+        id: 5,
+        semester: 1,
+        title: "Asam & Basa",
+        badge: "Bab 5",
+        releaseDate: "2026-10-20",
+        desc: "Teori Arrhenius, Bronsted-Lowry, Lewis, serta skala pH larutan.",
+        tujuan: ["Menentukan sifat asam basa dan menghitung nilai pH secara tepat."],
+        keywords: ["Arrhenius", "Bronsted-Lowry", "pH", "Indikator PP"],
+        petaKonsep: "Asam Basa ➔ Teori ➔ Derajat Keasaman (pH) ➔ Indikator",
+        youtubeUrl: "https://www.youtube.com/embed/ABJjRldplC4",
+        resourceType: "Modul Asam Basa Lengkap.pdf",
+        resourceUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        quiz: [
+          { q: "Indikator PP dalam larutan basa berwarna...", options: ["Bening", "Merah Muda (Pink)", "Kuning", "Biru"], ans: 1 }
+        ]
+      },
+      {
+        id: 6,
+        semester: 1,
+        title: "Garam Terhidrolisis",
+        badge: "Bab 6",
+        releaseDate: "2026-11-10",
+        desc: "Garam bersifat Asam, Basa, atau Netral dari hasil penetralan.",
+        tujuan: ["Menganalisis sifat hidrolisis garam dari asam-basa pembentuknya."],
+        keywords: ["Hidrolisis", "Garam Asam", "Garam Basa"],
+        petaKonsep: "Garam ➔ Hidrolisis Partial / Total ➔ pH Garam",
+        youtubeUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        resourceType: "PPT Hidrolisis Garam.pptx",
+        resourceUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        quiz: [
+          { q: "Garam dari asam kuat dan basa lemah bersifat...", options: ["Asam", "Basa", "Netral", "Amfoter"], ans: 0 }
+        ]
+      },
+
+      // SEMESTER 2
+      {
+        id: 7,
+        semester: 2,
+        title: "Larutan Penyangga (Buffer)",
+        badge: "Bab 7",
+        releaseDate: "2027-01-10",
+        desc: "Sistem penyangga pH darah dan perhitungan larutan buffer.",
+        tujuan: ["Menjelaskan kerja sistem penyangga dalam menjaga kestabilan pH."],
+        keywords: ["Buffer", "Prinsip Penyangga", "pH Darah"],
+        petaKonsep: "Buffer ➔ Penyangga Asam & Basa ➔ Aplikasi Biologis",
+        youtubeUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        resourceType: "Slide Larutan Penyangga.pptx",
+        resourceUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        quiz: [
+          { q: "Penyangga utama dalam darah manusia adalah...", options: ["Karbonat (H2CO3/HCO3-)", "Asetat", "Fosfat", "Sitrat"], ans: 0 }
+        ]
+      },
+      {
+        id: 8,
+        semester: 2,
+        title: "Titrasi Asam-Basa",
+        badge: "Bab 8",
+        releaseDate: "2027-02-01",
+        desc: "Penentuan konsentrasi larutan dengan titik ekuivalen dan indikator.",
+        tujuan: ["Melakukan perhitungan kadar konsentrasi larutan melalui titrasi."],
+        keywords: ["Titran", "Titrat", "Titik Ekuivalen"],
+        petaKonsep: "Titrasi ➔ Titik Ekuivalen ➔ Stoikiometri Penetralan",
+        youtubeUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        resourceType: "Modul Titrasi Praktikum.pdf",
+        resourceUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        quiz: [
+          { q: "Saat mol H+ sama dengan mol OH- dinamakan...", options: ["Titik Ekuivalen", "Titik Akhir", "Titik Jenuh", "Titik Didih"], ans: 0 }
+        ]
+      },
+      {
+        id: 9,
+        semester: 2,
+        title: "Kelarutan & Ksp",
+        badge: "Bab 9",
+        releaseDate: "2027-02-20",
+        desc: "Hasil Kali Kelarutan (Ksp), pembentukan endapan, dan efek ion sejenis.",
+        tujuan: ["Menghitung kelarutan dan memprediksi pembentukan endapan."],
+        keywords: ["Ksp", "Kelarutan", "Endapan", "Ion Sejenis"],
+        petaKonsep: "Ksp ➔ Batas Kelarutan ➔ Qsp vs Ksp ➔ Endapan",
+        youtubeUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        resourceType: "PPT Kelarutan Ksp.pptx",
+        resourceUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        quiz: [
+          { q: "Jika Qsp > Ksp maka larutan...", options: ["Terbentuk endapan", "Belum jenuh", "Tepat jenuh", "Bening"], ans: 0 }
+        ]
+      },
+      {
+        id: 10,
+        semester: 2,
+        title: "Sistem Koloid",
+        badge: "Bab 10",
+        releaseDate: "2027-03-15",
+        desc: "Jenis-jenis koloid, efek Tyndall, gerak Brown, dan koagulasi.",
+        tujuan: ["Mengidentifikasi jenis dan sifat-sifat koloid dalam kehidupan sehari-hari."],
+        keywords: ["Efek Tyndall", "Gerak Brown", "Emulsi", "Sol"],
+        petaKonsep: "Koloid ➔ Sifat (Tyndall, Brown) ➔ Jenis (Emulsi, Sol, Aerosol)",
+        youtubeUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        resourceType: "Slide Sistem Koloid.pptx",
+        resourceUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        quiz: [
+          { q: "Penghamburan cahaya oleh koloid disebut...", options: ["Efek Tyndall", "Gerak Brown", "Koagulasi", "Dialisis"], ans: 0 }
+        ]
+      },
+      {
+        id: 11,
+        semester: 2,
+        title: "Sifat Koligatif Larutan",
+        badge: "Bab 11",
+        releaseDate: "2027-04-05",
+        desc: "Penurunan tekanan uap, kenaikan titik didih, dan tekanan osmotik.",
+        tujuan: ["Menganalisis pengaruh zat terlarut terhadap sifat fisik larutan."],
+        keywords: ["Koligatif", "Tekanan Osmotik", "Titik Didih"],
+        petaKonsep: "Koligatif ➔ ΔTb, ΔTf, ΔP, π ➔ Elektrolit vs Non-Elektrolit",
+        youtubeUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        resourceType: "Modul Sifat Koligatif.pdf",
+        resourceUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        quiz: [
+          { q: "Penambahan zat terlarut menyebabkan titik didih...", options: ["Naik", "Turun", "Tetap", "Nol"], ans: 0 }
+        ]
+      },
+      {
+        id: 12,
+        semester: 2,
+        title: "Kimia Hijau & Lingkungan",
+        badge: "Bab 12",
+        releaseDate: "2027-04-25",
+        desc: "12 Prinsip Kimia Hijau, pemanasan global, dan energi ramah lingkungan.",
+        tujuan: ["Merancang solusi ramah lingkungan berbasis 12 prinsip kimia hijau."],
+        keywords: ["Green Chemistry", "Biodegradable", "Daur Ulang"],
+        petaKonsep: "Kimia Hijau ➔ 12 Prinsip ➔ Pengolahan Limbah & Bioplastik",
+        youtubeUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        resourceType: "PPT Green Chemistry.pptx",
+        resourceUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        quiz: [
+          { q: "Prinsip utama Green Chemistry adalah...", options: ["Mencegah limbah dari awal", "Membakar limbah", "Impor bahan kimia", "Menambah polusi"], ans: 0 }
+        ]
+      }
+    ];
+
+    // INITIALIZATION & RENDER LOGIC
+    window.onload = function() {
+      const todayStr = formatDateIndo(APP_STATE.todayDate);
+      const calendarDateEl = document.getElementById('calendar-current-date-display');
+      const attenDateEl = document.getElementById('attendance-today-date');
+      if(calendarDateEl) calendarDateEl.innerText = todayStr;
+      if(attenDateEl) attenDateEl.innerText = todayStr;
+
+      renderFeaturedChapters();
+      renderChaptersGrid();
+      renderCalendarTable();
+      renderAttendanceTable();
+      renderTaskSelectOptions();
+      renderAssignmentsGrid();
+      renderAssignmentsTable();
+      renderProjectsTable();
+      renderRekapRaporTable();
+      updateProgressUI();
+    };
+
+    function navigateTo(viewName) {
+      APP_STATE.currentView = viewName;
+      
+      const views = ['home', 'chapters', 'attendance', 'assignments', 'projects', 'rekap-nilai', 'calendar', 'chapter-detail', 'virtual-lab', 'certificate'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if(el) el.classList.add('hidden');
+      });
+
+      const targetView = document.getElementById(`view-${viewName}`);
+      if(targetView) targetView.classList.remove('hidden');
+
+      const navButtons = ['home', 'chapters', 'attendance', 'assignments', 'projects', 'rekap-nilai', 'calendar', 'virtual-lab', 'certificate'];
+      navButtons.forEach(b => {
+        const navEl = document.getElementById(`nav-${b}`);
+        if(navEl) {
+          if(b === viewName) {
+            navEl.className = "px-3 py-2 rounded-lg transition text-teal-700 bg-teal-50 font-bold";
+          } else {
+            navEl.className = "px-3 py-2 rounded-lg transition text-slate-600 hover:bg-slate-100";
+          }
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    let selectedFileObj = null;
+
+    function handleFileChoose(e) {
+      const file = e.target.files[0];
+      if(file) {
+        selectedFileObj = file;
+        document.getElementById('selected-file-label').innerText = `📄 File Dipilih: ${file.name} (${Math.round(file.size/1024)} KB)`;
+      }
+    }
+
+    function handleAssignmentFormSubmit(e) {
+      e.preventDefault();
+      const taskId = parseInt(document.getElementById('task-select-input').value);
+      const linkInput = document.getElementById('task-link-input').value;
+      const noteInput = document.getElementById('task-note-input').value || "Diserahkan tepat waktu";
+      
+      let finalLink = linkInput;
+      if(!finalLink && selectedFileObj) {
+        finalLink = `https://lms-storage.nusabangsa.sch.id/files/${selectedFileObj.name}`;
+      } else if(!finalLink) {
+        finalLink = "https://drive.google.com/file/d/sample_file";
+      }
+
+      const taskObj = ASSIGNMENTS_DATA.find(t => t.id === taskId);
+      const existingIndex = APP_STATE.assignmentSubmissions.findIndex(s => s.taskId === taskId);
+
+      const submissionData = {
+        id: Date.now(),
+        taskId: taskId,
+        taskTitle: taskObj ? taskObj.title : "Tugas Kimia",
+        studentName: "Ahmad Budi",
+        date: new Date().toISOString().substring(0, 10),
+        status: "Sudah Mengumpulkan",
+        score: 92,
+        link: finalLink,
+        note: noteInput
+      };
+
+      if(existingIndex >= 0) {
+        APP_STATE.assignmentSubmissions[existingIndex] = submissionData;
+      } else {
+        APP_STATE.assignmentSubmissions.push(submissionData);
+      }
+
+      localStorage.setItem('nusabangsa_assignments', JSON.stringify(APP_STATE.assignmentSubmissions));
+      renderAssignmentsGrid();
+      renderAssignmentsTable();
+
+      document.getElementById('assignment-upload-form').reset();
+      document.getElementById('selected-file-label').innerText = '';
+      selectedFileObj = null;
+      alert("Tugas Anda berhasil diunggah/dikirim dan langsung disinkronkan ke Rekapitulasi Guru!");
+    }
+
+    function handleProjectSubmit(e) {
+      e.preventDefault();
+      const groupName = document.getElementById('project-group-name').value;
+      const members = document.getElementById('project-group-members').value;
+      const link = document.getElementById('project-link').value;
+
+      const newProj = {
+        id: Date.now(),
+        groupName: groupName,
+        members: members,
+        date: new Date().toISOString().substring(0, 10),
+        link: link,
+        score: 92
+      };
+
+      APP_STATE.projectSubmissions.push(newProj);
+      localStorage.setItem('nusabangsa_projects', JSON.stringify(APP_STATE.projectSubmissions));
+      renderProjectsTable();
+
+      document.getElementById('project-upload-form').reset();
+      alert("Laporan Proyek Kelompok berhasil dikirim ke Dashboard Guru!");
+    }
+
+    function renderProjectsTable() {
+      const tbody = document.getElementById('projects-table-body');
+      if(!tbody) return;
+
+      tbody.innerHTML = APP_STATE.projectSubmissions.map(item => `
+        <tr class="hover:bg-indigo-50/50 transition">
+          <td class="p-3.5 font-bold text-indigo-900 flex items-center">
+            <i class="fa-solid fa-people-group text-indigo-600 mr-2"></i> ${item.groupName}
+          </td>
+          <td class="p-3.5 text-slate-700 font-semibold">${item.members}</td>
+          <td class="p-3.5 text-slate-600 font-mono text-[11px]">${formatDateIndo(item.date)}</td>
+          <td class="p-3.5">
+            <a href="${item.link}" target="_blank" class="text-blue-600 underline font-semibold flex items-center"><i class="fa-solid fa-external-link mr-1"></i> Lihat Laporan Proyek</a>
+          </td>
+          <td class="p-3.5 font-bold text-indigo-800">
+            <span class="bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-md border border-indigo-200">Nilai: ${item.score}</span>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderRekapRaporTable() {
+      const tbody = document.getElementById('rekap-nilai-table-body');
+      if(!tbody) return;
+
+      tbody.innerHTML = APP_STATE.rekapRaporList.map(item => {
+        const nilaiAkhir = Math.round(
+          (item.rataKuis * 0.15) + 
+          (item.rataTugas * 0.15) + 
+          (item.praktikLab * 0.20) + 
+          (item.proyekKelompok * 0.20) + 
+          (item.uts * 0.15) + 
+          (item.uas * 0.15)
+        );
+
+        let predikat = "Tuntas (A)";
+        if(nilaiAkhir < 75) predikat = "Remedial";
+        else if(nilaiAkhir < 85) predikat = "Tuntas (B)";
+
+        return `
+          <tr class="hover:bg-purple-50/50 transition border-b border-slate-100">
+            <td class="p-3.5 font-bold text-slate-800 flex items-center">
+              <i class="fa-solid fa-user-graduate text-purple-600 mr-2"></i> ${item.name}
+            </td>
+            <td class="p-3.5 font-semibold text-slate-700">${item.rataKuis}</td>
+            <td class="p-3.5 font-semibold text-slate-700">${item.rataTugas}</td>
+            <td class="p-3.5 font-semibold text-teal-700">${item.praktikLab}</td>
+            <td class="p-3.5 font-semibold text-indigo-700">${item.proyekKelompok}</td>
+            <td class="p-3.5 font-semibold text-slate-700">${item.uts}</td>
+            <td class="p-3.5 font-semibold text-slate-700">${item.uas}</td>
+            <td class="p-3.5 text-center">
+              <span class="inline-block px-3 py-1 rounded-xl text-xs font-extrabold bg-gradient-to-r from-teal-500 to-emerald-600 text-white shadow-xs">
+                ${nilaiAkhir} / 100 (${predikat})
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderCalendarTable() {
+      const tbody = document.getElementById('calendar-table-body');
+      const categoryFilter = document.getElementById('calendar-category-filter')?.value || 'all';
+      if(!tbody) return;
+
+      let events = ACADEMIC_EVENTS;
+      if(categoryFilter !== 'all') {
+        events = ACADEMIC_EVENTS.filter(e => e.type === categoryFilter);
+      }
+
+      tbody.innerHTML = events.map(ev => {
+        const eventDate = new Date(ev.date);
+        const isPassed = APP_STATE.todayDate >= eventDate;
+
+        return `
+          <tr class="hover:bg-slate-50/80 transition">
+            <td class="p-3.5 font-bold text-slate-800">
+              ${ev.title}
+            </td>
+            <td class="p-3.5">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                ev.type === 'Pembelajaran' ? 'bg-teal-100 text-teal-800' :
+                ev.type === 'Ujian' ? 'bg-rose-100 text-rose-800' :
+                ev.type === 'Praktikum' ? 'bg-purple-100 text-purple-800' : 
+                ev.type === 'Proyek' ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800'
+              }">
+                ${ev.type}
+              </span>
+            </td>
+            <td class="p-3.5 text-slate-600">Semester ${ev.sem}</td>
+            <td class="p-3.5 font-semibold text-slate-700">
+              ${formatDateIndo(ev.date)}
+            </td>
+            <td class="p-3.5 text-center">
+              ${isPassed ? 
+                '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">Selesai</span>' : 
+                '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">Mendatang</span>'
+              }
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // OPEN CHAPTER WITH RESTRICTION CHECK
+    function openChapter(chId) {
+      const chapter = CHAPTERS_DATA.find(c => c.id === chId);
+      if(!chapter) return;
+
+      if(!isChapterUnlocked(chapter)) {
+        // Show Lock Modal
+        document.getElementById('locked-modal-date').innerText = formatDateIndo(chapter.releaseDate);
+        document.getElementById('locked-modal').classList.remove('hidden');
+        return;
+      }
+
+      APP_STATE.activeChapterId = chId;
+      APP_STATE.activeStep = 1;
+      
+      // Load Detail View
+      document.getElementById('detail-semester-badge').innerText = `Semester ${chapter.semester}`;
+      document.getElementById('detail-chapter-title').innerText = `Bab ${chapter.id}: ${chapter.title}`;
+      document.getElementById('detail-chapter-desc').innerText = chapter.desc;
+
+      // Populate Step 1 (Tujuan)
+      document.getElementById('detail-tujuan-list').innerHTML = chapter.tujuan.map(t => `<li>${t}</li>`).join('');
+      document.getElementById('detail-keywords-container').innerHTML = chapter.keywords.map(k => `
+        <span class="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-lg font-semibold text-[11px]">${k}</span>
+      `).join('');
+
+      // Populate Step 2 (Peta Konsep)
+      document.getElementById('detail-peta-konsep-box').innerHTML = `
+        <div class="font-bold text-slate-800 text-sm mb-3">Diagram Peta Konsep Utama</div>
+        <div class="inline-block p-4 bg-white rounded-2xl shadow-xs border border-slate-200 text-teal-700 font-semibold text-xs leading-relaxed">
+          ${chapter.petaKonsep}
+        </div>
+      `;
+
+      // Populate Step 3 (YouTube)
+      document.getElementById('detail-youtube-iframe').src = chapter.youtubeUrl;
+
+      // Populate Step 4 (Companion PPT / PDF)
+      document.getElementById('detail-resource-container').innerHTML = `
+        <div class="p-5 bg-amber-50/60 rounded-2xl border border-amber-200 space-y-3">
+          <div class="flex items-center space-x-3">
+            <div class="p-3 bg-amber-500 text-white rounded-xl text-xl">
+              <i class="fa-solid fa-file-powerpoint"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-amber-900 text-sm">${chapter.resourceType}</h4>
+              <p class="text-[11px] text-amber-700">Slide bahan tayang resmi Bab ${chapter.id}</p>
+            </div>
+          </div>
+          <a href="${chapter.resourceUrl}" target="_blank" class="inline-flex items-center px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-xs transition">
+            <i class="fa-solid fa-download mr-1.5"></i> Unduh / Buka Dokumen Modul
+          </a>
+        </div>
+
+        <div class="p-5 bg-blue-50/60 rounded-2xl border border-blue-200 space-y-3">
+          <div class="flex items-center space-x-3">
+            <div class="p-3 bg-blue-500 text-white rounded-xl text-xl">
+              <i class="fa-solid fa-book-open"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-blue-900 text-sm">Buku Teks Kimia Kelas 11 PDF</h4>
+              <p class="text-[11px] text-blue-700">Buku Sekolah Elektronik (BSE) Kurikulum Merdeka</p>
+            </div>
+          </div>
+          <a href="${chapter.resourceUrl}" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs transition">
+            <i class="fa-solid fa-book-reader mr-1.5"></i> Buka Buku Teks Digital
+          </a>
+        </div>
+      `;
+
+      // Populate Step 6 (Quiz)
+      renderQuiz(chapter);
+
+      switchStep(1);
+      navigateTo('chapter-detail');
+    }
+
+    function closeLockedModal() {
+      document.getElementById('locked-modal').classList.add('hidden');
+    }
+
+    // STEP SWITCHER IN CHAPTER DETAIL
+    function switchStep(stepNum) {
+      APP_STATE.activeStep = stepNum;
+
+      // Update Tabs styling
+      for(let i=1; i<=7; i++) {
+        const tabBtn = document.getElementById(`step-tab-${i}`);
+        const contentBox = document.getElementById(`step-content-${i}`);
+
+        if(i === stepNum) {
+          tabBtn.className = "step-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-teal-600 text-white shadow-sm";
+          contentBox.classList.remove('hidden');
+        } else {
+          tabBtn.className = "step-tab-btn px-4 py-2 rounded-xl text-xs font-semibold transition bg-slate-100 text-slate-600 hover:bg-slate-200";
+          contentBox.classList.add('hidden');
+        }
+      }
+
+      document.getElementById('step-indicator-text').innerText = `Langkah ${stepNum} dari 7`;
+
+      // Control Prev / Next buttons
+      document.getElementById('prev-step-btn').disabled = (stepNum === 1);
+      document.getElementById('next-step-btn').disabled = (stepNum === 7);
+    }
+
+    function changeStepRelative(delta) {
+      const newStep = APP_STATE.activeStep + delta;
+      if(newStep >= 1 && newStep <= 7) {
+        switchStep(newStep);
+      }
+    }
+
+    // QUIZ LOGIC
+    function renderQuiz(chapter) {
+      const container = document.getElementById('quiz-questions-container');
+      container.innerHTML = chapter.quiz.map((q, qIndex) => `
+        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+          <p class="font-bold text-xs text-slate-800">${qIndex + 1}. ${q.q}</p>
+          <div class="space-y-2">
+            ${q.options.map((opt, optIndex) => `
+              <label class="flex items-center space-x-3 p-2.5 bg-white rounded-xl border border-slate-200 cursor-pointer text-xs hover:bg-teal-50/50 transition">
+                <input type="radio" name="quiz-q-${qIndex}" value="${optIndex}" class="text-teal-600 focus:ring-teal-500">
+                <span>${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('quiz-score-badge').classList.add('hidden');
+    }
+
+    function submitQuiz() {
+      const chapter = CHAPTERS_DATA.find(c => c.id === APP_STATE.activeChapterId);
+      if(!chapter) return;
+
+      let score = 0;
+      const total = chapter.quiz.length;
+
+      chapter.quiz.forEach((q, qIndex) => {
+        const selected = document.querySelector(`input[name="quiz-q-${qIndex}"]:checked`);
+        if(selected && parseInt(selected.value) === q.ans) {
+          score += (100 / total);
+        }
+      });
+
+      APP_STATE.userProgress.quizScores[chapter.id] = Math.round(score);
+      saveUserProgress();
+
+      document.getElementById('quiz-score-val').innerText = Math.round(score);
+      document.getElementById('quiz-score-badge').classList.remove('hidden');
+
+      if(score >= 70 && typeof confetti === 'function') {
+        confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+      }
+    }
+
+    // REFLECTION LOGIC
+    function saveReflection() {
+      const rating = document.querySelector('input[name="reflection-rating"]:checked')?.value;
+      const text = document.getElementById('reflection-text').value;
+
+      APP_STATE.userProgress.reflections[APP_STATE.activeChapterId] = { rating, text };
+      
+      if(!APP_STATE.userProgress.completedChapters.includes(APP_STATE.activeChapterId)) {
+        APP_STATE.userProgress.completedChapters.push(APP_STATE.activeChapterId);
+      }
+
+      saveUserProgress();
+      updateProgressUI();
+
+      alert("Refleksi berhasil disimpan! Bab ini telah dicatat sebagai Selesai.");
+      navigateTo('chapters');
+    }
+
+    function saveUserProgress() {
+      localStorage.setItem('nusabangsa_progress', JSON.stringify(APP_STATE.userProgress));
+    }
+
+    function updateProgressUI() {
+      const count = APP_STATE.userProgress.completedChapters.length;
+      document.getElementById('home-progress-text').innerText = `${count} / 12 Bab`;
+    }
+
+    // VIRTUAL LAB INTERACTION LOGIC
+    let labState = {
+      solution: 'acid',
+      indicatorAdded: false
+    };
+
+    function updateLabState() {
+      const solutionSelect = document.getElementById('lab-solution-select');
+      labState.solution = solutionSelect.value;
+      renderLabVisual();
+    }
+
+    function addPPIndicator() {
+      labState.indicatorAdded = true;
+      renderLabVisual();
+    }
+
+    function resetLab() {
+      labState.indicatorAdded = false;
+      document.getElementById('lab-solution-select').value = 'acid';
+      labState.solution = 'acid';
+      renderLabVisual();
+    }
+
+    function renderLabVisual() {
+      const liquid = document.getElementById('beaker-liquid');
+      const phDisplay = document.getElementById('lab-ph-display');
+      const colorDesc = document.getElementById('lab-color-desc');
+
+      if(labState.solution === 'acid') {
+        phDisplay.innerText = "pH: 1.0 (Asam Kuat)";
+        if(labState.indicatorAdded) {
+          liquid.className = "w-full h-3/4 rounded-b-2xl transition-all duration-700 bg-cyan-100/30";
+          colorDesc.innerText = "Warna + PP: Tetap Bening (Tidak Berwarna)";
+        } else {
+          liquid.className = "w-full h-3/4 rounded-b-2xl transition-all duration-700 bg-cyan-200/40";
+          colorDesc.innerText = "Warna: Bening / Jernih";
+        }
+      } else if(labState.solution === 'neutral') {
+        phDisplay.innerText = "pH: 7.0 (Netral)";
+        liquid.className = "w-full h-3/4 rounded-b-2xl transition-all duration-700 bg-blue-200/40";
+        colorDesc.innerText = labState.indicatorAdded ? "Warna + PP: Bening" : "Warna: Bening Murni";
+      } else if(labState.solution === 'base') {
+        phDisplay.innerText = "pH: 13.0 (Basa Kuat)";
+        if(labState.indicatorAdded) {
+          liquid.className = "w-full h-3/4 rounded-b-2xl transition-all duration-700 bg-pink-500/80 shadow-lg shadow-pink-500/50";
+          colorDesc.innerText = "Warna + PP: Merah Keunguan (Pink Pekat)";
+        } else {
+          liquid.className = "w-full h-3/4 rounded-b-2xl transition-all duration-700 bg-slate-100/30";
+          colorDesc.innerText = "Warna: Bening / Jernih";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
