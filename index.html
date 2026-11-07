@@ -22,12 +22,11 @@
         const { useState, useEffect } = React;
 
         function App() {
-            const [role, setRole] = useState('siswa'); // 'siswa' atau 'guru'
+            const [role, setRole] = useState('siswa');
             const [activeTab, setActiveTab] = useState('dashboard');
             const [selectedSemester, setSelectedSemester] = useState(1);
             const [selectedChapter, setSelectedChapter] = useState(null);
             
-            // State data utama dengan LocalStorage
             const [attendance, setAttendance] = useState(() => {
                 return JSON.parse(localStorage.getItem('lms_attendance')) || [
                     { date: '2026-02-01', name: 'Salsa', status: 'Hadir', note: 'Tepat waktu' }
@@ -51,7 +50,6 @@
                 return JSON.parse(localStorage.getItem('lms_quiz_scores')) || {};
             });
 
-            // Kalender Akademik Komprehensif
             const academicEvents = [
                 { date: '2026-01-10', title: 'Awal Semester 1 & Rilis Bab 1', type: 'akademik' },
                 { date: '2026-03-05', title: 'Ujian Tengah Semester (UTS) Gasal & Pengambilan Nilai', type: 'ujian' },
@@ -63,17 +61,14 @@
                 { date: '2026-12-05', title: 'Ujian Akhir Tahun & Rekapitulasi Rapor', type: 'ujian' }
             ];
 
-            // 12 Bab Semester 1 & 2
             const chapters = [
-                // Semester 1
                 { id: 1, semester: 1, title: 'Struktur Atom & Sistem Periodik Unsur', releaseDate: '2026-01-10', summary: 'Mempelajari model atom mekanika kuantum, bilangan kuantum, dan konfigurasi elektron.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'E-Book PDF / Modul Interaktif', resourceUrl: '#' },
                 { id: 2, semester: 1, title: 'Ikatan Kimia & Bentuk Molekul', releaseDate: '2026-01-20', summary: 'Ikatan ion, kovalen, logam, serta teori VSEPR untuk menentukan bentuk geometri molekul.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Slide PPT Pembelajaran', resourceUrl: '#' },
                 { id: 3, semester: 1, title: 'Stoikiometri & Konsep Mol', releaseDate: '2026-02-05', summary: 'Perhitungan kimia berbasis mol, massa molar, rumus empiris, dan rumus molekul.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Modul Ringkasan Materi', resourceUrl: '#' },
                 { id: 4, semester: 1, title: 'Termokimia & Perubahan Entalpi', releaseDate: '2026-02-20', summary: 'Reaksi endoterm, eksoterm, hukum Hess, dan perhitungan kalorimetri.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Slide PPT Praktikum', resourceUrl: '#' },
                 { id: 5, semester: 1, title: 'Kesetimbangan Kimia', releaseDate: '2026-03-10', summary: 'Tetapan kesetimbangan (Kc dan Kp), faktor yang memengaruhi pergeseran kesetimbangan.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Video Utama + E-Book', resourceUrl: '#' },
-                { id: 6, semester: 1, title: 'Laju Reaksi & Faktor Penentu', releaseDate: '2026-04-01', summary: 'Teori tumbukan, energi aktivasi, dan pengaruh suhu, konsentrasi, serta katalis.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Modul LKPD Digital', resourceUrl: '#' },
+                { id: 6, semester: 1, title: 'Laju Reaksi & Faktor Penentu', releaseDate: '2026-04-01', summary: 'Teori tumbukan, energi aktivasi, dan pengaruh suhu, konsentrasi, luas permukaan, serta katalis.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Modul LKPD Digital', resourceUrl: '#' },
                 
-                // Semester 2
                 { id: 7, semester: 2, title: 'Larutan Asam & Basa', releaseDate: '2026-07-01', summary: 'Teori asam basa Arrhenius, Bronsted-Lowry, Lewis, serta perhitungan pH larutan.', videoUrl: 'https://www.youtube.com/embed/ABJjRldplC4', resourceType: 'Slide PPT & Video Utama YouTube', resourceUrl: 'https://youtu.be/ABJjRldplC4' },
                 { id: 8, semester: 2, title: 'Larutan Penyangga (Buffer)', releaseDate: '2026-07-20', summary: 'Komponen larutan buffer asam dan basa, serta cara kerjanya dalam mempertahankan pH.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'E-Book Interaktif', resourceUrl: '#' },
                 { id: 9, semester: 2, title: 'Hidrolisis Garam', releaseDate: '2026-08-05', summary: 'Reaksi garam dengan air, sifat larutan garam, dan perhitungan pH larutan terhidrolisis.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Modul Ringkasan', resourceUrl: '#' },
@@ -84,7 +79,7 @@
 
             const todayStr = new Date().toISOString().split('T')[0];
             const isChapterUnlocked = (releaseDate) => {
-                return releaseDate <= todayStr || role === 'guru'; // Guru selalu buka, siswa dibatasi jadwal
+                return releaseDate <= todayStr || role === 'guru';
             };
 
             useEffect(() => {
@@ -96,7 +91,6 @@
 
             return (
                 <div className="min-h-screen bg-slate-50 flex flex-col">
-                    {/* Header Navbar Colorful */}
                     <header className="bg-gradient-to-r from-cyan-600 via-indigo-600 to-purple-600 text-white shadow-lg sticky top-0 z-50">
                         <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
                             <div className="flex items-center space-x-3">
@@ -108,7 +102,6 @@
                                     <p className="text-xs text-cyan-100">Guru Pengampu: Salsa Ashri Salsabila, M.Pd. | Kelas 11</p>
                                 </div>
                             </div>
-                            
                             <div className="flex items-center space-x-2 mt-2 sm:mt-0">
                                 <button 
                                     onClick={() => setRole(role === 'siswa' ? 'guru' : 'siswa')}
@@ -119,7 +112,6 @@
                             </div>
                         </div>
 
-                        {/* Nav Tabs */}
                         <div className="bg-black/10 px-4 flex space-x-2 overflow-x-auto text-sm font-medium">
                             <button onClick={() => { setActiveTab('dashboard'); setSelectedChapter(null); }} className={`px-4 py-2 border-b-2 whitespace-nowrap ${activeTab === 'dashboard' ? 'border-white text-white font-bold' : 'border-transparent text-cyan-100 hover:text-white'}`}>🏠 Dashboard</button>
                             <button onClick={() => { setActiveTab('materi'); setSelectedChapter(null); }} className={`px-4 py-2 border-b-2 whitespace-nowrap ${activeTab === 'materi' ? 'border-white text-white font-bold' : 'border-transparent text-cyan-100 hover:text-white'}`}>📚 Materi & Pembelajaran</button>
@@ -130,7 +122,6 @@
                         </div>
                     </header>
 
-                    {/* Main Content Area */}
                     <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6">
                         {activeTab === 'dashboard' && (
                             <div className="space-y-6">
@@ -271,8 +262,7 @@
 
             const handleQuizSubmit = (e) => {
                 e.preventDefault();
-                const isCorrect = true;
-                setQuizResult(isCorrect);
+                setQuizResult(true);
                 setQuizScores(prev => ({ ...prev, [chapter.id]: 100 }));
             };
 
@@ -561,24 +551,4 @@
                                 <h3 className="text-2xl font-black text-indigo-900 mt-1">{avgQuiz.toFixed(1)}</h3>
                             </div>
                             <div className="bg-cyan-50 p-4 rounded-2xl border">
-                                <p className="text-xs text-cyan-600 font-bold">Nilai Tugas & PR (30%)</p>
-                                <h3 className="text-2xl font-black text-cyan-900 mt-1">90.0</h3>
-                            </div>
-                            <div className="bg-purple-50 p-4 rounded-2xl border">
-                                <p className="text-xs text-purple-600 font-bold">Praktik & Proyek (40%)</p>
-                                <h3 className="text-2xl font-black text-purple-900 mt-1">88.0</h3>
-                            </div>
-                            <div className="bg-emerald-50 p-4 rounded-2xl border">
-                                <p className="text-xs text-emerald-600 font-bold">Nilai Akhir Rapor</p>
-                                <h3 className="text-2xl font-black text-emerald-900 mt-1">{finalScore.toFixed(1)}</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-
-        ReactDOM.render(<App />, document.getElementById('root'));
-    </script>
-</body>
-</html>
+                                <p className="text-xs text-cyan-600 font-bold">Nilai Tugas & PR (30
