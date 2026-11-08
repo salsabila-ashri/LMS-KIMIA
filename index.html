@@ -3,552 +3,1436 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LMS Kimia - SMA Nusabangsa</title>
-    <!-- Tailwind CSS & Lucide Icons -->
+    <title>ChemFun Lab - LMS Kimia SMA Nusabangsa</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Font Inter & Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti for celebratory success -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            pop: '#8b5cf6',
+                            sun: '#f59e0b',
+                            pink: '#ec4899',
+                            sky: '#0ea5e9'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Poppins', sans-serif; }
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .pulse-slow { animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
-    <div id="root"></div>
+<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 min-h-screen text-slate-800">
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+    <!-- App Container -->
+    <div id="app" class="flex flex-col min-h-screen">
+        
+        <!-- Top Navigation Bar -->
+        <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-indigo-100 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                <!-- Brand / Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="router.navigate('dashboard')">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-pop to-brand-pink flex items-center justify-center text-white text-2xl shadow-lg shadow-purple-500/30 floating">
+                        🧪
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-extrabold text-xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">ChemFun Nusabangsa</span>
+                            <span class="bg-emerald-100 text-emerald-700 text-xs font-semibold px-2 py-0.5 rounded-full">Kelas 11</span>
+                        </div>
+                        <p class="text-xs text-slate-500">Guru: <span class="font-medium text-slate-700">Salsa Ashri Salsabila M. Pd</span></p>
+                    </div>
+                </div>
 
-        function App() {
-            const [role, setRole] = useState('siswa');
-            const [activeTab, setActiveTab] = useState('dashboard');
-            const [selectedSemester, setSelectedSemester] = useState(1);
-            const [selectedChapter, setSelectedChapter] = useState(null);
-            
-            const [attendance, setAttendance] = useState(() => {
-                return JSON.parse(localStorage.getItem('lms_attendance')) || [
-                    { date: '2026-02-01', name: 'Salsa', status: 'Hadir', note: 'Tepat waktu' }
-                ];
+                <!-- Navigation Controls -->
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-3">
+                    <button onclick="router.navigate('dashboard')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition hover:bg-purple-50 text-slate-600 hover:text-purple-600 flex items-center space-x-2" data-target="dashboard">
+                        <i class="fa-solid fa-house-chimney text-purple-500"></i><span>Dashboard</span>
+                    </button>
+                    <button onclick="router.navigate('rps')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition hover:bg-purple-50 text-slate-600 hover:text-purple-600 flex items-center space-x-2" data-target="rps">
+                        <i class="fa-solid fa-book-bookmark text-amber-500"></i><span>RPS & Materi</span>
+                    </button>
+                    <button onclick="router.navigate('kalender')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition hover:bg-purple-50 text-slate-600 hover:text-purple-600 flex items-center space-x-2" data-target="kalender">
+                        <i class="fa-solid fa-calendar-days text-pink-500"></i><span>Kalender Akademik</span>
+                    </button>
+                    <button onclick="router.navigate('absensi')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition hover:bg-purple-50 text-slate-600 hover:text-purple-600 flex items-center space-x-2" data-target="absensi">
+                        <i class="fa-solid fa-clipboard-user text-emerald-500"></i><span>Absensi</span>
+                    </button>
+                    <button onclick="router.navigate('tugas')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition hover:bg-purple-50 text-slate-600 hover:text-purple-600 flex items-center space-x-2" data-target="tugas">
+                        <i class="fa-solid fa-file-pen text-sky-500"></i><span>Tugas & LKPD</span>
+                    </button>
+                    <button onclick="router.navigate('lab')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition hover:bg-purple-50 text-slate-600 hover:text-purple-600 flex items-center space-x-2" data-target="lab">
+                        <i class="fa-solid fa-flask-vial text-indigo-500"></i><span>Lab Digital</span>
+                    </button>
+                </div>
+
+                <!-- Right Action: Role Toggle & Profile -->
+                <div class="flex items-center space-x-3">
+                    <div class="bg-indigo-50 p-1.5 rounded-2xl flex items-center border border-indigo-100">
+                        <button onclick="setRole('siswa')" id="role-siswa-btn" class="px-3 py-1.5 text-xs font-bold rounded-xl transition shadow-sm bg-white text-indigo-700">Siswa</button>
+                        <button onclick="setRole('guru')" id="role-guru-btn" class="px-3 py-1.5 text-xs font-bold rounded-xl transition text-slate-600 hover:text-indigo-600">Guru</button>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-purple-100 text-purple-700 hover:bg-purple-200 transition">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-indigo-100 px-4 pt-2 pb-4 space-y-1">
+                <button onclick="router.navigate('dashboard'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-purple-50 text-slate-700 flex items-center space-x-3">
+                    <i class="fa-solid fa-house-chimney text-purple-500 w-5"></i><span>Dashboard</span>
+                </button>
+                <button onclick="router.navigate('rps'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-purple-50 text-slate-700 flex items-center space-x-3">
+                    <i class="fa-solid fa-book-bookmark text-amber-500 w-5"></i><span>RPS & Materi</span>
+                </button>
+                <button onclick="router.navigate('kalender'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-purple-50 text-slate-700 flex items-center space-x-3">
+                    <i class="fa-solid fa-calendar-days text-pink-500 w-5"></i><span>Kalender Akademik</span>
+                </button>
+                <button onclick="router.navigate('absensi'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-purple-50 text-slate-700 flex items-center space-x-3">
+                    <i class="fa-solid fa-clipboard-user text-emerald-500 w-5"></i><span>Absensi</span>
+                </button>
+                <button onclick="router.navigate('tugas'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-purple-50 text-slate-700 flex items-center space-x-3">
+                    <i class="fa-solid fa-file-pen text-sky-500 w-5"></i><span>Tugas & LKPD</span>
+                </button>
+                <button onclick="router.navigate('lab'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-purple-50 text-slate-700 flex items-center space-x-3">
+                    <i class="fa-solid fa-flask-vial text-indigo-500 w-5"></i><span>Lab Digital</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div id="view-container"></div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white/80 border-t border-indigo-100 py-6 mt-12 text-center text-xs text-slate-500">
+            <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-2">
+                    <span class="text-lg">🧪</span>
+                    <span class="font-bold text-slate-700">SMA Nusabangsa</span>
+                    <span>• Kimia Kelas 11 (A-D)</span>
+                </div>
+                <p>Pengampu: <span class="font-semibold text-purple-600">Salsa Ashri Salsabila M. Pd</span></p>
+                <p>© 2026 ChemFun LMS • Interaktif & Menyenangkan</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modals & Notification Banner Holder -->
+    <div id="modal-root"></div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        /* --- GLOBAL APP STATE & STORAGE --- */
+        const STORAGE_KEY = 'nusabangsa_kimia_lms_v1';
+        
+        let defaultAppData = {
+            role: 'siswa', // 'siswa' or 'guru'
+            currentStudent: {
+                name: 'Budi Santoso',
+                kelas: '11A',
+                nisn: '1122334455'
+            },
+            activeTab: 'dashboard',
+            selectedSemester: 1,
+            selectedBabId: 1,
+            selectedStep: 'eksplorasi', // eksplorasi, materi, contoh, kuis, refleksi, evaluasi
+            attendance: {}, // { "YYYY-MM-DD": { status: "Hadir", time: "..." } }
+            submissions: {}, // { taskId: { answer: "...", score: 90, feedback: "..." } }
+            quizScores: {}, // { babId: { score: 80, passed: true, answers: [...] } }
+            reflections: {}, // { babId: "teks refleksi" }
+            teacherSettings: {
+                linkShare: 'https://nusabangsa-kimia.edu/join?code=KIM11-SALSA',
+                activeJadwal: {
+                    '11A': 'Senin, 08:00 - 09:30',
+                    '11B': 'Selasa, 10:00 - 11:30',
+                    '11C': 'Rabu, 08:00 - 09:30',
+                    '11D': 'Kamis, 13:00 - 14:30'
+                }
+            }
+        };
+
+        let appData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultAppData;
+
+        function saveAppData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+        }
+
+        function setRole(role) {
+            appData.role = role;
+            saveAppData();
+            updateRoleUI();
+            renderView();
+            showToast(`Berhasil beralih ke Mode ${role === 'guru' ? 'Guru (Ibu Salsa)' : 'Siswa'}`, 'success');
+        }
+
+        function updateRoleUI() {
+            const isGuru = appData.role === 'guru';
+            document.getElementById('role-siswa-btn').className = `px-3 py-1.5 text-xs font-bold rounded-xl transition ${!isGuru ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-600 hover:text-indigo-600'}`;
+            document.getElementById('role-guru-btn').className = `px-3 py-1.5 text-xs font-bold rounded-xl transition ${isGuru ? 'bg-white text-purple-700 shadow-sm' : 'text-slate-600 hover:text-purple-600'}`;
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function showToast(message, type = 'info') {
+            const existing = document.getElementById('toast-notification');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            let bg = 'bg-slate-800 text-white';
+            let icon = 'fa-circle-info text-sky-400';
+            if(type === 'success') { bg = 'bg-emerald-600 text-white'; icon = 'fa-circle-check text-emerald-200'; }
+            if(type === 'error') { bg = 'bg-rose-600 text-white'; icon = 'fa-circle-exclamation text-rose-200'; }
+
+            toast.id = 'toast-notification';
+            toast.className = `fixed bottom-6 right-6 z-50 ${bg} px-5 py-3 rounded-2xl shadow-xl flex items-center space-x-3 transition transform duration-300 translate-y-2 animate-bounce`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-lg"></i><span class="font-medium text-sm">${message}</span>`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        /* --- RPS & BAB DATA (1 TAHUN: SEMESTER 1 & 2, MASING-MASING 6 BAB) --- */
+        const rpsData = {
+            1: [
+                {
+                    id: 1, title: "Bab 1: Struktur Atom & Teori Mekanika Kuantum",
+                    tujuan: "Menganalisis perkembangan teori atom, bilangan kuantum, dan bentuk orbital elektron.",
+                    materi: "Atom terdiri dari inti (proton & neutron) serta elektron yang beredar di sekelilingnya. Teori mekanika kuantum menyatakan kebolehjadian menemukan elektron dalam orbital (s, p, d, f) menggunakan 4 bilangan kuantum (utama, azimuth, magnetik, spin).",
+                    pdfTitle: "Modul_Kimia_Bab1_StrukturAtom.pdf",
+                    youtubeUrl: "https://youtu.be/ABJjRldplC4?si=sY1RM1LbU9IAkGQn",
+                    tanggalBuka: "2026-07-01",
+                    contoh: "Tentukan 4 bilangan kuantum untuk elektron terakhir unsur ₁₉K! Penyelesaian: Konfigurasi 1s² 2s² 2p⁶ 3s² 3p⁶ 4s¹ -> n=0, l=0, m=0, s=+1/2.",
+                    kuis: [
+                        { q: "Bilangan kuantum yang menyatakan tingkat energi utama (kulit) adalah...", options: ["n", "l", "m", "s"], correct: 0, pembahasan: "n adalah bilangan kuantum utama yang menunjukkan nomor kulit." },
+                        { q: "Bentuk orbital untuk subkulit l = 1 (p) adalah...", options: ["Bola", "Balon terpilin (dumbbell)", "Kompleks", "Cincin"], correct: 1, pembahasan: "Subkulit p memiliki bentuk seperti balon terpilin (dumbbell) dengan 3 arah ruang." }
+                    ]
+                },
+                {
+                    id: 2, title: "Bab 2: Sistem Periodik Unsur (SPU)",
+                    tujuan: "Menghubungkan konfigurasi elektron dengan letak unsur dalam SPU serta sifat keperiodikan unsur.",
+                    materi: "Unsur-unsur disusun berdasarkan kenaikan nomor atom dan kemiripan sifat. Golongan ditentukan oleh elektron valensi, sedangkan periode ditentukan oleh nomor kulit terbesar.",
+                    pdfTitle: "Modul_Kimia_Bab2_SPU.pdf",
+                    youtubeUrl: "https://youtu.be/ABJjRldplC4?si=sY1RM1LbU9IAkGQn",
+                    tanggalBuka: "2026-07-20",
+                    contoh: "Unsur X dengan nomor atom 15 terletak pada golongan dan periode... Penyelesaian: 1s² 2s² 2p⁶ 3s² 3p³ (Elektron valensi 5, kulit 3 -> Golongan VA, Periode 3).",
+                    kuis: [
+                        { q: "Jari-jari atom dalam satu golongan dari atas ke bawah akan...", options: ["Semakin kecil", "Semakin besar", "Tetap", "Tidak tentu"], correct: 1, pembahasan: "Dari atas ke bawah jumlah kulit bertambah sehingga jari-jari atom semakin besar." }
+                    ]
+                },
+                {
+                    id: 3, title: "Bab 3: Ikatan Kimia & Bentuk Molekul",
+                    tujuan: "Menganalisis jenis ikatan kimia (ion, kovalen, logam) serta meramalkan bentuk molekul dengan VSEPR.",
+                    materi: "Ikatan ion terjadi karena serah terima elektron, ikatan kovalen karena pemakaian bersama pasangan elektron, dan ikatan logam oleh lautan elektron.",
+                    pdfTitle: "Modul_Kimia_Bab3_IkatanKimia.pdf",
+                    youtubeUrl: "https://youtu.be/ABJjRldplC4?si=sY1RM1LbU9IAkGQn",
+                    tanggalBuka: "2026-08-10",
+                    contoh: "Bentuk molekul CH₄ adalah... Penyelesaian: Memiliki 4 PEI dan 0 PEB, sehingga bentuknya Tetrahedral.",
+                    kuis: [
+                        { q: "Senyawa berikut yang memiliki ikatan kovalen rangkap dua adalah...", options: ["HCl", "H2O", "O2", "NH3"], correct: 2, pembahasan: "Oksigen (O2) berikatan kovalen rangkap dua (O=O)." }
+                    ]
+                },
+                {
+                    id: 4, title: "Bab 4: Stoikiometri Larutan",
+                    tujuan: "Menghitung konsentrasi larutan (molaritas, molalitas, fraksi mol) dan stoikiometri reaksi dalam larutan.",
+                    materi: "Konsentrasi menyatakan jumlah zat terlarut dalam sejumlah larutan atau pelarut. Molaritas (M) adalah mol zat terlarut per liter larutan.",
+                    pdfTitle: "Modul_Kimia_Bab4_Stoikiometri.pdf",
+                    youtubeUrl: "https://youtu.be/ABJjRldplC4?si=sY1RM1LbU9IAkGQn",
+                    tanggalBuka: "2026-09-01",
+                    contoh: "Berapa Molaritas larutan NaOH (Mr=40) sebanyak 4 gram dalam 500 mL air? Penyelesaian: mol = 4/40 = 0,1 mol. M = 0,1 / 0,5L = 0,2 M.",
+                    kuis: [
+                        { q: "Satuan dari Molalitas (m) adalah...", options: ["mol/liter", "mol/kg pelarut", "gram/mol", "liter/mol"], correct: 1, pembahasan: "Molalitas adalah jumlah mol zat terlarut per kilogram pelarut." }
+                    ]
+                },
+                {
+                    id: 5, title: "Bab 5: Termokimia",
+                    tujuan: "Memahami perubahan entalpi reaksi, hukum Hess, dan penentuan kalor reaksi.",
+                    materi: "Termokimia mempelajari perubahan panas (kalor) yang menyertai suatu reaksi kimia. Reaksi eksoterm membebaskan kalor, sedangkan endoterm menyerap kalor.",
+                    pdfTitle: "Modul_Kimia_Bab5_Termokimia.pdf",
+                    youtubeUrl: "https://youtu.be/ABJjRldplC4?si=sY1RM1LbU9IAkGQn",
+                    tanggalBuka: "2026-10-01",
+                    contoh: "Jika ΔH pembentukan standar CO₂ adalah -393,5 kJ/mol, tuliskan persamaan reaksinya: C(s) + O₂(g) -> CO₂(g) ΔH = -393,5 kJ.",
+                    kuis: [
+                        { q: "Ciri dari reaksi endoterm adalah...", options: ["Suhu lingkungan naik", "Suhu sistem turun", "Entalpi produk < reaktan", "ΔH bernilai positif"], correct: 3, pembahasan: "Reaksi endoterm menyerap kalor dari lingkungan ke sistem, sehingga ΔH bernilai positif." }
+                    ]
+                },
+                {
+                    id: 6, title: "Bab 6: Laju Reaksi",
+                    tujuan: "Menganalisis faktor-faktor yang mempengaruhi laju reaksi dan teori tumbukan.",
+                    materi: "Laju reaksi adalah besarnya perubahan konsentrasi reaktan atau produk tiap satuan waktu. Faktor penentu: luas permukaan, suhu, konsentrasi, dan katalis.",
+                    pdfTitle: "Modul_Kimia_Bab6_LajuReaksi.pdf",
+                    youtubeUrl: "https://youtu.be/ABJjRldplC4?si=sY1RM1LbU9IAkGQn",
+                    tanggalBuka: "2026-11-01",
+                    contoh: "Katalis berfungsi mempercepat reaksi dengan cara... Penyelesaian: Menurunkan energi aktivasi (Ea) tanpa ikut bereaksi permanen.",
+                    kuis: [
+                        { q: "Kenaikan suhu sebesar 10°C umumnya membuat laju reaksi menjadi...", options: ["Tetap", "2 kali lebih cepat", "Setengahnya", "10 kali lebih cepat"], correct: 1, pembahasan: "Aturan umum van 't Hoff menyatakan reaksi umumnya dua kali lebih cepat tiap kenaikan 10°C." }
+                    ]
+                }
+            ],
+            2: [
+                {
+                    id: 7, title: "Bab 7: Kesetimbangan Kimia",
+                    tujuan: "Menentukan tetapan kesetimbangan (Kc dan Kp) serta faktor pergeseran kesetimbangan (Asas Le Chatelier).",
+                    materi: "Kesetimbangan kimia tercapai bila laju reaksi maju sama dengan laju reaksi balik. Pergeseran kesetimbangan dipengaruhi konsentrasi, tekanan, volume, dan suhu.",
+                    pdfTitle: "Modul_Kimia_Bab7_Kesetimbangan.pdf",
+                    youtubeUrl: "https://youtu.be/ABJjRldplC4?si=sY1RM1LbU9IAkGQn",
+                    tanggalBuka: "2027-01-05",
+                    contoh: "Jika suhu dinaikkan pada reaksi endoterm, kesetimbangan akan bergeser ke arah... Penyelesaian: Ke arah pembentukan produk (kanan).",
+                    kuis: [
+                        { q: "Faktor berikut yang TIDAK menggeser letak kesetimbangan adalah...", options: ["Suhu", "Katalis", "Tekanan", "Konsentrasi"], correct: 1, pembahasan: "Katalis mempercepat tercapainya kesetimbangan namun tidak menggeser letak kesetimbangan." }
+                    ]
+                },
+                {
+                    id: 8, title: "Bab 8: Asam & Basa (Spesial YouTube)",
+                    tujuan: "Menganalisis sifat larutan asam basa berdasarkan teori Arrhenius, Bronsted-Lowry, Lewis, serta menghitung pH.",
+                    materi: "Asam adalah donor proton (Bronsted) atau penghasil H⁺ (Arrhenius). Basa adalah akseptor proton atau penghasil OH⁻. pH dihitung dari konsentrasi ion H⁺ atau OH⁻.",
+                    pdfTitle: "Modul_Kimia_Bab8_AsamBasa.pdf",
+                    youtubeUrl: "https://youtu.be/ABJjRldplC4?si=sY1RM1LbU9IAkGQn",
+                    tanggalBuka: "2027-02-01",
+                    contoh: "Hitung pH larutan HCl 0,01 M! Penyelesaian: [H⁺] = 1 × 10⁻² M -> pH = -log(10⁻²) = 2.",
+                    kuis: [
+                        { q: "Menurut teori Bronsted-Lowry, asam adalah zat yang bertindak sebagai...", options: ["Pemberi proton (H+)", "Penerima proton", "Pemberi elektron", "Penerima elektron"], correct: 0, pembahasan: "Asam adalah donor proton (H⁺) sedangkan basa adalah akseptor proton." }
+                    ]
+                },
+                {
+                    id: 9, title: "Bab 9: Larutan Penyangga (Buffer)",
+                    tujuan: "Menjelaskan prinsip kerja larutan penyangga dan menghitung pH larutan buffer.",
+                    materi: "Larutan penyangga mempertahankan pH meskipun ditambah sedikit asam, basa, atau diencerkan. Terdiri dari buffer asam (asam lemah + garamnya) dan buffer basa (basa lemah + garamnya).",
+                    pdfTitle: "Modul_Kimia_Bab9_Buffer.pdf",
+                    youtubeUrl: "https://youtu.be/ABJjRldplC4?si=sY1RM1LbU9IAkGQn",
+                    tanggalBuka: "2027-02-25",
+                    contoh: "Darah manusia disangga oleh sistem larutan penyangga... Penyelesaian: H₂CO₃ / HCO₃⁻.",
+                    kuis: [
+                        { q: "Campuran berikut yang dapat membentuk larutan penyangga adalah...", options: ["HCl + NaOH", "CH₃COOH + CH₃COONa", "NaOH + NaCl", "H₂SO₄ + Na₂SO₄"], correct: 1, pembahasan: "Asam lemah (CH3COOH) dicampur dengan garamnya (CH3COONa) membentuk buffer asam." }
+                    ]
+                },
+                {
+                    id: 10, title: "Bab 10: Hidrolisis Garam",
+                    tujuan: "Menganalisis sifat garam yang mengalami hidrolisis dalam air dan menghitung pH-nya.",
+                    materi: "Hidrolisis adalah reaksi ion garam dengan air. Garam dari asam lemah & basa kuat bersifat basa (pH > 7), sedangkan dari asam kuat & basa lemah bersifat asam (pH < 7).",
+                    pdfTitle: "Modul_Kimia_Bab10_Hidrolisis.pdf",
+                    youtubeUrl: "https://youtu.be/ABJjRldplC4?si=sY1RM1LbU9IAkGQn",
+                    tanggalBuka: "2027-03-15",
+                    contoh: "Garam NH₄Cl berasal dari asam kuat dan basa lemah. Sifat larutannya adalah... Penyelesaian: Asam (pH < 7).",
+                    kuis: [
+                        { q: "Garam yang tidak mengalami hidrolisis di dalam air adalah...", options: ["CH₃COONa", "NH₄Cl", "NaCl", "CH₃COONH₄"], correct: 2, pembahasan: "NaCl berasal dari asam kuat (HCl) dan basa kuat (NaOH), keduanya ion kuat penonton sehingga tidak terhidrolisis." }
+                    ]
+                },
+                {
+                    id: 11, title: "Bab 11: Kelarutan & Hasil Kali Kelarutan (Ksp)",
+                    tujuan: "Menghitung kelarutan dan tetapan hasil kali kelarutan serta memprediksi endapan.",
+                    materi: "Kelarutan (s) adalah jumlah maksimum zat yang dapat larut dalam sejmlah pelarut. Tetapan Ksp adalah hasil kali konsentrasi ion-ion sisa jenuh dipangkatkan koefisiennya.",
+                    pdfTitle: "Modul_Kimia_Bab11_Ksp.pdf",
+                    youtubeUrl: "https://youtu.be/ABJjRldplC4?si=sY1RM1LbU9IAkGQn",
+                    tanggalBuka: "2027-04-10",
+                    contoh: "Jika Ksp AgCl = 1 x 10⁻¹⁰, hitung kelarutannya! Penyelesaian: s = √Ksp = √(10⁻¹⁰) = 10⁻⁵ mol/L.",
+                    kuis: [
+                        { q: "Jika Qsp < Ksp, maka kondisi larutan adalah...", options: ["Belum jenuh (larut)", "Tepat jenuh", "Terbentuk endapan", "Lewat jenuh"], correct: 0, pembahasan: "Jika nilai Qsp lebih kecil dari Ksp, larutan belum jenuh dan zat masih larut sempurna." }
+                    ]
+                },
+                {
+                    id: 12, title: "Bab 12: Sistem Koloid",
+                    tujuan: "Membedakan sistem dispersi (larutan, koloid, suspensi) serta sifat dan pembuatan koloid.",
+                    materi: "Koloid adalah sistem dispersi heterogen antara larutan dan suspensi. Memiliki sifat efek Tyndall, gerak Brown, elektroforesis, adsorpsi, dan koagulasi.",
+                    pdfTitle: "Modul_Kimia_Bab12_Koloid.pdf",
+                    youtubeUrl: "https://youtu.be/ABJjRldplC4?si=sY1RM1LbU9IAkGQn",
+                    tanggalBuka: "2027-05-01",
+                    contoh: "Contoh koloid jenis aerosol cair adalah... Penyelesaian: Kabut dan awan.",
+                    kuis: [
+                        { q: "Penghamburan cahaya oleh partikel-partikel koloid disebut efek...", options: ["Tyndall", "Brown", "Elektroforesis", "Koagulasi"], correct: 0, pembahasan: "Efek Tyndall adalah gejala penghamburan berkas sinar oleh partikel koloid." }
+                    ]
+                }
+            ]
+        };
+
+        /* --- ROUTER & VIEW RENDERER --- */
+        const router = {
+            navigate: function(viewName, params = {}) {
+                appData.activeTab = viewName;
+                if(params.semester) appData.selectedSemester = params.semester;
+                if(params.babId) appData.selectedBabId = params.babId;
+                if(params.step) appData.selectedStep = params.step;
+                saveAppData();
+                renderView();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        };
+
+        function renderView() {
+            // Update active nav styles
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                const target = btn.getAttribute('data-target');
+                if(target === appData.activeTab) {
+                    btn.className = "nav-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition bg-purple-100 text-purple-700 flex items-center space-x-2 shadow-sm";
+                } else {
+                    btn.className = "nav-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition hover:bg-purple-50 text-slate-600 hover:text-purple-600 flex items-center space-x-2";
+                }
             });
 
-            const [assignments, setAssignments] = useState(() => {
-                return JSON.parse(localStorage.getItem('lms_assignments')) || [
-                    { id: 1, chapterId: 1, title: 'Tugas Struktur Atom & Konfigurasi Elektron', deadline: '2026-02-15', submitted: false, file: '', score: null },
-                    { id: 2, chapterId: 5, title: 'Analisis pH Larutan Asam Basa di Lingkungan', deadline: '2026-04-10', submitted: false, file: '', score: null }
-                ];
-            });
+            const container = document.getElementById('view-container');
+            container.innerHTML = '';
 
-            const [groupProjects, setGroupProjects] = useState(() => {
-                return JSON.parse(localStorage.getItem('lms_projects')) || [
-                    { id: 1, title: 'Proyek Kelompok: Mini Kampanye Kimia Hijau (Green Chemistry)', members: 'Kelompok 1 (Salsa, Budi, Ani)', status: 'Belum Selesai', link: '', score: null }
-                ];
-            });
+            switch(appData.activeTab) {
+                case 'dashboard':
+                    container.innerHTML = renderDashboardView();
+                    break;
+                case 'rps':
+                    container.innerHTML = renderRpsView();
+                    break;
+                case 'detail_bab':
+                    container.innerHTML = renderDetailBabView();
+                    break;
+                case 'kalender':
+                    container.innerHTML = renderKalenderView();
+                    break;
+                case 'absensi':
+                    container.innerHTML = renderAbsensiView();
+                    break;
+                case 'tugas':
+                    container.innerHTML = renderTugasView();
+                    break;
+                case 'lab':
+                    container.innerHTML = renderLabView();
+                    initLabSim();
+                    break;
+                case 'sertifikat':
+                    container.innerHTML = renderSertifikatView();
+                    break;
+                default:
+                    container.innerHTML = renderDashboardView();
+            }
+        }
 
-            const [quizScores, setQuizScores] = useState(() => {
-                return JSON.parse(localStorage.getItem('lms_quiz_scores')) || {};
-            });
+        /* --- 1. DASHBOARD VIEW --- */
+        function renderDashboardView() {
+            const isGuru = appData.role === 'guru';
+            const totalBabCompleted = Object.keys(appData.quizScores).length;
+            const progressPct = Math.round((totalBabCompleted / 12) * 100);
 
-            const academicEvents = [
-                { date: '2026-01-10', title: 'Awal Semester 1 & Rilis Bab 1', type: 'akademik' },
-                { date: '2026-03-05', title: 'Ujian Tengah Semester (UTS) Gasal & Pengambilan Nilai', type: 'ujian' },
-                { date: '2026-03-15', title: 'Ujian Praktikum Laboratorium Kimia Dasar', type: 'praktek' },
-                { date: '2026-06-10', title: 'Ujian Akhir Semester (UAS / PAS) Genap', type: 'ujian' },
-                { date: '2026-07-01', title: 'Awal Semester 2 & Rilis Bab 7 (Asam Basa)', type: 'akademik' },
-                { date: '2026-09-20', title: 'Ujian Tengah Semester (UTS) Genap', type: 'ujian' },
-                { date: '2026-10-15', title: 'Ujian Praktik & Presentasi Proyek Kelompok', type: 'praktek' },
-                { date: '2026-12-05', title: 'Ujian Akhir Tahun & Rekapitulasi Rapor', type: 'ujian' }
-            ];
-
-            const chapters = [
-                { id: 1, semester: 1, title: 'Struktur Atom & Sistem Periodik Unsur', releaseDate: '2026-01-10', summary: 'Mempelajari model atom mekanika kuantum, bilangan kuantum, dan konfigurasi elektron.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'E-Book PDF / Modul Interaktif', resourceUrl: '#' },
-                { id: 2, semester: 1, title: 'Ikatan Kimia & Bentuk Molekul', releaseDate: '2026-01-20', summary: 'Ikatan ion, kovalen, logam, serta teori VSEPR untuk menentukan bentuk geometri molekul.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Slide PPT Pembelajaran', resourceUrl: '#' },
-                { id: 3, semester: 1, title: 'Stoikiometri & Konsep Mol', releaseDate: '2026-02-05', summary: 'Perhitungan kimia berbasis mol, massa molar, rumus empiris, dan rumus molekul.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Modul Ringkasan Materi', resourceUrl: '#' },
-                { id: 4, semester: 1, title: 'Termokimia & Perubahan Entalpi', releaseDate: '2026-02-20', summary: 'Reaksi endoterm, eksoterm, hukum Hess, dan perhitungan kalorimetri.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Slide PPT Praktikum', resourceUrl: '#' },
-                { id: 5, semester: 1, title: 'Kesetimbangan Kimia', releaseDate: '2026-03-10', summary: 'Tetapan kesetimbangan (Kc dan Kp), faktor yang memengaruhi pergeseran kesetimbangan.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Video Utama + E-Book', resourceUrl: '#' },
-                { id: 6, semester: 1, title: 'Laju Reaksi & Faktor Penentu', releaseDate: '2026-04-01', summary: 'Teori tumbukan, energi aktivasi, dan pengaruh suhu, konsentrasi, luas permukaan, serta katalis.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Modul LKPD Digital', resourceUrl: '#' },
-                
-                { id: 7, semester: 2, title: 'Larutan Asam & Basa', releaseDate: '2026-07-01', summary: 'Teori asam basa Arrhenius, Bronsted-Lowry, Lewis, serta perhitungan pH larutan.', videoUrl: 'https://www.youtube.com/embed/ABJjRldplC4', resourceType: 'Slide PPT & Video Utama YouTube', resourceUrl: 'https://youtu.be/ABJjRldplC4' },
-                { id: 8, semester: 2, title: 'Larutan Penyangga (Buffer)', releaseDate: '2026-07-20', summary: 'Komponen larutan buffer asam dan basa, serta cara kerjanya dalam mempertahankan pH.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'E-Book Interaktif', resourceUrl: '#' },
-                { id: 9, semester: 2, title: 'Hidrolisis Garam', releaseDate: '2026-08-05', summary: 'Reaksi garam dengan air, sifat larutan garam, dan perhitungan pH larutan terhidrolisis.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Modul Ringkasan', resourceUrl: '#' },
-                { id: 10, semester: 2, title: 'Kelarutan & Hasil Kali Kelarutan (Ksp)', releaseDate: '2026-08-25', summary: 'Konstanta hasil kali kelarutan, pengaruh ion senama, dan prediksi pengendapan.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Slide PPT Ksp', resourceUrl: '#' },
-                { id: 11, semester: 2, title: 'Sifat Koligatif Larutan', releaseDate: '2026-09-10', summary: 'Penurunan tekanan uap, kenaikan titik didih, penurunan titik beku, dan tekanan osmotik.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'Modul Rumus Cepat', resourceUrl: '#' },
-                { id: 12, semester: 2, title: 'Kimia Unsur & Senyawa Makromolekul', releaseDate: '2026-10-01', summary: 'Kelimpahan unsur di alam, sifat periodik unsur golongan utama, karbohidrat, protein, dan lemak.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', resourceType: 'E-Book Bab Terakhir', resourceUrl: '#' }
-            ];
-
-            const todayStr = new Date().toISOString().split('T')[0];
-            const isChapterUnlocked = (releaseDate) => {
-                return releaseDate <= todayStr || role === 'guru';
-            };
-
-            useEffect(() => {
-                localStorage.setItem('lms_attendance', JSON.stringify(attendance));
-                localStorage.setItem('lms_assignments', JSON.stringify(assignments));
-                localStorage.setItem('lms_projects', JSON.stringify(groupProjects));
-                localStorage.setItem('lms_quiz_scores', JSON.stringify(quizScores));
-            }, [attendance, assignments, groupProjects, quizScores]);
-
-            return (
-                <div className="min-h-screen bg-slate-50 flex flex-col">
-                    <header className="bg-gradient-to-r from-cyan-600 via-indigo-600 to-purple-600 text-white shadow-lg sticky top-0 z-50">
-                        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
-                            <div className="flex items-center space-x-3">
-                                <div className="bg-white/20 p-2 rounded-xl backdrop-blur-md">
-                                    <span className="text-2xl">🧪</span>
-                                </div>
-                                <div>
-                                    <h1 className="font-extrabold text-lg sm:text-xl tracking-tight">LMS Kimia - SMA Nusabangsa</h1>
-                                    <p className="text-xs text-cyan-100">Guru Pengampu: Salsa Ashri Salsabila, M.Pd. | Kelas 11</p>
-                                </div>
-                            </div>
-                            <div className="flex items-center space-x-2 mt-2 sm:mt-0">
-                                <button 
-                                    onClick={() => setRole(role === 'siswa' ? 'guru' : 'siswa')}
-                                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition shadow ${role === 'guru' ? 'bg-amber-400 text-slate-900 hover:bg-amber-300' : 'bg-white/20 hover:bg-white/30 text-white'}`}
-                                >
-                                    👤 Mode: {role.toUpperCase()}
+            return `
+                <div class="space-y-8 animate-fadeIn">
+                    <!-- Welcome Hero Banner -->
+                    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-500 text-white p-8 md:p-10 shadow-xl">
+                        <div class="absolute -right-10 -bottom-10 text-9xl opacity-20 pointer-events-none">🧪</div>
+                        <div class="relative z-10 max-w-2xl">
+                            <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm">LMS Kimia SMA Nusabangsa</span>
+                            <h1 class="text-3xl md:text-4xl font-extrabold mt-3 mb-2">Halo, ${isGuru ? 'Ibu Salsa Ashri Salsabila M. Pd' : appData.currentStudent.name}! 👋</h1>
+                            <p class="text-purple-100 text-sm md:text-base leading-relaxed mb-6">
+                                ${isGuru 
+                                    ? 'Selamat datang di Panel Guru! Kelola RPS, materi, kalender akademik, dan rekapitulasi nilai siswa kelas 11 (11A - 11D) dengan mudah.' 
+                                    : 'Selamat datang di laboratorium kimia digital yang asyik dan penuh warna! Ayo jelajahi keajaiban unsur kimia bersama Ibu Guru Salsa.'}
+                            </p>
+                            
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="router.navigate('rps')" class="bg-white text-purple-700 px-6 py-3 rounded-2xl font-bold text-sm shadow-lg hover:bg-purple-50 transition transform hover:-translate-y-0.5">
+                                    <i class="fa-solid fa-book-open mr-2"></i> Mulai Belajar Bab Aktif
+                                </button>
+                                <button onclick="router.navigate('kalender')" class="bg-purple-800/60 backdrop-blur-md text-white px-5 py-3 rounded-2xl font-bold text-sm border border-purple-400/30 hover:bg-purple-800 transition">
+                                    <i class="fa-solid fa-calendar mr-2"></i> Kalender Akademik
+                                </button>
+                                <button onclick="router.navigate('sertifikat')" class="bg-amber-400 text-slate-900 px-5 py-3 rounded-2xl font-bold text-sm shadow-lg hover:bg-amber-300 transition">
+                                    <i class="fa-solid fa-award mr-2"></i> Lihat Sertifikat
                                 </button>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="bg-black/10 px-4 flex space-x-2 overflow-x-auto text-sm font-medium">
-                            <button onClick={() => { setActiveTab('dashboard'); setSelectedChapter(null); }} className={`px-4 py-2 border-b-2 whitespace-nowrap ${activeTab === 'dashboard' ? 'border-white text-white font-bold' : 'border-transparent text-cyan-100 hover:text-white'}`}>🏠 Dashboard</button>
-                            <button onClick={() => { setActiveTab('materi'); setSelectedChapter(null); }} className={`px-4 py-2 border-b-2 whitespace-nowrap ${activeTab === 'materi' ? 'border-white text-white font-bold' : 'border-transparent text-cyan-100 hover:text-white'}`}>📚 Materi & Pembelajaran</button>
-                            <button onClick={() => setActiveTab('kalender')} className={`px-4 py-2 border-b-2 whitespace-nowrap ${activeTab === 'kalender' ? 'border-white text-white font-bold' : 'border-transparent text-cyan-100 hover:text-white'}`}>📅 Kalender Akademik</button>
-                            <button onClick={() => setActiveTab('absensi')} className={`px-4 py-2 border-b-2 whitespace-nowrap ${activeTab === 'absensi' ? 'border-white text-white font-bold' : 'border-transparent text-cyan-100 hover:text-white'}`}>📝 Absensi</button>
-                            <button onClick={() => setActiveTab('tugas')} className={`px-4 py-2 border-b-2 whitespace-nowrap ${activeTab === 'tugas' ? 'border-white text-white font-bold' : 'border-transparent text-cyan-100 hover:text-white'}`}>📋 Tugas & Proyek</button>
-                            <button onClick={() => setActiveTab('rekap')} className={`px-4 py-2 border-b-2 whitespace-nowrap ${activeTab === 'rekap' ? 'border-white text-white font-bold' : 'border-transparent text-cyan-100 hover:text-white'}`}>📊 Rekap Rapor</button>
+                    <!-- Quick Stats & Info Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 flex items-center space-x-4">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl font-bold">🏫</div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold uppercase">Sekolah</p>
+                                <h3 class="font-bold text-slate-800 text-lg">SMA Nusabangsa</h3>
+                                <p class="text-xs text-emerald-600 font-medium">Kelas 11 (A - D)</p>
+                            </div>
                         </div>
-                    </header>
 
-                    <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6">
-                        {activeTab === 'dashboard' && (
-                            <div className="space-y-6">
-                                <div className="bg-gradient-to-r from-cyan-500 to-indigo-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col sm:flex-row justify-between items-center">
-                                    <div className="space-y-3">
-                                        <span className="bg-white/20 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wider">Portal Kelas Digital</span>
-                                        <h2 className="text-2xl sm:text-3xl font-black">Selamat Datang di Pembelajaran Kimia Seru!</h2>
-                                        <p className="text-cyan-100 text-sm max-w-xl">Belajar kimia kelas 11 lebih mudah dengan materi interaktif, video YouTube Bab 5 Asam & Basa, tugas, dan rekap nilai otomatis.</p>
-                                        <button onClick={() => setActiveTab('materi')} className="bg-white text-indigo-700 font-bold px-6 py-2.5 rounded-xl shadow-md hover:bg-cyan-50 transition">Mulai Belajar 🚀</button>
-                                    </div>
-                                    <div className="mt-6 sm:mt-0 text-6xl">⚛️</div>
-                                </div>
+                        <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 flex items-center space-x-4">
+                            <div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl font-bold">👩‍🏫</div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold uppercase">Guru Pengampu</p>
+                                <h3 class="font-bold text-slate-800 text-sm md:text-base">Salsa Ashri Salsabila</h3>
+                                <p class="text-xs text-purple-600 font-medium">M. Pd (Kimia)</p>
                             </div>
-                        )}
+                        </div>
 
-                        {activeTab === 'materi' && !selectedChapter && (
-                            <div className="space-y-6">
-                                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                                    <h2 className="text-xl font-extrabold text-slate-800">Daftar Bab Pembelajaran Kimia</h2>
-                                    <div className="flex bg-slate-200 p-1 rounded-xl">
-                                        <button onClick={() => setSelectedSemester(1)} className={`px-4 py-1.5 rounded-lg text-sm font-bold transition ${selectedSemester === 1 ? 'bg-white text-indigo-600 shadow' : 'text-slate-600'}`}>Semester 1 (Bab 1-6)</button>
-                                        <button onClick={() => setSelectedSemester(2)} className={`px-4 py-1.5 rounded-lg text-sm font-bold transition ${selectedSemester === 2 ? 'bg-white text-indigo-600 shadow' : 'text-slate-600'}`}>Semester 2 (Bab 7-12)</button>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {chapters.filter(c => c.semester === selectedSemester).map(chap => {
-                                        const unlocked = isChapterUnlocked(chap.releaseDate);
-                                        return (
-                                            <div key={chap.id} className={`bg-white rounded-2xl p-6 border shadow-sm transition flex flex-col justify-between ${unlocked ? 'border-slate-100 hover:shadow-md' : 'border-slate-200 opacity-75'}`}>
-                                                <div>
-                                                    <div className="flex justify-between items-center mb-3">
-                                                        <span className="bg-indigo-50 text-indigo-700 font-bold text-xs px-2.5 py-1 rounded-lg">Bab {chap.id}</span>
-                                                        <span className="text-xs text-slate-400 font-medium">Rilis: {chap.releaseDate}</span>
-                                                    </div>
-                                                    <h3 className="font-bold text-slate-800 text-lg mb-2">{chap.title}</h3>
-                                                    <p className="text-xs text-slate-600 line-clamp-3 mb-4">{chap.summary}</p>
-                                                    <span className="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded font-medium mb-4">📎 Pendamping: {chap.resourceType}</span>
-                                                </div>
-
-                                                <div>
-                                                    {unlocked ? (
-                                                        <button 
-                                                            onClick={() => setSelectedChapter(chap)}
-                                                            className="w-full bg-gradient-to-r from-indigo-600 to-cyan-600 text-white font-bold py-2.5 rounded-xl shadow hover:opacity-90 transition text-sm"
-                                                        >
-                                                            Mulai Pembelajaran 🎯
-                                                        </button>
-                                                    ) : (
-                                                        <div className="bg-amber-50 text-amber-700 text-xs font-bold p-2.5 rounded-xl text-center border border-amber-200">
-                                                            🔒 Belum Sesuai Jadwal Akses Siswa
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+                        <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 flex items-center space-x-4">
+                            <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl font-bold">📚</div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold uppercase">Progres Belajar</p>
+                                <h3 class="font-bold text-slate-800 text-lg">${totalBabCompleted} / 12 Bab</h3>
+                                <p class="text-xs text-amber-600 font-medium">${progressPct}% Selesai</p>
                             </div>
-                        )}
+                        </div>
 
-                        {activeTab === 'materi' && selectedChapter && (
-                            <ChapterDetail 
-                                chapter={selectedChapter} 
-                                onBack={() => setSelectedChapter(null)} 
-                                quizScores={quizScores}
-                                setQuizScores={setQuizScores}
-                            />
-                        )}
-
-                        {activeTab === 'kalender' && (
-                            <div className="space-y-6">
-                                <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                                    <h2 className="text-xl font-extrabold text-slate-800 mb-2">Kalender Akademik & Jadwal Ujian</h2>
-                                    <p className="text-xs text-slate-500 mb-6">Jadwal lengkap rilis materi, UTS, UAS, ujian praktikum, dan penilaian rapor.</p>
-                                    
-                                    <div className="space-y-4">
-                                        {academicEvents.map((ev, idx) => (
-                                            <div key={idx} className="flex items-center p-4 bg-slate-50 rounded-2xl border justify-between">
-                                                <div className="flex items-center space-x-4">
-                                                    <div className={`p-3 rounded-xl text-white font-bold text-xs ${ev.type === 'ujian' ? 'bg-rose-500' : ev.type === 'praktek' ? 'bg-amber-500' : 'bg-indigo-500'}`}>
-                                                        {ev.type.toUpperCase()}
-                                                    </div>
-                                                    <div>
-                                                        <h4 className="font-bold text-slate-800">{ev.title}</h4>
-                                                        <p className="text-xs text-slate-500">Tanggal: {ev.date}</p>
-                                                    </div>
-                                                </div>
-                                                <span className="text-xs bg-white px-3 py-1 rounded-lg border font-semibold text-slate-600">Aktif</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
+                        <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 flex items-center space-x-4">
+                            <div class="w-14 h-14 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center text-2xl font-bold">⭐</div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold uppercase">Status Keaktifan</p>
+                                <h3 class="font-bold text-slate-800 text-lg">Sangat Baik</h3>
+                                <p class="text-xs text-pink-600 font-medium">Absen & Kuis OK</p>
                             </div>
-                        )}
+                        </div>
+                    </div>
 
-                        {activeTab === 'absensi' && (
-                            <AttendanceSection attendance={attendance} setAttendance={setAttendance} />
-                        )}
-
-                        {activeTab === 'tugas' && (
-                            <AssignmentsSection 
-                                assignments={assignments} 
-                                setAssignments={setAssignments} 
-                                groupProjects={groupProjects} 
-                                setGroupProjects={setGroupProjects} 
-                            />
-                        )}
-
-                        {activeTab === 'rekap' && (
-                            <RecapSection assignments={assignments} groupProjects={groupProjects} quizScores={quizScores} />
-                        )}
-                    </main>
-
-                    <footer className="bg-white border-t border-slate-200 mt-12 py-4 text-center text-xs text-slate-500">
-                        &copy; 2026 LMS Kimia SMA Nusabangsa | Guru Pengampu: Salsa Ashri Salsabila, M.Pd.
-                    </footer>
+                    ${isGuru ? renderGuruDashboardWidgets() : renderSiswaDashboardWidgets()}
                 </div>
-            );
+            `;
         }
 
-        function ChapterDetail({ chapter, onBack, quizScores, setQuizScores }) {
-            const [step, setStep] = useState(1);
-            const [quizAnswer, setQuizAnswer] = useState('');
-            const [quizResult, setQuizResult] = useState(null);
-            const [reflectionText, setReflectionText] = useState('');
-            const [reflectionSubmitted, setReflectionSubmitted] = useState(false);
+        function renderSiswaDashboardWidgets() {
+            return `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Jadwal Mengajar Kelas 11 -->
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 lg:col-span-2">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-extrabold text-lg text-slate-800 flex items-center space-x-2">
+                                <i class="fa-solid fa-clock text-purple-500"></i>
+                                <span>Jadwal Pelajaran Kimia Kelas 11</span>
+                            </h3>
+                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full">Semester 1 & 2</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            ${Object.entries(appData.teacherSettings.activeJadwal).map(([kelas, waktu]) => `
+                                <div class="p-4 rounded-2xl bg-gradient-to-br from-indigo-50/50 to-purple-50/50 border border-indigo-100 flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-xl bg-purple-600 text-white font-bold flex items-center justify-center text-sm">
+                                            ${kelas}
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-sm text-slate-800">Kelas ${kelas}</p>
+                                            <p class="text-xs text-slate-500">${waktu}</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-700">Aktif</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Quick Navigation Cards -->
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-extrabold text-lg text-slate-800 mb-4 flex items-center space-x-2">
+                                <i class="fa-solid fa-rocket text-pink-500"></i>
+                                <span>Akses Cepat</span>
+                            </h3>
+                            <div class="space-y-3">
+                                <button onclick="router.navigate('rps', {semester: 2, babId: 8})" class="w-full text-left p-3.5 rounded-2xl bg-pink-50 hover:bg-pink-100 transition flex items-center justify-between group">
+                                    <div class="flex items-center space-x-3">
+                                        <span class="text-xl">📺</span>
+                                        <div>
+                                            <p class="font-bold text-sm text-slate-800 group-hover:text-pink-600">Bab 8: Asam & Basa</p>
+                                            <p class="text-xs text-slate-500">Video Pembelajaran YouTube</p>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-arrow-right text-pink-400 group-hover:translate-x-1 transition"></i>
+                                </button>
+                                <button onclick="router.navigate('lab')" class="w-full text-left p-3.5 rounded-2xl bg-indigo-50 hover:bg-indigo-100 transition flex items-center justify-between group">
+                                    <div class="flex items-center space-x-3">
+                                        <span class="text-xl">🧪</span>
+                                        <div>
+                                            <p class="font-bold text-sm text-slate-800 group-hover:text-indigo-600">Lab Digital Titrasi</p>
+                                            <p class="text-xs text-slate-500">Simulasi pH & Indikator</p>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-arrow-right text-indigo-400 group-hover:translate-x-1 transition"></i>
+                                </button>
+                                <button onclick="router.navigate('absensi')" class="w-full text-left p-3.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100 transition flex items-center justify-between group">
+                                    <div class="flex items-center space-x-3">
+                                        <span class="text-xl">📋</span>
+                                        <div>
+                                            <p class="font-bold text-sm text-slate-800 group-hover:text-emerald-600">Absensi Harian</p>
+                                            <p class="text-xs text-slate-500">Isi kehadiran hari ini</p>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-arrow-right text-emerald-400 group-hover:translate-x-1 transition"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGuruDashboardWidgets() {
+            return `
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-indigo-50 space-y-6">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-indigo-50 pb-6">
+                        <div>
+                            <h3 class="font-extrabold text-xl text-slate-800 flex items-center space-x-2">
+                                <i class="fa-solid fa-gear text-purple-600"></i>
+                                <span>Panel Pengelolaan Guru (Ibu Salsa)</span>
+                            </h3>
+                            <p class="text-sm text-slate-500">Bagikan link LMS kepada siswa dan kelola jadwal kelas.</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="navigator.clipboard.writeText(appData.teacherSettings.linkShare); showToast('Link LMS berhasil disalin!', 'success');" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-md transition flex items-center space-x-2">
+                                <i class="fa-solid fa-share-nodes"></i>
+                                <span>Salin Link Berbagi Siswa</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Link Share Settings -->
+                        <div class="p-5 rounded-2xl bg-purple-50/50 border border-purple-100 space-y-3">
+                            <label class="block text-xs font-bold text-purple-900 uppercase">Link Akses Siswa</label>
+                            <div class="flex items-center space-x-2">
+                                <input type="text" id="input-share-link" value="${appData.teacherSettings.linkShare}" class="w-full bg-white border border-purple-200 rounded-xl px-4 py-2 text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                <button onclick="saveShareLink()" class="bg-purple-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-purple-700 transition">Simpan</button>
+                            </div>
+                            <p class="text-xs text-slate-500">Siswa dapat menggunakan link ini untuk bergabung langsung ke kelas kimia.</p>
+                        </div>
+
+                        <!-- Rekapitulasi Cepat -->
+                        <div class="p-5 rounded-2xl bg-emerald-50/50 border border-emerald-100 space-y-3">
+                            <label class="block text-xs font-bold text-emerald-900 uppercase">Rekapitulasi Kelas 11 (A-D)</label>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-slate-600 font-medium">Total Siswa Terdaftar:</span>
+                                <span class="font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-lg">128 Siswa</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-slate-600 font-medium">Rata-rata Kehadiran Hari Ini:</span>
+                                <span class="font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-lg">94.5%</span>
+                            </div>
+                            <button onclick="router.navigate('absensi')" class="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl text-xs font-bold transition">
+                                Lihat Rekap Absensi & Tugas Lengkap
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function saveShareLink() {
+            const val = document.getElementById('input-share-link').value;
+            appData.teacherSettings.linkShare = val;
+            saveAppData();
+            showToast('Link berbagi siswa berhasil diperbarui!', 'success');
+        }
+
+        /* --- 2. RPS & MATERI VIEW (1 TAHUN, 2 SEMESTER, 6 BAB MASING-MASING) --- */
+        function renderRpsView() {
+            const sem = appData.selectedSemester;
+            const chapters = rpsData[sem];
+            const todayStr = new Date().toISOString().split('T')[0];
+
+            return `
+                <div class="space-y-8 animate-fadeIn">
+                    <!-- Header & Semester Switcher -->
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl shadow-sm border border-indigo-50">
+                        <div>
+                            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full uppercase">Rencana Pembelajaran Semester (RPS)</span>
+                            <h2 class="text-2xl font-extrabold text-slate-800 mt-2">Daftar Bab Kimia Kelas 11</h2>
+                            <p class="text-sm text-slate-500">Pilih semester dan bab untuk mulai menjelajahi materi interaktif.</p>
+                        </div>
+                        <div class="flex bg-indigo-50 p-1 rounded-2xl border border-indigo-100">
+                            <button onclick="switchSemester(1)" class="px-5 py-2.5 rounded-xl font-bold text-sm transition ${sem === 1 ? 'bg-purple-600 text-white shadow-md' : 'text-slate-600 hover:text-purple-600'}">
+                                Semester 1 (Ganjil)
+                            </button>
+                            <button onclick="switchSemester(2)" class="px-5 py-2.5 rounded-xl font-bold text-sm transition ${sem === 2 ? 'bg-purple-600 text-white shadow-md' : 'text-slate-600 hover:text-purple-600'}">
+                                Semester 2 (Genap)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chapters Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${chapters.map((bab, idx) => {
+                            // Cek apakah tanggal buka sudah lewat atau hari ini (kecuali guru yang bisa bypass)
+                            const isLocked = (appData.role !== 'guru') && (bab.tanggalBuka > todayStr);
+                            const isCompleted = appData.quizScores[bab.id] !== undefined;
+
+                            return `
+                                <div class="bg-white rounded-3xl shadow-sm border border-indigo-50 p-6 flex flex-col justify-between transition hover:shadow-md relative overflow-hidden group">
+                                    ${isLocked ? '<div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] z-20 flex flex-col items-center justify-center text-white p-4 text-center"><i class="fa-solid fa-lock text-3xl mb-2 text-amber-300"></i><p class="font-bold text-sm">Materi Belum Dibuka</p><p class="text-xs text-slate-200 mt-1">Terbuka pada: ${bab.tanggalBuka}</p></div>' : ''}
+                                    
+                                    <div>
+                                        <div class="flex items-center justify-between mb-4">
+                                            <span class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 font-extrabold flex items-center justify-center text-sm">
+                                                0${bab.id}
+                                            </span>
+                                            ${isCompleted ? '<span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full flex items-center space-x-1"><i class="fa-solid fa-check"></i><span>Selesai</span></span>' : '<span class="bg-amber-100 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-full">Aktif</span>'}
+                                        </div>
+                                        <h3 class="font-extrabold text-lg text-slate-800 mb-2 group-hover:text-purple-600 transition">${bab.title}</h3>
+                                        <p class="text-xs text-slate-500 leading-relaxed mb-4">${bab.tujuan}</p>
+                                    </div>
+
+                                    <div class="pt-4 border-t border-indigo-50 flex items-center justify-between">
+                                        <button onclick="openBab(${bab.id})" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-2.5 rounded-xl font-bold text-sm shadow-md transition flex items-center justify-center space-x-2">
+                                            <span>Mulai Belajar</span>
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function switchSemester(sem) {
+            appData.selectedSemester = sem;
+            saveAppData();
+            renderView();
+        }
+
+        function openBab(babId) {
+            appData.selectedBabId = babId;
+            // Tentukan semester berdasarkan babId (1-6 sem 1, 7-12 sem 2)
+            appData.selectedSemester = babId <= 6 ? 1 : 2;
+            appData.selectedStep = 'eksplorasi';
+            appData.activeTab = 'detail_bab';
+            saveAppData();
+            renderView();
+        }
+
+        /* --- 3. DETAIL BAB & ALUR PEMBELAJARAN (Eksplorasi → Materi → Contoh → Kuis → Refleksi → Evaluasi) --- */
+        function renderDetailBabView() {
+            const sem = appData.selectedBabId <= 6 ? 1 : 2;
+            const bab = rpsData[sem].find(b => b.id === appData.selectedBabId);
+            const step = appData.selectedStep;
 
             const steps = [
-                { id: 1, title: 'Eksplorasi' },
-                { id: 2, title: 'Materi' },
-                { id: 3, title: 'Contoh' },
-                { id: 4, title: 'Praktik' },
-                { id: 5, title: 'Kuis' },
-                { id: 6, title: 'Refleksi' },
-                { id: 7, title: 'Evaluasi' }
+                { id: 'eksplorasi', label: '1. Eksplorasi', icon: 'fa-compass' },
+                { id: 'materi', label: '2. Materi & PDF', icon: 'fa-book-open' },
+                { id: 'contoh', label: '3. Contoh Soal', icon: 'fa-lightbulb' },
+                { id: 'kuis', label: '4. Kuis Otomatis', icon: 'fa-puzzle-piece' },
+                { id: 'refleksi', label: '5. Refleksi', icon: 'fa-face-smile' },
+                { id: 'evaluasi', label: '6. Evaluasi', icon: 'fa-medal' },
             ];
 
-            const handleQuizSubmit = (e) => {
-                e.preventDefault();
-                setQuizResult(true);
-                setQuizScores(prev => ({ ...prev, [chapter.id]: 100 }));
-            };
-
-            return (
-                <div className="space-y-6 bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-100">
-                    <div className="flex justify-between items-center border-b pb-4">
+            return `
+                <div class="space-y-8 animate-fadeIn">
+                    <!-- Top Navigation & Title Bar -->
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
-                            <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">Bab {chapter.id}</span>
-                            <h2 className="text-2xl font-black text-slate-800 mt-1">{chapter.title}</h2>
-                        </div>
-                        <button onClick={onBack} className="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl text-xs font-bold text-slate-600">← Kembali</button>
-                    </div>
-
-                    <div className="flex space-x-2 overflow-x-auto pb-2">
-                        {steps.map(s => (
-                            <button 
-                                key={s.id} 
-                                onClick={() => setStep(s.id)}
-                                className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition ${step === s.id ? 'bg-indigo-600 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
-                            >
-                                {s.id}. {s.title}
+                            <button onclick="router.navigate('rps')" class="text-xs font-bold text-purple-600 hover:underline mb-2 inline-flex items-center space-x-1">
+                                <i class="fa-solid fa-arrow-left"></i><span>Kembali ke Daftar Bab</span>
                             </button>
-                        ))}
+                            <h2 class="text-2xl font-extrabold text-slate-800">${bab.title}</h2>
+                            <p class="text-xs text-slate-500 mt-1"><span class="font-semibold text-purple-600">Tujuan:</span> ${bab.tujuan}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="prevStep()" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold rounded-xl text-sm transition flex items-center space-x-1">
+                                <i class="fa-solid fa-chevron-left"></i><span>Sebelumnya</span>
+                            </button>
+                            <button onclick="nextStep()" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl text-sm transition flex items-center space-x-1 shadow-md">
+                                <span>Selanjutnya</span><i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
                     </div>
 
-                    <div className="bg-slate-50 p-6 rounded-2xl border min-h-[300px]">
-                        {step === 1 && (
-                            <div className="space-y-4">
-                                <h3 className="text-lg font-bold text-slate-800">🔍 Eksplorasi Konteks Nyata</h3>
-                                <p className="text-slate-600 text-sm leading-relaxed">Perhatikan fenomena kimia di sekitar terkait {chapter.title}. Diskusikan bersama kelompokmu.</p>
-                            </div>
-                        )}
+                    <!-- Step Wizard Tabs -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                        ${steps.map(s => {
+                            const isActive = s.id === step;
+                            return `
+                                <button onclick="setStep('${s.id}')" class_eval class="p-3.5 rounded-2xl text-center font-bold text-xs transition border flex flex-col items-center justify-center space-y-2 ${isActive ? 'bg-purple-600 text-white border-purple-600 shadow-lg shadow-purple-500/20' : 'bg-white text-slate-600 border-indigo-50 hover:bg-purple-50'}">
+                                    <i class="fa-solid ${s.icon} text-lg"></i>
+                                    <span>${s.label}</span>
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
 
-                        {step === 2 && (
-                            <div className="space-y-4">
-                                <h3 className="text-lg font-bold text-slate-800">📚 Materi & Video Pembelajaran YouTube</h3>
-                                <p className="text-slate-600 text-sm">{chapter.summary}</p>
-                                <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-md bg-black">
-                                    <iframe 
-                                        className="w-full h-full" 
-                                        src={chapter.id === 7 ? "https://www.youtube.com/embed/ABJjRldplC4" : chapter.videoUrl} 
-                                        title="Video Pembelajaran Kimia" 
-                                        frameBorder="0" 
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                        allowFullScreen>
-                                    </iframe>
-                                </div>
-                                <div className="bg-white p-4 rounded-xl border flex justify-between items-center">
-                                    <div>
-                                        <span className="text-xs font-bold text-slate-500">Pendamping Materi (PPT/E-Book):</span>
-                                        <p className="text-sm font-bold text-indigo-600">{chapter.resourceType}</p>
-                                    </div>
-                                    <a href={chapter.resourceUrl} target="_blank" rel="noopener noreferrer" className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Unduh Berkas 📂</a>
-                                </div>
-                            </div>
-                        )}
-
-                        {step === 3 && (
-                            <div className="space-y-4">
-                                <h3 className="text-lg font-bold text-slate-800">💡 Contoh Soal & Pembahasan</h3>
-                                <div className="bg-white p-4 rounded-xl border">
-                                    <p className="text-xs text-slate-600">Pelajari contoh soal komprehensif beserta langkah penyelesaian secara sistematis.</p>
-                                </div>
-                            </div>
-                        )}
-
-                        {step === 4 && (
-                            <div className="space-y-4">
-                                <h3 className="text-lg font-bold text-slate-800">🧪 Praktik & Simulasi Digital LKPD</h3>
-                                <div className="bg-white p-6 rounded-xl border text-center space-y-3">
-                                    <span className="text-4xl">🔬</span>
-                                    <h4 className="font-bold text-slate-800">Laboratorium Virtual Interaktif</h4>
-                                    <button onClick={() => alert('Simulasi berhasil dijalankan!')} className="bg-cyan-600 text-white px-5 py-2 rounded-xl text-xs font-bold">Jalankan Simulasi 🚀</button>
-                                </div>
-                            </div>
-                        )}
-
-                        {step === 5 && (
-                            <div className="space-y-4">
-                                <h3 className="text-lg font-bold text-slate-800">📝 Kuis Evaluasi Bab</h3>
-                                <form onSubmit={handleQuizSubmit} className="space-y-3">
-                                    <p className="text-sm font-medium text-slate-800">Soal Evaluasi Bab {chapter.title}:</p>
-                                    <input 
-                                        type="text" 
-                                        placeholder="Ketik jawaban Anda..." 
-                                        value={quizAnswer}
-                                        onChange={(e) => setQuizAnswer(e.target.value)}
-                                        className="w-full p-3 rounded-xl border text-sm"
-                                        required
-                                    />
-                                    <button type="submit" className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Kirim Jawaban Kuis</button>
-                                </form>
-                                {quizResult !== null && (
-                                    <div className="p-4 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800">
-                                        🎉 Jawaban tersimpan! Skor: 100.
-                                    </div>
-                                )}
-                            </div>
-                        )}
-
-                        {step === 6 && (
-                            <div className="space-y-4">
-                                <h3 className="text-lg font-bold text-slate-800">💭 Refleksi Siswa</h3>
-                                <textarea 
-                                    rows="3" 
-                                    value={reflectionText} 
-                                    onChange={(e) => setReflectionText(e.target.value)}
-                                    placeholder="Tuliskan refleksi belajarmu di sini..." 
-                                    className="w-full p-3 rounded-xl border text-sm"
-                                ></textarea>
-                                <button onClick={() => setReflectionSubmitted(true)} className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Simpan Refleksi</button>
-                                {reflectionSubmitted && <p className="text-xs text-emerald-600 font-bold">✨ Refleksi tersimpan!</p>}
-                            </div>
-                        )}
-
-                        {step === 7 && (
-                            <div className="space-y-4 text-center py-6">
-                                <span className="text-5xl">🏆</span>
-                                <h3 className="text-xl font-black text-slate-800">Sertifikat Bab Selesai</h3>
-                                <button onClick={() => alert('Sertifikat berhasil diunduh!')} className="bg-emerald-600 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow">Unduh Sertifikat Bab 📜</button>
-                            </div>
-                        )}
+                    <!-- Step Content Box -->
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-indigo-50 min-h-[400px]">
+                        ${renderStepContent(bab, step)}
                     </div>
                 </div>
-            );
+            `;
         }
 
-        function AttendanceSection({ attendance, setAttendance }) {
-            const [status, setStatus] = useState('Hadir');
-            const [note, setNote] = useState('');
+        function setStep(stepId) {
+            appData.selectedStep = stepId;
+            saveAppData();
+            renderView();
+        }
 
-            const handleCheckIn = (e) => {
-                e.preventDefault();
-                const newRecord = {
-                    date: new Date().toISOString().split('T')[0],
-                    name: 'Siswa',
-                    status,
-                    note: note || '-'
-                };
-                setAttendance([newRecord, ...attendance]);
-                alert('Absensi berhasil dikirim!');
-                setNote('');
-            };
+        function nextStep() {
+            const stepsOrder = ['eksplorasi', 'materi', 'contoh', 'kuis', 'refleksi', 'evaluasi'];
+            const currentIndex = stepsOrder.indexOf(appData.selectedStep);
+            if(currentIndex < stepsOrder.length - 1) {
+                appData.selectedStep = stepsOrder[currentIndex + 1];
+                saveAppData();
+                renderView();
+            }
+        }
 
-            return (
-                <div className="space-y-6">
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border">
-                        <h2 className="text-xl font-extrabold text-slate-800 mb-2">Absensi Mandiri Siswa</h2>
-                        <form onSubmit={handleCheckIn} className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end bg-slate-50 p-4 rounded-2xl border mt-4">
+        function prevStep() {
+            const stepsOrder = ['eksplorasi', 'materi', 'contoh', 'kuis', 'refleksi', 'evaluasi'];
+            const currentIndex = stepsOrder.indexOf(appData.selectedStep);
+            if(currentIndex > 0) {
+                appData.selectedStep = stepsOrder[currentIndex - 1];
+                saveAppData();
+                renderView();
+            }
+        }
+
+        function renderStepContent(bab, step) {
+            switch(step) {
+                case 'eksplorasi':
+                    return `
+                        <div class="space-y-6 animate-fadeIn max-w-3xl mx-auto text-center">
+                            <div class="w-20 h-20 bg-purple-100 rounded-3xl mx-auto flex items-center justify-center text-4xl floating">🧭</div>
+                            <h3 class="text-2xl font-extrabold text-slate-800">Eksplorasi Konsep: ${bab.title}</h3>
+                            <p class="text-slate-600 text-base leading-relaxed">
+                                Sebelum kita mendalami materi lebih jauh, mari amati fenomena di sekitar kita. Mengapa reaksi kimia dapat menghasilkan perubahan energi, warna, atau kestabilan? Mari kita pelajari bersama Ibu Guru Salsa Ashri Salsabila!
+                            </p>
+                            <div class="p-6 bg-purple-50/70 border border-purple-100 rounded-2xl text-left space-y-3">
+                                <h4 class="font-bold text-purple-900 flex items-center space-x-2">
+                                    <i class="fa-solid fa-bullseye text-purple-600"></i>
+                                    <span>Tujuan Pembelajaran Bab Ini:</span>
+                                </h4>
+                                <p class="text-slate-700 text-sm leading-relaxed">${bab.tujuan}</p>
+                            </div>
+                            <button onclick="nextStep()" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3.5 rounded-2xl font-bold text-sm shadow-lg transition">
+                                Lanjut ke Materi Pembelajaran <i class="fa-solid fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    `;
+                case 'materi':
+                    return `
+                        <div class="space-y-6 animate-fadeIn">
+                            <div class="flex items-center justify-between border-b border-indigo-50 pb-4">
+                                <div>
+                                    <h3 class="text-xl font-extrabold text-slate-800">Materi & Buku Saku Digital</h3>
+                                    <p class="text-xs text-slate-500">Baca ringkasan materi dan unduh modul PDF resmi kelas 11.</p>
+                                </div>
+                                <a href="#" onclick="showToast('Mengunduh ${bab.pdfTitle}...', 'success'); return false;" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow-md transition flex items-center space-x-2">
+                                    <i class="fa-solid fa-file-pdf text-base"></i>
+                                    <span>Unduh PDF Buku (${bab.pdfTitle})</span>
+                                </a>
+                            </div>
+
+                            <div class="p-6 bg-indigo-50/50 border border-indigo-100 rounded-2xl space-y-4">
+                                <h4 class="font-bold text-indigo-900 text-base">Ringkasan Materi Inti</h4>
+                                <p class="text-slate-700 text-sm leading-relaxed">${bab.materi}</p>
+                            </div>
+
+                            <!-- Video Pembelajaran Langsung YouTube (Bab 8 Asam Basa atau Video Umum) -->
+                            <div class="space-y-3 pt-4">
+                                <h4 class="font-bold text-slate-800 text-base flex items-center space-x-2">
+                                    <i class="fa-brands fa-youtube text-rose-600 text-xl"></i>
+                                    <span>Video Pembelajaran YouTube (Ibu Salsa)</span>
+                                </h4>
+                                <div class="relative w-full rounded-2xl overflow-hidden shadow-lg border border-indigo-100 bg-slate-900 aspect-video">
+                                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/ABJjRldplC4" title="Video Pembelajaran Kimia" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                </div>
+                                <p class="text-xs text-slate-500 italic">Video langsung terhubung ke YouTube resmi pembelajaran Kimia SMA Nusabangsa.</p>
+                            </div>
+                        </div>
+                    `;
+                case 'contoh':
+                    return `
+                        <div class="space-y-6 animate-fadeIn max-w-3xl mx-auto">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl font-bold">💡</div>
+                                <div>
+                                    <h3 class="text-xl font-extrabold text-slate-800">Contoh Soal & Pembahasan</h3>
+                                    <p class="text-xs text-slate-500">Pahami langkah-langkah penyelesaian dengan teliti.</p>
+                                </div>
+                            </div>
+
+                            <div class="p-6 bg-amber-50/70 border border-amber-200 rounded-2xl space-y-4">
+                                <h4 class="font-bold text-amber-900 text-sm uppercase tracking-wider">Contoh Kasus</h4>
+                                <p class="text-slate-800 text-base leading-relaxed font-medium">${bab.contoh}</p>
+                            </div>
+
+                            <div class="p-5 bg-purple-50 border border-purple-100 rounded-2xl">
+                                <h5 class="font-bold text-purple-900 text-xs uppercase mb-2">Tips Belajar Kimia dari Bu Salsa:</h5>
+                                <p class="text-xs text-purple-700 leading-relaxed">Jangan menghafal rumus secara kaku! Pahami konsep dasar stoikiometri dan struktur atom, maka soal sesulit apapun akan terasa mudah dikerjakan.</p>
+                            </div>
+                        </div>
+                    `;
+                case 'kuis':
+                    const quizData = bab.kuis;
+                    const savedScore = appData.quizScores[bab.id];
+
+                    return `
+                        <div class="space-y-6 animate-fadeIn max-w-3xl mx-auto">
+                            <div class="flex items-center justify-between border-b border-indigo-50 pb-4">
+                                <div>
+                                    <h3 class="text-xl font-extrabold text-slate-800">Kuis Otomatis & Pembahasan Bab ${bab.id}</h3>
+                                    <p class="text-xs text-slate-500">Jawab pertanyaan berikut untuk menguji pemahamanmu secara interaktif.</p>
+                                </div>
+                                ${savedScore ? `<span class="bg-emerald-100 text-emerald-700 font-bold text-xs px-3 py-1.5 rounded-full">Nilai Tersimpan: ${savedScore.score} Poin</span>` : ''}
+                            </div>
+
+                            <form id="quiz-form" onsubmit="submitQuiz(event, ${bab.id})" class="space-y-6">
+                                ${quizData.map((q, qIdx) => `
+                                    <div class="p-6 bg-indigo-50/40 border border-indigo-100 rounded-2xl space-y-3" id="question-box-${qIdx}">
+                                        <p class="font-bold text-slate-800 text-sm sm:text-base">Soal ${qIdx+1}. ${q.q}</p>
+                                        <div class="space-y-2">
+                                            ${q.options.map((opt, oIdx) => `
+                                                <label class="flex items-center space-x-3 p-3 bg-white rounded-xl border border-indigo-100 hover:border-purple-300 cursor-pointer transition">
+                                                    <input type="radio" name="q_${qIdx}" value="${oIdx}" class="text-purple-600 focus:ring-purple-500" ${savedScore && savedScore.answers[qIdx] !== undefined && savedScore.answers[qIdx] === oIdx ? 'checked' : ''} ${savedScore ? 'disabled' : ''} required>
+                                                    <span class="text-sm text-slate-700 font-medium">${opt}</span>
+                                                </label>
+                                            `).join('')}
+                                        </div>
+                                        
+                                        <!-- Pembahasan Card (Tampil setelah submit atau jika sudah ada nilai tersimpan) -->
+                                        ${savedScore ? `
+                                            <div class="mt-4 p-4 rounded-xl border ${savedScore.answers[qIdx] === q.correct ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'} space-y-1">
+                                                <div class="flex items-center space-x-2 font-bold text-xs">
+                                                    <i class="fa-solid ${savedScore.answers[qIdx] === q.correct ? 'fa-circle-check text-emerald-600' : 'fa-circle-xmark text-rose-600'}"></i>
+                                                    <span>${savedScore.answers[qIdx] === q.correct ? 'Jawaban Anda Benar!' : 'Jawaban Anda Kurang Tepat.'} (Kunci: ${q.options[q.correct]})</span>
+                                                </div>
+                                                <p class="text-xs leading-relaxed pt-1 border-t border-current/10"><span class="font-bold">Pembahasan:</span> ${q.pembahasan}</p>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                `).join('')}
+
+                                ${!savedScore ? `
+                                    <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3.5 rounded-2xl font-bold text-sm shadow-lg transition">
+                                        Kirim Jawaban & Tampilkan Pembahasan Otomatis
+                                    </button>
+                                ` : `
+                                    <div class="p-4 bg-purple-50 border border-purple-200 rounded-2xl text-center flex items-center justify-between">
+                                        <span class="text-xs font-bold text-purple-900">Kuis telah diselesaikan dengan hasil sangat baik.</span>
+                                        <button type="button" onclick="resetQuiz(${bab.id})" class="text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl transition">
+                                            Ulangi Kuis
+                                        </button>
+                                    </div>
+                                `}
+                            </form>
+                        </div>
+                    `;
+                case 'refleksi':
+                    const currentRef = appData.reflections[bab.id] || '';
+                    return `
+                        <div class="space-y-6 animate-fadeIn max-w-3xl mx-auto">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-2xl flex items-center justify-center text-2xl font-bold">😊</div>
+                                <div>
+                                    <h3 class="text-xl font-extrabold text-slate-800">Refleksi Pembelajaran Siswa</h3>
+                                    <p class="text-xs text-slate-500">Bagaimana perasaan dan pemahamanmu setelah mempelajari bab ini?</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <textarea id="reflection-text" rows="4" placeholder="Tuliskan refleksi, bagian yang paling disukai, atau kendala yang dihadapi..." class="w-full p-4 border border-indigo-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">${currentRef}</textarea>
+                                <button onclick="saveReflection(${bab.id})" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-md transition">
+                                    Simpan Refleksi
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                case 'evaluasi':
+                    return `
+                        <div class="space-y-6 animate-fadeIn max-w-3xl mx-auto text-center py-6">
+                            <div class="w-20 h-20 bg-emerald-100 rounded-3xl mx-auto flex items-center justify-center text-4xl floating">🏆</div>
+                            <h3 class="text-2xl font-extrabold text-slate-800">Evaluasi Bab Selesai!</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed max-w-lg mx-auto">
+                                Luar biasa! Kamu telah menyelesaikan seluruh rangkaian alur pembelajaran untuk <span class="font-bold text-slate-800">${bab.title}</span>. Terus pertahankan semangat belajarmu!
+                            </p>
+                            <div class="flex justify-center gap-4 pt-4">
+                                <button onclick="router.navigate('rps')" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-md transition">
+                                    Kembali ke Daftar RPS Bab
+                                </button>
+                                <button onclick="router.navigate('lab')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-md transition">
+                                    Coba Lab Digital <i class="fa-solid fa-flask ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+            }
+        }
+
+        function submitQuiz(e, babId) {
+            e.preventDefault();
+            const sem = babId <= 6 ? 1 : 2;
+            const bab = rpsData[sem].find(b => b.id === babId);
+            const quizData = bab.kuis;
+
+            let correctCount = 0;
+            let userAnswers = {};
+            quizData.forEach((q, idx) => {
+                const selected = document.querySelector(`input[name="q_${idx}"]:checked`);
+                const val = selected ? parseInt(selected.value) : -1;
+                userAnswers[idx] = val;
+                if(val === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            const score = Math.round((correctCount / quizData.length) * 100);
+            appData.quizScores[babId] = { score, passed: score >= 75, answers: userAnswers };
+            saveAppData();
+
+            if(score >= 75) {
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            }
+
+            showToast(`Kuis dinilai otomatis! Nilai Anda: ${score} Poin`, score >= 75 ? 'success' : 'error');
+            renderView();
+        }
+
+        function resetQuiz(babId) {
+            delete appData.quizScores[babId];
+            saveAppData();
+            renderView();
+            showToast('Kuis direset, silakan coba kembali.', 'info');
+        }
+
+        function saveReflection(babId) {
+            const val = document.getElementById('reflection-text').value;
+            appData.reflections[babId] = val;
+            saveAppData();
+            showToast('Refleksi berhasil disimpan!', 'success');
+        }
+
+        /* --- 4. KALENDER AKADEMIK LENGKAP (Merujuk Matriks Pendidikan) --- */
+        function renderKalenderView() {
+            return `
+                <div class="space-y-8 animate-fadeIn">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <span class="bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1 rounded-full uppercase">Kalender Akademik 2026/2027</span>
+                            <h2 class="text-2xl font-extrabold text-slate-800 mt-2">Matriks Kalender Pendidikan SMA Nusabangsa</h2>
+                            <p class="text-xs text-slate-500">Semester Ganjil (Juli - Desember) & Semester Genap (Januari - Juni).</p>
+                        </div>
+                        <div class="flex items-center space-x-2 text-xs font-bold bg-pink-50 text-pink-700 px-4 py-2.5 rounded-2xl border border-pink-100">
+                            <i class="fa-solid fa-calendar-check text-base"></i>
+                            <span>Efektif Belajar: 222 Hari</span>
+                        </div>
+                    </div>
+
+                    <!-- Semester Ganjil Grid -->
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 space-y-6">
+                        <h3 class="font-extrabold text-lg text-slate-800 flex items-center space-x-2">
+                            <i class="fa-solid fa-calendar text-purple-600"></i>
+                            <span>SEMESTER GANJIL (Juli 2026 - Desember 2026)</span>
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            ${renderMonthCard('Juli 2026', ['1-12: Libur Kenaikan Kelas', '13: Awal Masuk / PLS', '27: Tahun Baru Islam 1448 H'], 'emerald')}
+                            ${renderMonthCard('Agustus 2026', ['17: Hari Kemerdekaan RI', '20-28: Pembelajaran Efektif'], 'purple')}
+                            ${renderMonthCard('September 2026', ['5: Maulid Nabi Muhammad SAW', '15-20: Penilaian Tengah Semester (PTS)'], 'amber')}
+                            ${renderMonthCard('Oktober 2026', ['1-31: Efektif Belajar & Praktikum Kimia'], 'sky')}
+                            ${renderMonthCard('November 2026', ['10: Hari Pahlawan', '25: Hari Guru Nasional'], 'indigo')}
+                            ${renderMonthCard('Desember 2026', ['1-10: Sumatif Akhir Semester (SAS)', '18: Penyerahan Rapor', '25: Hari Raya Natal'], 'pink')}
+                        </div>
+                    </div>
+
+                    <!-- Semester Genap Grid -->
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 space-y-6">
+                        <h3 class="font-extrabold text-lg text-slate-800 flex items-center space-x-2">
+                            <i class="fa-solid fa-calendar text-pink-600"></i>
+                            <span>SEMESTER GENAP (Januari 2027 - Juni 2027)</span>
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            ${renderMonthCard('Januari 2027', ['1: Tahun Baru Masehi', '4: Awal Masuk Semester Genap'], 'emerald')}
+                            ${renderMonthCard('Februari 2027', ['8: Isra\' Mi\'raj', '10: Tahun Baru Imlek'], 'purple')}
+                            ${renderMonthCard('Maret 2027', ['1-10: Pesantren Ramadhan', '29: Wafat Isa Al-Masih'], 'amber')}
+                            ${renderMonthCard('April 2027', ['5-6: Libur Idul Fitri 1448 H', '15-20: PTS Genap'], 'sky')}
+                            ${renderMonthCard('Mei 2027', ['1: Hari Buruh', '13: Kenaikan Isa Al-Masih', '23: Hari Raya Waisak'], 'indigo')}
+                            ${renderMonthCard('Juni 2027', ['1: Hari Lahir Pancasila', '7-15: Sumatif Akhir Tahun (SAT)', '25: Pembagian Rapor Kenaikan Kelas'], 'pink')}
+                        </div>
+                    </div>
+
+                    <!-- Legend Legend -->
+                    <div class="bg-indigo-50/60 border border-indigo-100 p-6 rounded-3xl flex flex-wrap gap-4 items-center justify-around text-xs font-bold text-slate-700">
+                        <div class="flex items-center space-x-2"><span class="w-4 h-4 rounded-lg bg-emerald-500"></span><span>Awal Semester / Masuk Sekolah</span></div>
+                        <div class="flex items-center space-x-2"><span class="w-4 h-4 rounded-lg bg-purple-500"></span><span>Minggu Efektif Belajar</span></div>
+                        <div class="flex items-center space-x-2"><span class="w-4 h-4 rounded-lg bg-amber-500"></span><span>Ujian / PTS / SAS</span></div>
+                        <div class="flex items-center space-x-2"><span class="w-4 h-4 rounded-lg bg-pink-500"></span><span>Libur Nasional / Keagamaan</span></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderMonthCard(monthName, events, colorTheme) {
+            const borderColors = { emerald: 'border-emerald-100 bg-emerald-50/30', purple: 'border-purple-100 bg-purple-50/30', amber: 'border-amber-100 bg-amber-50/30', sky: 'border-sky-100 bg-sky-50/30', indigo: 'border-indigo-100 bg-indigo-50/30', pink: 'border-pink-100 bg-pink-50/30' };
+            const badgeColors = { emerald: 'text-emerald-700 bg-emerald-100', purple: 'text-purple-700 bg-purple-100', amber: 'text-amber-700 bg-amber-100', sky: 'text-sky-700 bg-sky-100', indigo: 'text-indigo-700 bg-indigo-100', pink: 'text-pink-700 bg-pink-100' };
+
+            return `
+                <div class="p-5 rounded-2xl border ${borderColors[colorTheme]} space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-extrabold text-slate-800 text-sm">${monthName}</h4>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${badgeColors[colorTheme]}">2026/2027</span>
+                    </div>
+                    <ul class="space-y-1.5 text-xs text-slate-600">
+                        ${events.map(ev => `<li class="flex items-start space-x-2"><i class="fa-solid fa-circle text-[6px] mt-1.5 text-slate-400"></i><span>${ev}</span></li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        /* --- 5. ABSENSI & REKAPITULASI --- */
+        function renderAbsensiView() {
+            const today = new Date().toISOString().split('T')[0];
+            const isCheckedToday = appData.attendance[today] !== undefined;
+            const isGuru = appData.role === 'guru';
+
+            return `
+                <div class="space-y-8 animate-fadeIn max-w-4xl mx-auto">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full uppercase">Sistem Kehadiran Digital</span>
+                            <h2 class="text-2xl font-extrabold text-slate-800 mt-2">Absensi Harian Kimia Kelas 11</h2>
+                            <p class="text-xs text-slate-500">Catat kehadiranmu hari ini atau pantau rekapitulasi siswa.</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs text-slate-400 block">Tanggal Hari Ini</span>
+                            <span class="font-bold text-slate-700 text-sm">${new Date().toLocaleDateString('id-ID', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})}</span>
+                        </div>
+                    </div>
+
+                    ${!isGuru ? `
+                        <div class="bg-white p-8 rounded-3xl shadow-sm border border-indigo-50 text-center space-y-4">
+                            <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-3xl mx-auto flex items-center justify-center text-3xl">📋</div>
+                            <h3 class="text-xl font-extrabold text-slate-800">Form Absensi Siswa</h3>
+                            <p class="text-slate-600 text-sm max-w-md mx-auto">Nama: <span class="font-bold text-slate-800">${appData.currentStudent.name}</span> | Kelas: <span class="font-bold text-slate-800">${appData.currentStudent.kelas}</span></p>
+                            
+                            ${isCheckedToday ? `
+                                <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-700 font-bold text-sm inline-flex items-center space-x-2">
+                                    <i class="fa-solid fa-circle-check text-lg"></i>
+                                    <span>Anda sudah tercatat HADIR hari ini pukul ${appData.attendance[today].time}</span>
+                                </div>
+                            ` : `
+                                <button onclick="submitAttendance()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3.5 rounded-2xl font-bold text-sm shadow-lg transition">
+                                    <i class="fa-solid fa-check-to-slot mr-2"></i> Klik Untuk Hadir Sekarang
+                                </button>
+                            `}
+                        </div>
+                    ` : `
+                        <div class="bg-white p-8 rounded-3xl shadow-sm border border-indigo-50 space-y-6">
+                            <h3 class="font-extrabold text-lg text-slate-800 flex items-center space-x-2">
+                                <i class="fa-solid fa-users-rectangle text-purple-600"></i>
+                                <span>Rekapitulasi Kehadiran Kelas 11 (A-D)</span>
+                            </h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs">
+                                    <thead class="bg-indigo-50 text-indigo-900 font-bold uppercase tracking-wider">
+                                        <tr>
+                                            <th class="p-3.5 rounded-l-xl">Nama Siswa</th>
+                                            <th class="p-3.5">Kelas</th>
+                                            <th class="p-3.5">Status Hari Ini</th>
+                                            <th class="p-3.5 rounded-r-xl">Waktu Catat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-indigo-50 text-slate-700 font-medium">
+                                        <tr>
+                                            <td class="p-3.5 font-bold text-slate-900">Budi Santoso</td>
+                                            <td class="p-3.5">11A</td>
+                                            <td class="p-3.5"><span class="bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full font-bold">Hadir</span></td>
+                                            <td class="p-3.5 text-slate-500">07:15 WIB</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3.5 font-bold text-slate-900">Siti Aminah</td>
+                                            <td class="p-3.5">11B</td>
+                                            <td class="p-3.5"><span class="bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full font-bold">Hadir</span></td>
+                                            <td class="p-3.5 text-slate-500">07:30 WIB</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3.5 font-bold text-slate-900">Ahmad Fauzi</td>
+                                            <td class="p-3.5">11C</td>
+                                            <td class="p-3.5"><span class="bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full font-bold">Izin</span></td>
+                                            <td class="p-3.5 text-slate-500">08:00 WIB</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3.5 font-bold text-slate-900">Dewi Lestari</td>
+                                            <td class="p-3.5">11D</td>
+                                            <td class="p-3.5"><span class="bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full font-bold">Hadir</span></td>
+                                            <td class="p-3.5 text-slate-500">07:10 WIB</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function submitAttendance() {
+            const today = new Date().toISOString().split('T')[0];
+            const timeStr = new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+            appData.attendance[today] = { status: 'Hadir', time: timeStr };
+            saveAppData();
+            showToast('Absensi berhasil dicatat! Selamat belajar.', 'success');
+            renderView();
+        }
+
+        /* --- 6. TUGAS INDIVIDU / KELOMPOK & LKPD DIGITAL --- */
+        function renderTugasView() {
+            const tasks = [
+                { id: 1, title: 'LKPD Digital 1: Struktur Atom & Orbital', type: 'LKPD Individu', deadline: '2026-07-25', desc: 'Selesaikan analisis bilangan kuantum dan gambarkan bentuk orbital atom.' },
+                { id: 2, title: 'Tugas Proyek Kelompok: Termokimia Perubahan Entalpi', type: 'Tugas Kelompok', deadline: '2026-10-15', desc: 'Buat laporan percobaan sederhana pelarutan endoterm/eksoterm menggunakan bahan dapur.' },
+                { id: 3, title: 'LKPD Digital 2: Perhitungan pH Asam & Basa', type: 'LKPD Individu', deadline: '2027-02-15', desc: 'Selesaikan 5 soal hitungan pH larutan asam kuat dan basa lemah.' }
+            ];
+
+            return `
+                <div class="space-y-8 animate-fadeIn max-w-4xl mx-auto">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <span class="bg-sky-100 text-sky-700 text-xs font-bold px-3 py-1 rounded-full uppercase">Penugasan & LKPD</span>
+                            <h2 class="text-2xl font-extrabold text-slate-800 mt-2">Tugas Individu, Kelompok & LKPD Digital</h2>
+                            <p class="text-xs text-slate-500">Kerjakan tugas tepat waktu dan kumpulkan langsung secara online.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        ${tasks.map(t => {
+                            const sub = appData.submissions[t.id];
+                            return `
+                                <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                    <div class="space-y-2 flex-grow">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full">${t.type}</span>
+                                            <span class="text-xs text-slate-400 font-semibold"><i class="fa-solid fa-clock mr-1"></i> Deadline: ${t.deadline}</span>
+                                        </div>
+                                        <h3 class="font-extrabold text-lg text-slate-800">${t.title}</h3>
+                                        <p class="text-xs text-slate-600 leading-relaxed">${t.desc}</p>
+                                        ${sub ? `<div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-700 text-xs font-bold inline-flex items-center space-x-2"><i class="fa-solid fa-circle-check"></i><span>Tugas telah dikumpulkan (Nilai: ${sub.score || 'Menunggu Dinilai'})</span></div>` : ''}
+                                    </div>
+                                    <button onclick="openSubmitModal(${t.id}, '${t.title}')" class="bg-sky-600 hover:bg-sky-700 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-md transition whitespace-nowrap">
+                                        ${sub ? 'Kirim Ulang / Edit' : 'Kumpul Tugas'}
+                                    </button>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function openSubmitModal(taskId, taskTitle) {
+            const modalRoot = document.getElementById('modal-root');
+            modalRoot.innerHTML = `
+                <div class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
+                    <div class="bg-white rounded-3xl max-w-lg w-full p-6 space-y-6 shadow-2xl border border-indigo-100">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-extrabold text-lg text-slate-800">Pengumpulan: ${taskTitle}</h3>
+                            <button onclick="document.getElementById('modal-root').innerHTML=''" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+                        </div>
+                        <div class="space-y-4">
                             <div>
-                                <label className="block text-xs font-bold text-slate-600 mb-1">Status Kehadiran</label>
-                                <select value={status} onChange={(e) => setStatus(e.target.value)} className="w-full p-2.5 rounded-xl border text-sm">
-                                    <option value="Hadir">Hadir</option>
-                                    <option value="Izin">Izin</option>
-                                    <option value="Sakit">Sakit</option>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Jawaban / Link Dokumen / Catatan</label>
+                                <textarea id="task-answer-input" rows="5" class="w-full p-4 border border-indigo-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="Tuliskan jawaban atau lampirkan link Google Drive LKPD di sini..."></textarea>
+                            </div>
+                            <button onclick="submitTaskAction(${taskId})" class="w-full bg-sky-600 hover:bg-sky-700 text-white py-3.5 rounded-2xl font-bold text-sm shadow-lg transition">
+                                Kirim Tugas ke Ibu Guru Salsa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function submitTaskAction(taskId) {
+            const answer = document.getElementById('task-answer-input').value;
+            if(!answer.trim()) {
+                showToast('Jawaban tidak boleh kosong!', 'error');
+                return;
+            }
+            appData.submissions[taskId] = { answer, score: 88, submittedAt: new Date().toISOString() };
+            saveAppData();
+            document.getElementById('modal-root').innerHTML = '';
+            showToast('Tugas berhasil dikirim ke guru!', 'success');
+            renderView();
+        }
+
+        /* --- 7. LAB DIGITAL SEDERHANA (Simulasi Praktikum Titrasi / pH Meter) --- */
+        function renderLabView() {
+            return `
+                <div class="space-y-8 animate-fadeIn max-w-4xl mx-auto">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full uppercase">Laboratorium Virtual</span>
+                            <h2 class="text-2xl font-extrabold text-slate-800 mt-2">Simulasi Lab Titrasi & pH Meter Asam Basa</h2>
+                            <p class="text-xs text-slate-500">Praktikum kecil interaktif untuk menguji tingkat keasaman larutan.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-indigo-50 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <!-- Lab Controls -->
+                        <div class="space-y-6">
+                            <div class="space-y-2">
+                                <label class="block text-xs font-bold text-slate-700 uppercase">Pilih Larutan Sampel</label>
+                                <select id="lab-solution" onchange="updateLabSim()" class="w-full p-3.5 border border-indigo-100 rounded-2xl text-sm font-medium bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <option value="HCl">Asam Kuat (HCl 0.1 M)</option>
+                                    <option value="CH3COOH">Asam Lemah (CH₃COOH 0.1 M)</option>
+                                    <option value="NaOH">Basa Kuat (NaOH 0.1 M)</option>
+                                    <option value="Water">Air Murni Netral (H₂O)</option>
                                 </select>
                             </div>
-                            <div>
-                                <label className="block text-xs font-bold text-slate-600 mb-1">Keterangan</label>
-                                <input type="text" placeholder="Keterangan..." value={note} onChange={(e) => setNote(e.target.value)} className="w-full p-2 rounded-xl border text-sm" />
-                            </div>
-                            <button type="submit" className="bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-xs">Kirim Absensi 📝</button>
-                        </form>
-                    </div>
 
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border">
-                        <h3 className="font-bold text-slate-800 mb-4">Rekapitulasi Kehadiran</h3>
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left text-xs">
-                                <thead className="bg-slate-100 text-slate-600 uppercase">
-                                    <tr>
-                                        <th className="p-3">Tanggal</th>
-                                        <th className="p-3">Nama</th>
-                                        <th className="p-3">Status</th>
-                                        <th className="p-3">Keterangan</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y">
-                                    {attendance.map((att, idx) => (
-                                        <tr key={idx} className="hover:bg-slate-50">
-                                            <td className="p-3 font-medium">{att.date}</td>
-                                            <td className="p-3">{att.name}</td>
-                                            <td className="p-3"><span className="px-2 py-1 rounded bg-emerald-100 text-emerald-800 font-bold">{att.status}</span></td>
-                                            <td className="p-3 text-slate-500">{att.note}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                            <div class="space-y-2">
+                                <label class="block text-xs font-bold text-slate-700 uppercase">Indikator Universal</label>
+                                <select id="lab-indicator" onchange="updateLabSim()" class="w-full p-3.5 border border-indigo-100 rounded-2xl text-sm font-medium bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <option value="lakmus">Kertas Lakmus</option>
+                                    <option value="pp">Indikator Fenolftalein (PP)</option>
+                                    <option value="universal">Indikator Universal</option>
+                                </select>
+                            </div>
+
+                            <div class="p-5 bg-indigo-50/50 rounded-2xl border border-indigo-100 space-y-2">
+                                <p class="text-xs font-bold text-indigo-900 uppercase">Hasil Pengukuran pH</p>
+                                <div id="lab-ph-display" class="text-3xl font-extrabold text-purple-600">pH: 1.0 (Asam Kuat)</div>
+                                <p id="lab-desc" class="text-xs text-slate-600">Larutan bersifat asam kuat, mengubah warna indikator menjadi merah pekat.</p>
+                            </div>
+                        </div>
+
+                        <!-- Visual Beaker Container -->
+                        <div class="flex flex-col items-center justify-center space-y-4">
+                            <div class="relative w-48 h-60 border-4 border-slate-300 rounded-b-3xl border-t-0 flex flex-col justify-end overflow-hidden shadow-inner bg-slate-50">
+                                <div id="beaker-liquid" class="w-full h-3/4 bg-red-500 transition-all duration-500 flex items-center justify-center text-white font-extrabold text-lg drop-shadow-md">
+                                    HCl
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Tabung Reaksi Virtual</span>
                         </div>
                     </div>
                 </div>
-            );
+            `;
         }
 
-        function AssignmentsSection({ assignments, setAssignments, groupProjects, setGroupProjects }) {
-            const [selectedAssignId, setSelectedAssignId] = useState(null);
-            const [fileLink, setFileLink] = useState('');
+        function initLabSim() {
+            updateLabSim();
+        }
 
-            const handleUploadAssignment = (e, id) => {
-                e.preventDefault();
-                setAssignments(assignments.map(a => a.id === id ? { ...a, submitted: true, file: fileLink } : a));
-                alert('Tugas berhasil diunggah!');
-                setSelectedAssignId(null);
-                setFileLink('');
-            };
+        function updateLabSim() {
+            const sol = document.getElementById('lab-solution').value;
+            const ind = document.getElementById('lab-indicator').value;
+            const liquid = document.getElementById('beaker-liquid');
+            const phDisplay = document.getElementById('lab-ph-display');
+            const desc = document.getElementById('lab-desc');
 
-            return (
-                <div className="space-y-6">
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border">
-                        <h2 className="text-xl font-extrabold text-slate-800 mb-2">Tugas & PR Kimia</h2>
-                        <div className="space-y-4 mt-4">
-                            {assignments.map(assign => (
-                                <div key={assign.id} className="p-5 bg-slate-50 rounded-2xl border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                                    <div>
-                                        <span className="text-xs font-bold text-indigo-600">Deadline: {assign.deadline}</span>
-                                        <h4 className="font-bold text-slate-800 text-base mt-1">{assign.title}</h4>
-                                        <p className="text-xs text-slate-500 mt-1">Status: {assign.submitted ? '✅ Sudah Dikirim' : '⏳ Belum Mengumpulkan'}</p>
-                                    </div>
-                                    <div>
-                                        {assign.submitted ? (
-                                            <span className="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1.5 rounded-xl">Terkumpul 📂</span>
-                                        ) : (
-                                            <button onClick={() => setSelectedAssignId(assign.id)} className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Unggah Tugas 📤</button>
-                                        )}
-                                    </div>
-                                </div>
-                            ))}
+            if(sol === 'HCl') {
+                liquid.style.backgroundColor = '#ef4444'; // Red
+                liquid.innerText = 'HCl';
+                phDisplay.innerText = 'pH: 1.0 (Asam)';
+                desc.innerText = 'Asam kuat menghasilkan ion H+ tinggi. Lakmus merah tetap merah, lakmus biru jadi merah.';
+            } else if(sol === 'CH3COOH') {
+                liquid.style.backgroundColor = '#f97316'; // Orange
+                liquid.innerText = 'CH₃COOH';
+                phDisplay.innerText = 'pH: 3.0 (Asam Lemah)';
+                desc.innerText = 'Asam lemah terionisasi sebagian. Menunjukkan sifat asam moderat.';
+            } else if(sol === 'NaOH') {
+                liquid.style.backgroundColor = '#8b5cf6'; // Purple / Blue
+                liquid.innerText = 'NaOH';
+                phDisplay.innerText = 'pH: 13.0 (Basa)';
+                desc.innerText = 'Basa kuat menghasilkan ion OH-. Fenolftalein berubah warna menjadi merah fanta.';
+            } else {
+                liquid.style.backgroundColor = '#3b82f6'; // Blue
+                liquid.innerText = 'H₂O';
+                phDisplay.innerText = 'pH: 7.0 (Netral)';
+                desc.innerText = 'Air murni bersifat netral, tidak mengubah warna kertas lakmus.';
+            }
+        }
+
+        /* --- 8. HALAMAN HASIL BELAJAR ATAU SERTIFIKAT --- */
+        function renderSertifikatView() {
+            const totalCompleted = Object.keys(appData.quizScores).length;
+
+            return `
+                <div class="space-y-8 animate-fadeIn max-w-4xl mx-auto">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <span class="bg-amber-100 text-amber-700 text-xs font-bold px-3 py-1 rounded-full uppercase">Penghargaan Belajar</span>
+                            <h2 class="text-2xl font-extrabold text-slate-800 mt-2">Sertifikat Kelulusan Mata Pelajaran Kimia</h2>
+                            <p class="text-xs text-slate-500">Bukti kelulusan dan penguasaan materi kimia kelas 11.</p>
                         </div>
-
-                        {selectedAssignId && (
-                            <form onSubmit={(e) => handleUploadAssignment(e, selectedAssignId)} className="mt-4 p-4 bg-indigo-50 rounded-2xl border space-y-3">
-                                <h4 className="font-bold text-indigo-900 text-sm">Form Unggah Berkas Tugas</h4>
-                                <input 
-                                    type="text" 
-                                    placeholder="Masukkan link file tugas (Google Drive / PDF)..." 
-                                    value={fileLink} 
-                                    onChange={(e) => setFileLink(e.target.value)} 
-                                    className="w-full p-2.5 rounded-xl border text-sm bg-white"
-                                    required 
-                                />
-                                <div className="flex space-x-2">
-                                    <button type="submit" className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Kirim Tugas Sekarang</button>
-                                    <button type="button" onClick={() => setSelectedAssignId(null)} className="bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold">Batal</button>
-                                </div>
-                            </form>
-                        )}
                     </div>
 
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border">
-                        <h2 className="text-xl font-extrabold text-slate-800 mb-2">Proyek Kelompok Kreatif Kimia</h2>
-                        <div className="space-y-4 mt-4">
-                            {groupProjects.map(proj => (
-                                <div key={proj.id} className="p-5 bg-slate-50 rounded-2xl border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                                    <div>
-                                        <span className="text-xs font-bold text-purple-600">{proj.members}</span>
-                                        <h4 className="font-bold text-slate-800 text-base mt-1">{proj.title}</h4>
-                                        <p className="text-xs text-slate-500 mt-1">Status Proyek: {proj.status}</p>
-                                    </div>
-                                    <button onClick={() => alert('Form pengumpulan proyek kelompok dibuka!')} className="bg-purple-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Kumpul Proyek 🚀</button>
-                                </div>
-                            ))}
+                    <!-- Certificate Card Preview -->
+                    <div class="bg-gradient-to-tr from-amber-50 via-white to-purple-50 p-8 md:p-12 rounded-3xl shadow-xl border-4 border-amber-200 text-center space-y-6 relative overflow-hidden">
+                        <div class="absolute top-4 right-4 text-4xl opacity-30">🏆</div>
+                        <div class="absolute bottom-4 left-4 text-4xl opacity-30">🧪</div>
+
+                        <div class="space-y-2">
+                            <h4 class="text-xs font-extrabold text-amber-600 uppercase tracking-widest">SMA Nusabangsa • Tahun Akademik 2026/2027</h4>
+                            <h3 class="text-3xl md:text-4xl font-extrabold text-slate-900 font-serif">SERTIFIKAT PENGHARGAAN</h3>
+                            <p class="text-xs text-slate-500">Diberikan secara resmi kepada:</p>
+                        </div>
+
+                        <div class="py-4">
+                            <h2 class="text-3xl font-extrabold text-purple-700 underline decoration-pink-400 underline-offset-8">${appData.currentStudent.name}</h2>
+                            <p class="text-xs font-bold text-slate-600 mt-2">Nomor Induk Siswa: ${appData.currentStudent.nisn} | Kelas ${appData.currentStudent.kelas}</p>
+                        </div>
+
+                        <p class="text-xs md:text-sm text-slate-600 max-w-xl mx-auto leading-relaxed">
+                            Atas keberhasilan menyelesaikan seluruh rangkaian pembelajaran Mata Pelajaran <span class="font-bold text-slate-800">Kimia Kelas 11</span> dengan predikat sangat baik dan tuntas dalam kuis serta penugasan interaktif.
+                        </p>
+
+                        <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-amber-200/60 max-w-2xl mx-auto text-xs">
+                            <div class="text-center">
+                                <p class="text-slate-500">Mengetahui,</p>
+                                <p class="font-bold text-slate-800 mt-1">Kepala SMA Nusabangsa</p>
+                                <div class="h-10"></div>
+                                <p class="font-bold text-slate-900 border-b border-slate-400 pb-1">Dr. H. M. Nur, M.Pd</p>
+                            </div>
+                            <div class="w-20 h-20 bg-amber-400 text-slate-900 rounded-full flex items-center justify-center font-extrabold text-xl shadow-md rotate-12">
+                                LULUS
+                            </div>
+                            <div class="text-center">
+                                <p class="text-slate-500">Depok, ${new Date().toLocaleDateString('id-ID')}</p>
+                                <p class="font-bold text-slate-800 mt-1">Guru Mata Pelajaran Kimia,</p>
+                                <div class="h-10"></div>
+                                <p class="font-bold text-purple-700 border-b border-purple-400 pb-1">Salsa Ashri Salsabila M. Pd</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-4">
+                            <button onclick="window.print()" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-2xl font-bold text-sm shadow-lg transition">
+                                <i class="fa-solid fa-print mr-2"></i> Cetak / Unduh Sertifikat
+                            </button>
                         </div>
                     </div>
                 </div>
-            );
+            `;
         }
 
-        function RecapSection({ assignments, groupProjects, quizScores }) {
-            const avgQuiz = Object.values(quizScores).length > 0 ? Object.values(quizScores).reduce((a, b) => a + b, 0) / Object.values(quizScores).length : 85;
-            const finalScore = (avgQuiz * 0.3) + (90 * 0.3) + (88 * 0.4);
-
-            return (
-                <div className="space-y-6">
-                    <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border space-y-6">
-                        <div className="flex flex-col sm:flex-row justify-between items-center border-b pb-4">
-                            <div>
-                                <h2 className="text-xl font-extrabold text-slate-800">Rekapitulasi Nilai Rapor Siswa</h2>
-                                <p className="text-xs text-slate-500">Akumulasi nilai kuis, tugas PR, ujian praktikum, dan proyek kelompok.</p>
-                            </div>
-                            <button onClick={() => alert('Rapor PDF berhasil diunduh!')} className="mt-2 sm:mt-0 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Unduh Rapor PDF 📊</button>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                            <div className="bg-indigo-50 p-4 rounded-2xl border">
-                                <p className="text-xs text-indigo-600 font-bold">Rata-rata Kuis (30%)</p>
-                                <h3 className="text-2xl font-black text-indigo-900 mt-1">{avgQuiz.toFixed(1)}</h3>
-                            </div>
-                            <div className="bg-cyan-50 p-4 rounded-2xl border">
-                                <p className="text-xs text-cyan-600 font-bold">Nilai Tugas & PR (30
+        // Initial App Load
+        window.onload = function() {
+            updateRoleUI();
+            renderView();
+        };
+    </script>
+</body>
+</html>
